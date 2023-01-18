@@ -1,0 +1,19 @@
+@import './mixins.scss';
+
+.block-center{
+    @include alignedContainer(center);
+}
+.my-0{
+    @include mt(0);
+    @include mb(0);
+}
+
+.page-container{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height:100vh;
+}
+.page-sizer{
+    width:96vw;
+    max-width:1600px;
+}
