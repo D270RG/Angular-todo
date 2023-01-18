@@ -7,6 +7,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MainpageComponent } from './pages/main/mainpage.component';
 
+import { StoreModule } from '@ngrx/store';
+import { todoReducer } from './storage/reducers';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +18,8 @@ import { MainpageComponent } from './pages/main/mainpage.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    StoreModule.forRoot({todo:todoReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
