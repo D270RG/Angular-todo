@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Component({
     selector: 'page-main',
@@ -8,7 +7,6 @@ import { Observable } from 'rxjs';
 })
 
 export class MainpageComponent implements OnInit {
-    todo$: Observable<number>;
 
     constructor() { }
 

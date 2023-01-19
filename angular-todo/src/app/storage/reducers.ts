@@ -1,40 +1,33 @@
-import { createReducer, on } from '@ngrx/store';
-import { createAction } from '@ngrx/store';
+import { props,createAction,createReducer, on } from '@ngrx/store';
+import { todoListContent, todoPostForm } from '../types';
 
+export const todoInitialState = undefined as todoListContent|undefined;
 
-type todoInitialStateType={
-  id:string,
-  name:string,
-  createdDate:string,
-  updatedData:string,
-  link:string,
-  comment:string,
-  tags:string[]
-}[] | undefined;
-export const todoInitialState = undefined as todoInitialStateType;
-
-export const setData = createAction('[Todo Component] SetData');
+export const setData = createAction('[Todo Component] SetData',
+            props<{data: todoListContent }>());
 export const unsetData = createAction('[Todo Component] UnsetData');
-export const addEntry = createAction('[Todo Component] AddEntry');
-export const deleteEntry = createAction('[Todo Component] DeleteEntryById');
+export const addEntry = createAction('[Todo Component] AddEntry',
+            props<{data: todoPostForm }>());
+export const deleteEntry = createAction('[Todo Component] DeleteEntryById',
+            props<{id: string}>());
 
+//TODO: Action groups
 export const todoReducer = createReducer(
   todoInitialState,
-  on(setData, (state) => {
+  on(setData, (state,data) => {
     //fetch and set
-    return(state + 1);
+    return(state); //return modified state
   }),
   on(unsetData, (state) => {
-    //fetch and set
-    return(state + 1);
+    state = undefined;
+    return(state);
   }),
   on(addEntry, (state) => {
     //fetch and update
-    return(state + 1);
+    return(state);
   }),
   on(deleteEntry, (state) => {
     //fetch and update
-    return(state + 1);
-  }),
-  
+    return(state);
+  })
 );
