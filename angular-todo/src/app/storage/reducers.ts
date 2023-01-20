@@ -1,15 +1,7 @@
 import { props,createAction,createReducer, on } from '@ngrx/store';
 import { todoListContent, todoPostForm } from '../types';
-
+import { setData,unsetData,addEntry,deleteEntry } from './actions';
 export const todoInitialState = undefined as todoListContent|undefined;
-
-export const setData = createAction('[Todo Component] SetData',
-            props<{data: todoListContent }>());
-export const unsetData = createAction('[Todo Component] UnsetData');
-export const addEntry = createAction('[Todo Component] AddEntry',
-            props<{data: todoPostForm }>());
-export const deleteEntry = createAction('[Todo Component] DeleteEntryById',
-            props<{id: string}>());
 
 //TODO: Action groups
 export const todoReducer = createReducer(

@@ -17,7 +17,7 @@ export class HttpService{
     getData(url:string){
       return this.http.get(url)
     }
-    postData(url:string,data:todoPostForm){
+    postData(url:string,data:todoPostForm|string|undefined){
       return this.http.post(url,data).pipe(
         retry(3), 
         catchError(this.handleError)

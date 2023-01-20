@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MainpageComponent } from './pages/main/mainpage.component';
-
 import { StoreModule } from '@ngrx/store';
 import { todoReducer } from './storage/reducers';
 import { MainpageModule } from './pages/main/mainpage.module';

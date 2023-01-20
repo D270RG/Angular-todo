@@ -6,9 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MainpageComponent } from './mainpage.component';
 
-import { StoreModule } from '@ngrx/store';
-import { todoReducer } from '../../storage/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { TodoListEffects } from '../../storage/effects';
 import { TodoListComponent } from './elements/todoList/todoList.component';
+
 @NgModule({
     declarations: [
       MainpageComponent,
@@ -16,8 +17,8 @@ import { TodoListComponent } from './elements/todoList/todoList.component';
     ],
     imports: [
       BrowserModule,
-      NgbModule,
-      StoreModule.forRoot({todo:todoReducer}),
+      NgbModule,    
+      EffectsModule.forFeature([TodoListEffects]),
       HttpClientModule
     ],
     providers: [],
