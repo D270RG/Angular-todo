@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { todoListContent,todoListError } from 'src/app/types';
+import { Store } from '@ngrx/store';
+import * as Actions from  'src/app/storage/TodoListActions';
 
 @Component({
     selector: 'todoList',
@@ -8,7 +10,9 @@ import { todoListContent,todoListError } from 'src/app/types';
     styleUrls: ['todoList.component.scss']
 })
 export class TodoListComponent implements OnInit {
-    constructor() {}
+    constructor(private store: Store) {
+      this.store.dispatch(Actions.getData());
+    }
     ngOnInit(){ 
       // console.log('get',`${this.serverUrl}/${this.urls.getUrl}`);
       // this.httpService

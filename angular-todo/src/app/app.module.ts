@@ -6,10 +6,13 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
-import { StoreModule } from '@ngrx/store';
-import { todoReducer } from './storage/reducers';
 import { MainpageModule } from './pages/main/mainpage.module';
 import { EffectsModule } from '@ngrx/effects';
+import { TodoListEffects } from './storage/TodoListEffects';
+import { StoreModule } from '@ngrx/store';
+import { HttpService } from './http.service';
+
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -21,11 +24,13 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    StoreModule.forRoot({todo:todoReducer}),
+
     HttpClientModule,
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    StoreModule.forRoot([]),
+    StoreDevtoolsModule.instrument({})
   ],
-  providers: [],
+  providers: [HttpService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
