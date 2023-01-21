@@ -3,14 +3,18 @@ import { createFeatureSelector, createSelector, createReducer, on, Action } from
 import * as todoListActions from 'src/app/storage/TodoListActions';
 import { todoListContent } from '../types';
 
-
-export const initialState = undefined as {todoList:todoListContent}|undefined;
+export type State = {todoList:todoListContent|undefined,message:string};
+export const initialState = {todoList:undefined,message:''} as State;
 
 // Creating reducer
 export const todoListReducer = createReducer(
   initialState,
-  on(todoListActions.getData,((state)=>{
-    return(state);
+  on(todoListActions.getData,((state,action)=>{
+    if(action.payload.message){
+      return({...state,message:action.payload.message});
+    } else {
+      return({...state,message:'No message provided'});
+    }
   })),
 
   on(todoListActions.addEntry,((state,action)=>(state))),
@@ -23,23 +27,6 @@ export const todoListReducer = createReducer(
   on(todoListActions.operationError,((state)=>(state))),
 
   on(todoListActions.writeData,((state,action)=>{
-                      return({...state,todoList:action.payload.data});
+                      return({...state,todoList:action.payload.data,message:action.payload.message});
                     })),
 );
-
-// export function articleReducer(state: any, action: Action) {
-//   return _articleReducer(state, action);
-// }
-
-// // Creating selectors
-// export const getArticleState = createFeatureSelector<ArticleState>('articleState');
-
-// export const getArticles = createSelector(
-//     getArticleState, 
-//     (state: ArticleState) => state.articles 
-// );
-
-// export const getMessage = createSelector(
-//   getArticleState, 
-//   (state: ArticleState) => state.message
-// ); 

@@ -13,6 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { HttpService } from './http.service';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { todoListReducer } from './storage/reducers';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
     HttpClientModule,
     EffectsModule.forRoot([]),
-    StoreModule.forRoot([]),
+    StoreModule.forRoot({todoList: todoListReducer}),
     StoreDevtoolsModule.instrument({})
   ],
   providers: [HttpService],

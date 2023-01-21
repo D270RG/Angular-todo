@@ -74,7 +74,7 @@ export class TodoListEffects {
       map((action) => {
         if(action.payload){
           console.log('withPayload',action.payload)
-          return({ type: '[Todo Component] WriteData',payload:{data:action.payload.data} })  
+          return({ type: '[Todo Component] WriteData',payload:{data:action.payload.data,message:'test'} })  
         } else {
           return({ type: '[Todo Component] GetData' })
         }
