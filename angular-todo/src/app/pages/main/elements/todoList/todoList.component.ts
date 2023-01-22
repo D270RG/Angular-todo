@@ -17,10 +17,12 @@ export class TodoListComponent implements OnInit {
       return(data)
     })
 
-    todoListData$ = this.store.pipe(select(this.selectData));
+    todoListDataObservable$ = this.store.pipe(select(this.selectData));
+    todoListData = undefined as todoListContent|undefined;
 
     constructor(private store: Store<typeof initialState>) {
-      this.todoListData$.subscribe((todoListData:todoListContent|undefined)=>{console.log('todoData',todoListData)});
+      //@ts-ignore
+      this.todoListDataObservable$.subscribe((todoListData:todoListContent|undefined)=>{this.todoListData = todoListData.todoList});
       this.store.dispatch(Actions.getData({payload:{message:'message'}}));
     }
     ngOnInit(){ 

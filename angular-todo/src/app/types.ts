@@ -5,6 +5,7 @@ type todoListContent = {
     updatedDate:string,
     link:string,
     comment:string,
+    tags:string[]
  }[];
  type todoListError = {
     message:string,
