@@ -14,8 +14,8 @@ export class HttpService{
       }
       return throwError(() => new Error('Something bad happened; please try again later.'))
     }
-    getData(url:string){
-      return this.http.get(url)
+    getData<T>(url:string){
+      return this.http.get<T>(url)
     }
     postData(url:string,data:todoPostForm|string|undefined){
       return this.http.post(url,data).pipe(

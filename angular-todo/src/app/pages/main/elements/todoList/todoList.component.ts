@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Observable } from 'rxjs';
 import { todoListContent,todoListError } from 'src/app/types';
 import { createSelector, select, Store } from '@ngrx/store';
-import * as Actions from  'src/app/storage/TodoListActions';
-import { initialState,State } from 'src/app/storage/reducers';
+import * as Actions from  'src/app/storage/actions';
+import { TodoListState,TodoListInitialState } from 'src/app/storage/reducers';
+
+import { NgbdSortableHeader, SortEvent } from './sortable.directive';
 
 @Component({
     selector: 'todoList',
@@ -12,27 +14,37 @@ import { initialState,State } from 'src/app/storage/reducers';
 })
 export class TodoListComponent implements OnInit {
   
-    selectData = (state:State) => state.todoList; //todo:move to selectors
-    selectById = (id:string)=>createSelector(this.selectData,(data)=>{
-      return(data)
-    })
-
+    selectData = (state:any) => {console.log('selectData',state.todoListReducer.todoList);return(state.todoListReducer.todoList)}; //todo:move to selectors
+    
     todoListDataObservable$ = this.store.pipe(select(this.selectData));
     todoListData = undefined as todoListContent|undefined;
 
-    constructor(private store: Store<typeof initialState>) {
-      //@ts-ignore
-      this.todoListDataObservable$.subscribe((todoListData:todoListContent|undefined)=>{this.todoListData = todoListData.todoList});
-      this.store.dispatch(Actions.getData({payload:{message:'message'}}));
+    constructor(private store: Store<typeof TodoListInitialState>) {
+      this.todoListDataObservable$.subscribe((todoListData:todoListContent|undefined)=>{
+        if(todoListData){
+          console.log('binding',todoListData);
+          this.todoListData = todoListData;
+        }
+      });
+      console.log('CONSTRUCTOR');
+      this.store.dispatch(Actions.getData());
     }
+    
+    @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;
+    onSort({ sortColumn, sortDirection }: SortEvent) {
+      // resetting other headers
+      this.headers.forEach((header) => {
+        if (header.sortable !== sortColumn) {
+          header.direction = '';
+        }
+      });
+  
+      // execute sort 
+      console.log('executing sort',{data:this.todoListData,sortColumn:sortColumn,sortDirection:sortDirection});
+      this.store.dispatch(Actions.writeSortedData({payload:{data:this.todoListData,sortColumn:sortColumn,sortDirection:sortDirection}}));
+    }
+
     ngOnInit(){ 
-      // console.log('get',`${this.serverUrl}/${this.urls.getUrl}`);
-      // this.httpService
-      //   .getData(`${this.serverUrl}/${this.urls.getUrl}`)
-      //   .subscribe({
-      //     next: (data: any) => {
-      //         console.log(data,typeof data);
-      //     },
-      //   });
+    
     }
 }

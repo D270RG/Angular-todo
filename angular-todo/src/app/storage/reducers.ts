@@ -1,32 +1,38 @@
 // //TODO: Action groups
 import { createFeatureSelector, createSelector, createReducer, on, Action } from '@ngrx/store';
-import * as todoListActions from 'src/app/storage/TodoListActions';
+import * as actions from 'src/app/storage/actions';
 import { todoListContent } from '../types';
 
-export type State = {todoList:todoListContent|undefined,message:string};
-export const initialState = {todoList:undefined,message:''} as State;
+export type TodoListState = {todoList:todoListContent|undefined,message:string};
+export const TodoListInitialState = {todoList:undefined,message:''} as TodoListState;
 
-// Creating reducer
+
 export const todoListReducer = createReducer(
-  initialState,
-  on(todoListActions.getData,((state,action)=>{
-    if(action.payload.message){
-      return({...state,message:action.payload.message});
-    } else {
-      return({...state,message:'No message provided'});
-    }
+  TodoListInitialState,
+  on(actions.getData,((state,action)=>{
+      return(state);
   })),
 
-  on(todoListActions.addEntry,((state,action)=>(state))),
+  // on(actions.addEntry,((state,action)=>state)),
 
-  on(todoListActions.deleteEntry,((state,action)=>(state))),
+  // on(actions.deleteEntry,((state,action)=>state)),
 
-  on(todoListActions.updateEntry,((state,action)=>(state))),
+  // on(actions.updateEntry,((state,action)=>state)),
 
-  on(todoListActions.operationSuccess,((state)=>(state))),
-  on(todoListActions.operationError,((state)=>(state))),
+  // on(actions.operationSuccess,((state)=>state)),
+  on(actions.operationError,((state,action)=>{console.log(action.payload.error);return(state)})),
 
-  on(todoListActions.writeData,((state,action)=>{
-                      return({...state,todoList:action.payload.data,message:action.payload.message});
+  on(actions.writeData,((state,action)=>{
+                      console.log('write data',action.payload.data,'state',state,'fired by',action.type);
+                      return({...state,todoList:action.payload.data});
                     })),
+  // on(actions.writeSortedData,((state,action)=>state))
+);
+
+export type SortState = {sortColumn:string,sortDirection:'asc'|'desc'|''}
+export const SortInitialState = {sortColumn:'',sortDirection:''}
+export const sortReducer = createReducer(
+  SortInitialState,
+  on(actions.setSortColumn,((state,action)=>({...state,sortColumn:action.payload.sortColumn}))),
+  on(actions.setSortDirection,((state,action)=>({...state,sortDirection:action.payload.sortDirection})))
 );

@@ -1,4 +1,5 @@
-type todoListContent = {
+type indexable = {[key:string]:any};
+interface todoListElement extends indexable{
     id:string,
     name:string,
     createdDate:string,
@@ -6,7 +7,9 @@ type todoListContent = {
     link:string,
     comment:string,
     tags:string[]
- }[];
+ }
+ type todoListContent = todoListElement[];
+
  type todoListError = {
     message:string,
     code:string,
@@ -20,4 +23,5 @@ type todoListContent = {
     comment:string,
     tags:string[]
 };
- export {todoListContent,todoListError,todoPostForm}
+
+ export {todoListElement,todoListContent,todoListError,todoPostForm}

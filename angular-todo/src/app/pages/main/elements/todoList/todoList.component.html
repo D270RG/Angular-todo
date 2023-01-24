@@ -1,17 +1,22 @@
-<div [class]="'todoList'">
-    <tr>
-        <th>Name</th>
-        <th>Created</th>
-        <th>Updated</th>
-    </tr>
-    <tr *ngFor="let todo of todoListData">
-        <td>{{todo.name}}</td>
-        <td>{{todo.createdDate}}</td>
-        <td>{{todo.updatedDate}}</td>
-        <td [class]="'tagContainer'">
-            <span *ngFor="let tag of todo.tags | slice:0:4" [class]="'tag'">
-                {{tag}}
-            </span>
-        </td>
-    </tr>
-</div>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+			<th scope="col" sortable="created" (sort)="onSort($event)">Created</th>
+			<th scope="col" sortable="updated" (sort)="onSort($event)">Updated</th>
+			<th scope="col">Tags</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let todo of todoListData">
+			<th scope="row">{{ todo.name }}</th>
+			<td>{{ todo.createdDate }}</td>
+			<td>{{ todo.updatedDate }}</td>
+			<td [class]="'tagContainer'">
+				<span *ngFor="let tag of todo.tags | slice:0:4" [class]="'tag'">
+					{{tag}}
+				</span>
+			</td>
+		</tr>
+	</tbody>
+</table>

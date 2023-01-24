@@ -8,12 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MainpageModule } from './pages/main/mainpage.module';
 import { EffectsModule } from '@ngrx/effects';
-import { TodoListEffects } from './storage/TodoListEffects';
+import { TodoListEffects } from './storage/effects';
 import { StoreModule } from '@ngrx/store';
 import { HttpService } from './http.service';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { todoListReducer } from './storage/reducers';
+import { sortReducer, todoListReducer } from './storage/reducers';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { todoListReducer } from './storage/reducers';
 
     HttpClientModule,
     EffectsModule.forRoot([]),
-    StoreModule.forRoot({todoList: todoListReducer}),
+    StoreModule.forRoot({todoListReducer: todoListReducer,sortReducer: sortReducer}),
     StoreDevtoolsModule.instrument({})
   ],
   providers: [HttpService],
