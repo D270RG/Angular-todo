@@ -24,7 +24,7 @@ class TapValidationErrors{
         console.log('check errors',this.errors[name],name);
         return(this.errors[name] !== null && this.errors[name] !== undefined);
     }
-    checkError(name:string,error:'required'|'minlength'){
+    checkError(name:string,error:'required'|'minlength'|'maxlength'){
         return(this.errors[name] && this.errors[name] !== null && this.errors[name]!.hasOwnProperty(error));
     }
     clearErrors(name?:string){
@@ -80,7 +80,8 @@ export class addFormComponent implements OnInit {
 
             tagsGroup: new FormGroup({
               tagForm: new FormControl(null,[Validators.required,
-                                            Validators.minLength(1)]),
+                                            Validators.minLength(1),
+                                            Validators.maxLength(64)]),
             }),
         })
     }

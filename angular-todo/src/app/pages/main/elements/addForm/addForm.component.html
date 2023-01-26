@@ -38,11 +38,14 @@
             <div class="text-danger" *ngIf="this.errors.checkError('tags','required')">
                 Tagname required
             </div>
+            <div class="text-danger" *ngIf="this.errors.checkError('tags','maxlength')">
+                Exceeded 64 symbol limit for a tag
+            </div>
             <button class="btn btn-primary my-2" type="submit">Add tag</button>
         </form>
 
-        <div class="tag-container">
-            <div class="tag me-1" *ngFor="let tag of this.mainGroup.get('tags')!.value">
+        <div class="form-tag-container">
+            <div class="tag me-1 mb-1" *ngFor="let tag of this.mainGroup.get('tags')!.value">
                 {{tag}}
             </div>
         </div>
