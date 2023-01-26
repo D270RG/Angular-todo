@@ -5,6 +5,7 @@
 			<th scope="col" sortable="created" direction='' (sort)="onSort($event)">Created</th>
 			<th scope="col" sortable="updated" direction='' (sort)="onSort($event)">Updated</th>
 			<th scope="col">Tags</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -26,11 +27,18 @@
 			</td>
 			<td>
 				<span class="tag-container">
-					<span *ngFor="let tag of todo.tags | slice:0:4" [class]="'tag'">
+					<span *ngFor="let tag of todo.tags | slice:0:4" class="tag ms-1">
 						{{tag}}
 					</span>
 				</span>
+			</td>	
+			<td>
+				<button type="button" class="btn btn-light" (click)="this.setFormVisible(todo.id)">Edit</button>
+				<addForm [visible]="this.formVisible===todo.id" (onClickboxClicked)="this.setFormVisible('none')"/>
 			</td>
 		</tr>
 	</tbody>
 </table>
+
+<button type="button" class="btn btn-primary" (click)="this.setFormVisible('add')">Add</button>
+<addForm [visible]="this.formVisible==='add'" (onClickboxClicked)="this.setFormVisible('none')"/>

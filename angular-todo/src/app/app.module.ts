@@ -14,6 +14,7 @@ import { HttpService } from './http.service';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { sortReducer, todoListReducer } from './storage/reducers';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,10 @@ import { sortReducer, todoListReducer } from './storage/reducers';
     HttpClientModule,
     EffectsModule.forRoot([]),
     StoreModule.forRoot({todoListReducer: todoListReducer,sortReducer: sortReducer}),
-    StoreDevtoolsModule.instrument({})
+    StoreDevtoolsModule.instrument({}),
+
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]

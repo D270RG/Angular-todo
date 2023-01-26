@@ -14,13 +14,15 @@ import { sortReducer, todoListReducer } from 'src/app/storage/reducers';
 import { HttpService } from 'src/app/http.service';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AsyncPipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { NgbdSortableHeader,SortEvent } from './elements/todoList/sortable.directive';
+import { addFormComponent } from './elements/addForm/addForm.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
       MainpageComponent,
-      TodoListComponent
+      TodoListComponent,
+      addFormComponent,
     ],
     imports: [
       BrowserModule,
@@ -32,7 +34,10 @@ import { NgbdSortableHeader,SortEvent } from './elements/todoList/sortable.direc
 
       DecimalPipe, 
       NgFor, 
-      NgbdSortableHeader
+      NgbdSortableHeader,
+
+      FormsModule,
+      ReactiveFormsModule
     ],
     providers: [HttpService,DecimalPipe],
     bootstrap: [MainpageComponent]

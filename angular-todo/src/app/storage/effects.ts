@@ -110,7 +110,7 @@ export class TodoListEffects {
       ofType('[Todo Component] AddEntry'),
       switchMap((action) =>
         this.httpService
-          .postData(`${this.serverUrl}/${this.urls.createUrl}`, action.data)
+          .postData(`${this.serverUrl}/${this.urls.createUrl}`, action.payload.data)
           .pipe(
             map(() => ({
               type: '[Todo Component] OperationSuccess',
@@ -157,7 +157,7 @@ export class TodoListEffects {
         this.httpService
           .postData(
             `${this.serverUrl}/${this.urls.createUrl}/${action.id}`,
-            action.data
+            action.payload.data
           )
           .pipe(
             map(() => ({

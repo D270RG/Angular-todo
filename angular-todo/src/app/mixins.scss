@@ -6,6 +6,12 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+@mixin centeredContainer(){
+    position:relative;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+}
 @mixin imgContainer($elementWidth,$elementHeight){
     flex: 0 0 100%;
     max-width:$elementWidth;
@@ -28,6 +34,12 @@
         right:0;
     }
 }
+@mixin flex-center{
+	align-content:center;
+	align-items:center;
+	justify-content: center;
+	justify-items: center;
+}
 @mixin sticky($direction){
     position:fixed;
     @if $direction==top{
@@ -41,5 +53,41 @@
     }
     @if $direction==right{
         right:0px;
+    }
+}
+@mixin tag-container(){
+    display:flex;
+	flex-direction:row;
+	height:100%;
+	>.tag{
+		@include flex-center();
+		display:flex;
+		border-radius:5px;
+		background-color:rgb(42, 42, 42);
+		color:white;
+		min-width:25px;
+		height:100%;
+		padding:3px;
+	}
+}
+@mixin clickbox{
+    z-index:9999;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100vw;
+    height:100vh;
+    background-color: rgba(2, 2, 2, 0.216);
+    >.clickbox-form{
+       @include centeredContainer;
+       z-index:10000; 
+       pointer-events:none;
+       width:100%;
+       @media screen and (min-width: 600px){
+        width:350px;   
+       }
+       >*{
+        pointer-events:auto;
+       }
     }
 }

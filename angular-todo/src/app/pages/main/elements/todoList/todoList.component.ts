@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { todoListContent,todoListError } from 'src/app/types';
 import { createSelector, select, Store } from '@ngrx/store';
 import * as Actions from  'src/app/storage/actions';
-import { TodoListState,TodoListInitialState } from 'src/app/storage/reducers';
+import { TodoListInitialState } from 'src/app/storage/reducers';
 
 import { NgbdSortableHeader, SortEvent } from './sortable.directive';
 
@@ -19,7 +19,17 @@ export class TodoListComponent implements OnInit {
     todoListDataObservable$ = this.store.pipe(select(this.selectData));
     todoListData = undefined as todoListContent|undefined;
 
+    formVisible:string;
+    setFormVisible(value:string){
+      this.formVisible = value;
+    }
+    preventFalltrough(event:MouseEvent){
+      event.stopPropagation();
+      console.log('stop propagation');
+    }
+
     constructor(private store: Store<typeof TodoListInitialState>) {
+      this.formVisible = 'none';
       this.todoListDataObservable$.subscribe((todoListData:todoListContent|undefined)=>{
         if(todoListData){
           console.log('binding',todoListData);

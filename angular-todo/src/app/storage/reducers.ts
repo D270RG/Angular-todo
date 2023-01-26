@@ -13,7 +13,7 @@ export const todoListReducer = createReducer(
       return(state);
   })),
 
-  // on(actions.addEntry,((state,action)=>state)),
+  on(actions.addEntry,((state,action)=>{console.log('add entry',action.payload);return(state)})),
 
   // on(actions.deleteEntry,((state,action)=>state)),
 

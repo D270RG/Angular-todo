@@ -1,0 +1,11 @@
+@import 'src/app/mixins.scss';
+
+.tag-container{
+	@include tag-container();
+}
+.clickbox{
+	@include clickbox;
+}
+.inputError{
+	border-color:red;
+}

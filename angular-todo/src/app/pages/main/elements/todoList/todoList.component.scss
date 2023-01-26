@@ -1,24 +1,12 @@
-@mixin flex-center{
-	align-content:center;
-	align-items:center;
-	justify-content: center;
-	justify-items: center;
-}
+@import 'src/app/mixins.scss';
+
 .tag-container{
-	display:flex;
-	flex-direction:row;
-	height:100%;
-	>.tag{
-		@include flex-center();
-		display:flex;
-		border-radius:5px;
-		background-color:rgb(42, 42, 42);
-		color:white;
-		min-width:25px;
-		height:100%;
-		margin-left:5px;
-	}
+	@include tag-container();
 }
+.clickbox{
+	@include clickbox;
+}
+
 .table-container{
 	height:100%;
 	display:flex;
