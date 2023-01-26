@@ -7,32 +7,29 @@
           (ngSubmit)="submitMain()" 
           (mouseup)="formClick($event)"
           (touchend)="formClick($event)">
-        <div class="mb-4"><h4>Add TODO</h4></div>
+        <div class="mb-4"><h4>{{initialValue.name}}</h4></div>
 
         <div>
             <label>Name</label>
-            <input [class.inputError]="this.errors.checkErrors('name')" type="text" formControlName="name" class="form-control" required/>
-            <div class="text-danger" *ngIf="this.errors.checkError('name','required')">
-                Name is required
-            </div>
+            <input [class.inputError]="this.errors.checkErrors('name')" type="text" formControlName="name" class="form-control"/>
             <div class="text-danger" *ngIf="this.errors.checkError('name','minlength')">
                 Name must be at least 3 characters long
             </div>
         </div>
 
         <div>
-            <label>Add comment</label>
+            <label>Сomment</label>
             <input type="text" formControlName="comment" class="form-control"/>
         </div>
 
         <div>
-            <label>Add link</label>
+            <label>Link</label>
             <input type="text" formControlName="link" class="form-control"/>
         </div>
 
         <form class="form-group" formGroupName="tagsGroup" (ngSubmit)="submitTag()">
             <div>
-            <label>Add tag</label>
+            <label>Add tags</label>
             <input [class.inputError]="this.errors.checkErrors('tags')" type="text" formControlName="tagForm" class="form-control"/>
             </div>
             <div class="text-danger" *ngIf="this.errors.checkError('tags','required')">

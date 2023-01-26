@@ -3,15 +3,15 @@ import { Store } from '@ngrx/store';
 import { TodoListInitialState } from 'src/app/storage/reducers';
 import * as Actions from  'src/app/storage/actions';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { todoPostForm } from 'src/app/types';
+import { todoCreateForm, todoUpdateForm} from 'src/app/types';
 
-function toString(value:any):string{
+export function toString(value:any):string{
     if(value===null||value===undefined){
         return('');
     }
     return(String(value));
 }
-class TapValidationErrors{
+export class TapValidationErrors{
     errors:{[key:string]:ValidationErrors|null};
     constructor(){
         this.errors = {};
@@ -43,9 +43,9 @@ class TapValidationErrors{
     styleUrls: ['addForm.component.scss']
 })
 export class addFormComponent implements OnInit {
-    mainGroup: FormGroup<any>;
+    mainGroup!: FormGroup<any>;
     errors:TapValidationErrors;
-    @Input() initialValue:todoPostForm|undefined;
+    @Input() initialValue!:todoCreateForm;
     @Input() visible!:boolean;
     @Output() onClickboxClicked: EventEmitter<any> = new EventEmitter();
 
@@ -57,19 +57,19 @@ export class addFormComponent implements OnInit {
         }
         this.errors.clearErrors();
     }
+    deleteTag(event:any){
+        let newTags = [...this.mainGroup.get('tags')!.value];
+        newTags.splice(event.index,1);
+        this.mainGroup.controls['tags'].setValue(newTags);
+    }
     formClick(event:MouseEvent|TouchEvent){
         event.stopPropagation();
         console.log('form clicked');
     }
-    constructor(private store: Store<typeof TodoListInitialState>) { 
+    constructor(public store: Store<typeof TodoListInitialState>) { 
         this.errors = new TapValidationErrors();
-        if(this.initialValue){
-            this.mainGroup = this.formCreator(this.initialValue);
-        } else {
-            this.mainGroup = this.formCreator({name:'',comment:'',link:'',tags:[]});
-        }
     }
-    formCreator(initialValue:todoPostForm){
+    formCreator(initialValue:todoCreateForm){
         return new FormGroup({
             name: new FormControl(initialValue.name,
                 [Validators.required,
@@ -85,6 +85,23 @@ export class addFormComponent implements OnInit {
             }),
         })
     }
+    submitMainAction(){
+        this.store.dispatch(
+            Actions.addEntry(
+                {
+                    payload:
+                    {
+                        data:{
+                            name:toString(this.mainGroup.get('name')!.value),
+                            link:toString(this.mainGroup.get('link')!.value),
+                            comment:toString(this.mainGroup.get('comment')!.value),
+                            tags:this.mainGroup.get('tags')!.value
+                        }
+                    }
+                }
+            )
+        );
+    }
     submitMain(){
         if(this.mainGroup){
             let nameErrors = this.mainGroup.get('name')!.errors;
@@ -95,22 +112,12 @@ export class addFormComponent implements OnInit {
               }
             this.emitClickboxEvent();
             console.log('sending',this.mainGroup.get('name')!.value);
-            this.store.dispatch(
-                Actions.addEntry(
-                    {
-                        payload:
-                        {
-                            data:{
-                                name:toString(this.mainGroup.get('name')!.value),
-                                link:toString(this.mainGroup.get('link')!.value),
-                                comment:toString(this.mainGroup.get('comment')!.value),
-                                tags:this.mainGroup.get('tags')!.value
-                            }
-                        }
-                    }
-                )
-            );
+            this.submitMainAction();
         }
+    }
+
+    submitTagAction(){
+        this.mainGroup.controls['tags'].setValue([...this.mainGroup.get('tags')!.value,this.mainGroup.get('tagsGroup.tagForm')!.value]);
     }
     submitTag(){
         if(this.mainGroup){
@@ -121,11 +128,11 @@ export class addFormComponent implements OnInit {
                 return;
               }
             this.errors.clearErrors('tags');
-            this.mainGroup.controls['tags'].setValue([...this.mainGroup.get('tags')!.value,this.mainGroup.get('tagsGroup.tagForm')!.value]);
+            this.submitTagAction();
         }
     }
 
     ngOnInit() {   
-
+        this.mainGroup = this.formCreator({name:'',comment:'',link:'',tags:[]});
     }
 }

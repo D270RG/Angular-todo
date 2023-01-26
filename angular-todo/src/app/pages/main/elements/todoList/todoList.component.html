@@ -34,7 +34,7 @@
 			</td>	
 			<td>
 				<button type="button" class="btn btn-light" (click)="this.setFormVisible(todo.id)">Edit</button>
-				<addForm [visible]="this.formVisible===todo.id" (onClickboxClicked)="this.setFormVisible('none')"/>
+				<editForm [id]="todo.id" [initialValue]="todo" [visible]="this.formVisible===todo.id" (onClickboxClicked)="this.setFormVisible('none')"/>
 			</td>
 		</tr>
 	</tbody>

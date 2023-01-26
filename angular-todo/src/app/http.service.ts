@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { todoPostForm } from './types';
+import { todoUpdateForm,todoCreateForm } from './types';
 import { catchError, throwError,retry } from 'rxjs';
 @Injectable()
 export class HttpService{
@@ -17,7 +17,7 @@ export class HttpService{
     getData<T>(url:string){
       return this.http.get<T>(url)
     }
-    postData(url:string,data:todoPostForm|string|undefined){
+    postData(url:string,data:todoUpdateForm|todoCreateForm|string|undefined){
       return this.http.post(url,data).pipe(
         retry(3), 
         catchError(this.handleError)

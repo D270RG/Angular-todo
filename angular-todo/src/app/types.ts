@@ -17,11 +17,19 @@ interface todoListElement extends indexable{
         message:string
     }[]
  }
- interface todoPostForm{
+ interface todoCreateForm{
     name:string,
     link:string,
     comment:string,
     tags:string[]
 };
+interface todoUpdateForm{
+    name:string,
+    link:string,
+    comment:string, 
+    createdDate:string,
+    updatedDate:string,
+    tags:string[]
+};
 
- export {todoListElement,todoListContent,todoListError,todoPostForm}
+ export {todoListElement,todoListContent,todoListError,todoCreateForm,todoUpdateForm}

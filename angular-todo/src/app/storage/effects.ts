@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { of,filter,withLatestFrom } from 'rxjs';
 import { switchMap,map, mergeMap, catchError } from 'rxjs/operators';
 import { HttpService } from 'src/app/http.service';
-import { todoListContent, todoPostForm } from '../types';
+import { todoListContent, todoCreateForm,todoUpdateForm} from '../types';
 
 const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
 @Injectable()
@@ -152,11 +152,11 @@ export class TodoListEffects {
   );
   updateEntry$ = createEffect(() =>
     this.actions$.pipe(
-      ofType('[Todo Component] DeleteEntry'),
+      ofType('[Todo Component] UpdateEntry'),
       switchMap((action) =>
         this.httpService
           .postData(
-            `${this.serverUrl}/${this.urls.createUrl}/${action.id}`,
+            `${this.serverUrl}/${this.urls.updateUrl}/${action.payload.id}`,
             action.payload.data
           )
           .pipe(

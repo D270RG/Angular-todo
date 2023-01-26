@@ -17,12 +17,16 @@ import { AsyncPipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { NgbdSortableHeader,SortEvent } from './elements/todoList/sortable.directive';
 import { addFormComponent } from './elements/addForm/addForm.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { editFormComponent } from './elements/addForm/editForm/editForm.component';
+import { TagsComponent } from './elements/addForm/tags/tags.component';
 
 @NgModule({
     declarations: [
       MainpageComponent,
       TodoListComponent,
       addFormComponent,
+      editFormComponent,
+      TagsComponent
     ],
     imports: [
       BrowserModule,
