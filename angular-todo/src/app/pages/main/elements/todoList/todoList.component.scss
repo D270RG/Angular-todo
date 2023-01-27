@@ -9,9 +9,9 @@ $table-space: 4px;
 	vertical-align: middle;
 	>.tag-container{
 		@include tag-container();
-		min-width:100px;
-		flex-wrap: nowrap;
+		flex-wrap: wrap;
 		>.tag{
+			margin-bottom:3px;
 			max-width:100px;
 			min-width:50px;
 			@media screen and (max-width:map-get($grid-breakpoints, md)){
@@ -40,6 +40,7 @@ $table-space: 4px;
 	display:flex;
 	align-content:center;
 	align-items:center;
+	flex-wrap:wrap;
 }
 .name-container{
 	max-width:300px;
@@ -55,6 +56,17 @@ $table-space: 4px;
 		text-overflow: ellipsis !important;
 		overflow: hidden !important;	
 	}
+}
+.table{
+	z-index:-1;
+}
+.date-container{
+	padding:3px;
+	margin-left: 4px;
+	border-radius:15px;
+	margin-bottom:3px;
+	word-break:keep-all;
+	border:1px solid;
 }
 th[sortable] {
 	cursor: pointer;
@@ -78,7 +90,9 @@ th[sortable].desc:before {
 	transform: rotate(180deg);
 	-ms-transform: rotate(180deg);
 }
-
+.todo-entry{
+	cursor:pointer;
+}
 td{
 	padding:4px;
 	padding-left:$table-space;

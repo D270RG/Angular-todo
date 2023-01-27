@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-light">
 	<thead>
 		<tr>
 			<th scope="col" sortable="name" direction='' (sort)="onSort($event)">Name</th>
@@ -9,7 +9,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="let todo of todoListData">
+		<tr class="todo-entry" *ngFor="let todo of todoListData" (click)="this.setFormVisible(todo.id)">
 			<td scope="row" class="name-container">
 				<span class="table-container">
 					{{ todo.name }}
@@ -17,43 +17,45 @@
 			</td>
 			<td>
 				<span class="table-container">
-					{{ todo.createdDate | date: 'dd MMM, yyyy, hh:mm'}}
+					<span class="date-container">{{ todo.createdDate | date: 'dd MMM'}}</span>
+					<span class="date-container">{{ todo.createdDate | date: 'hh:mm'}}</span>
 				</span>
 			</td>
 			<td>
 				<span class="table-container">
-					{{ todo.updatedDate | date: 'dd MMM, yyyy, hh:mm'}}
+					<span class="date-container">{{ todo.updatedDate | date: 'dd MMM'}}</span>
+					<span class="date-container">{{ todo.updatedDate | date: 'hh:mm'}}</span>
 				</span>
 			</td>
 			<td class="tag-cell">
 				{{''//TODO: REWRITE THIS}}
 				<span class="tag-container">
-					<span *ngFor="let tag of todo.tags | slice:0:4" class="tag me-1 d-none d-lg-block">
+					<span *ngFor="let tag of todo.tags | slice:0:6" class="tag d-none d-lg-block">
 						{{tag}}
 					</span>
-					<span *ngIf="todo.tags.length > 4" class="tag-extra d-none d-lg-block">..{{todo.tags.length-4}} more</span>
+					<span *ngIf="todo.tags.length > 6" class="tag-extra d-none d-lg-block">..{{todo.tags.length-6}} more</span>
 
-					<span *ngFor="let tag of todo.tags | slice:0:3" class="tag me-1 d-none d-md-block d-lg-none">
+					<span *ngFor="let tag of todo.tags | slice:0:5" class="tag d-none d-md-block d-lg-none">
 						{{tag}}
 					</span>
-					<span *ngIf="todo.tags.length > 3" class="tag-extra d-none d-md-block d-lg-none">..{{todo.tags.length-3}} more</span>
+					<span *ngIf="todo.tags.length > 5" class="tag-extra d-none d-md-block d-lg-none">..{{todo.tags.length-5}} more</span>
 
-					<span *ngFor="let tag of todo.tags | slice:0:2" class="tag me-1 d-none d-sm-block d-md-none">
+					<span *ngFor="let tag of todo.tags | slice:0:4" class="tag d-none d-sm-block d-md-none">
 						{{tag}}
 					</span>
-					<span *ngIf="todo.tags.length > 2" class="tag-extra d-none d-sm-block d-md-none">..{{todo.tags.length-2}} more</span>
+					<span *ngIf="todo.tags.length > 4" class="tag-extra d-none d-sm-block d-md-none">..{{todo.tags.length-4}} more</span>
 
-					<span *ngFor="let tag of todo.tags | slice:0:1" class="tag me-1 d-block d-sm-none">
+					<span *ngFor="let tag of todo.tags | slice:0:3" class="tag d-block d-sm-none">
 						{{tag}}
 					</span>
-					<span *ngIf="todo.tags.length > 1" class="tag-extra d-block d-sm-none">..{{todo.tags.length-1}} more</span>
+					<span *ngIf="todo.tags.length > 3" class="tag-extra d-block d-sm-none">..{{todo.tags.length-3}} more</span>
 				</span>
 			</td>	
 			<td>
 				<button type="button" class="btn btn-light" (click)="this.setFormVisible(todo.id)">
 					<i class="bi bi-pencil-square"></i>
 				</button>
-				<editForm [id]="todo.id" [initialValue]="todo" [visible]="this.formVisible===todo.id" (onClickboxClicked)="this.setFormVisible('none')"/>
+				<editForm (click)="$event.stopPropagation()" [id]="todo.id" [initialValue]="todo" [visible]="this.formVisible===todo.id" (onClickboxClicked)="this.setFormVisible('none')"/>
 			</td>
 		</tr>
 	</tbody>

@@ -33,20 +33,19 @@ export class editFormComponent extends addFormComponent {
             }),
         })
     }
-    override emitClickboxEvent(event?:KeyboardEvent|MouseEvent|TouchEvent): void {
-        console.log('event');
+    override closeForm(event?:any): void {
+        console.log('close Form',event);
         if(event instanceof KeyboardEvent){
-            console.log('keyboard',event.key);
             if(event.keyCode===27) {
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();
-                this.mainGroup = this.formCreator(this.initialValue);
+                // this.mainGroup = this.formCreator(this.initialValue);
             }
         } else {
-            if(event instanceof MouseEvent || event instanceof TouchEvent)
+            if(event instanceof MouseEvent || event instanceof TouchEvent || event instanceof PointerEvent)
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();
-                this.mainGroup = this.formCreator(this.initialValue);
+                // this.mainGroup = this.formCreator(this.initialValue);
         }
     }
     override submitMainAction(){

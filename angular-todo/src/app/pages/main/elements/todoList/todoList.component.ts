@@ -21,7 +21,7 @@ export class TodoListComponent implements OnInit {
 
     formVisible:string;
     setFormVisible(value:string){
-      this.formVisible = value;
+      this.formVisible=value;
     }
     preventFalltrough(event:MouseEvent){
       event.stopPropagation();

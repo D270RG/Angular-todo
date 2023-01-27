@@ -1,8 +1,14 @@
+@import 'src/app/mixins.scss';
+.form-tag-container{
+    @include form-tag-container;
+}
 .tag{
     text-align:center;
     display:flex;
     flex-direction:row;
+    border-radius:25px;
     .tag-button{
+        margin-right:0px;
         background-color:transparent;
         color:white;
         border:none;

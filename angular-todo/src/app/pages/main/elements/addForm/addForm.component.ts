@@ -42,7 +42,7 @@ export class TapValidationErrors{
     templateUrl: 'addForm.component.html',
     styleUrls: ['addForm.component.scss'],
     host: {
-        '(document:keyup)': 'emitClickboxEvent($event)'
+        '(document:keyup)': 'closeForm($event)'
     }
 })
 export class addFormComponent implements OnInit {
@@ -52,15 +52,14 @@ export class addFormComponent implements OnInit {
     @Input() visible!:boolean;
     @Output() onClickboxClicked: EventEmitter<any> = new EventEmitter();
 
-    emitClickboxEvent(event?:KeyboardEvent|MouseEvent|TouchEvent): void {
+    closeForm(event?:any): void {
         if(event instanceof KeyboardEvent){
-            console.log('keyboard',event.key);
-            if(event.key==='esc'){
+            if(event.keyCode===27){
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();
             }
         } else {
-            if(event instanceof MouseEvent || event instanceof TouchEvent){
+            if(event instanceof MouseEvent || event instanceof TouchEvent || event instanceof PointerEvent){
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();
             }

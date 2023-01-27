@@ -36,31 +36,39 @@
     overflow:hidden;
 	>.tag,>.tag-extra{
         word-break: break-word;
-		border-radius:0px;
+		border-radius:15px;
 		background-color:rgb(42, 42, 42);
 		color:white;
-		height:100%;
-		padding:10px;
+        margin-right:3px;
+		padding:4px;
 	}
 }
+@mixin form-tag-container{
+    margin-top:10px;
+    >.tag{
+        margin-right:3px;
+        margin-bottom:10px;
+        padding-left:10px;
+    }
+}   
+
 @mixin clickbox{
-    z-index:9999;
+    z-index:69999;
     position:absolute;
+    cursor:default;
     top:0px;
     left:0px;
     width:100vw;
     height:100vh;
-    background-color: rgba(2, 2, 2, 0.216);
+    background-color: rgba(2, 2, 2, 0.747);
     >.clickbox-form{
        @include centeredContainer;
-       z-index:10000; 
-       pointer-events:none;
+       padding:1rem;
+       padding-bottom:0.5rem;
+       z-index:70000; 
        width:100%;
        @media screen and (min-width: 600px){
         width:350px;   
-       }
-       >*{
-        pointer-events:auto;
        }
     }
 }

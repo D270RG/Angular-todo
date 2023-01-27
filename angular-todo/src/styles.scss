@@ -2,3 +2,13 @@
 @import 'bootstrap/scss/bootstrap';
 
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+
+.btn-transparent{
+    padding:0px;
+    &:focus{
+       color: rgb(156, 156, 156);
+    }
+    &:hover{
+        color: rgb(177, 177, 177);
+    }
+}

@@ -1,11 +1,15 @@
 <div class="clickbox" tabindex="0"
                       *ngIf="this.visible" 
-                      (touchend)="this.emitClickboxEvent($event)">
-    <form class="clickbox-form form-group bg-light p-3 rounded needs-validation" 
+                      (touchend)="this.closeForm($event)">
+    <form class="clickbox-form form-group bg-light rounded needs-validation" 
           [formGroup]="mainGroup" 
           (ngSubmit)="submitMain()" 
           (mouseup)="formClick($event)"
           (touchend)="formClick($event)">
+        
+        <div class="form-placeholder"></div>
+        <button (click)="this.closeForm($event)" class="form-close btn btn-transparent"><i class="bi bi-x-lg"></i></button>
+        
         <div class="mb-4"><h4>Add TODO</h4></div>
 
         <div>
@@ -40,11 +44,11 @@
             <div class="text-danger" *ngIf="this.errors.checkError('tags','maxlength')">
                 Exceeded 64 symbol limit for a tag
             </div>
-            <button class="btn btn-primary my-2" type="submit">Add tag</button>
+            <button class="btn btn-primary secondary-submit" type="submit">Add tag</button>
         </form>
 
         <tags (deleteTagEvent)="this.deleteTag($event)" [tags]=" this.mainGroup.get('tags')!.value"/>
 
-        <button class="btn btn-primary my-2" type="submit">Submit</button>
+        <button class="btn btn-primary main-submit" type="submit">Submit</button>
     </form>
 </div>
