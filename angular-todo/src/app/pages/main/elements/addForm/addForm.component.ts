@@ -51,11 +51,16 @@ export class addFormComponent implements OnInit {
 
     emitClickboxEvent(event?:KeyboardEvent|MouseEvent|TouchEvent): void {
         if(event instanceof KeyboardEvent){
-            if(event.key==='esc') this.onClickboxClicked.emit();
+            if(event.key==='esc'){
+                this.onClickboxClicked.emit();
+                this.errors.clearErrors();
+            }
         } else {
-            this.onClickboxClicked.emit();
+            if(event instanceof MouseEvent || event instanceof TouchEvent){
+                this.onClickboxClicked.emit();
+                this.errors.clearErrors();
+            }
         }
-        this.errors.clearErrors();
     }
     deleteTag(event:any){
         let newTags = [...this.mainGroup.get('tags')!.value];
@@ -110,7 +115,7 @@ export class addFormComponent implements OnInit {
                 this.errors.setErrors('name',nameErrors);
                 return;
               }
-            this.emitClickboxEvent();
+            this.onClickboxClicked.emit();
             console.log('sending',this.mainGroup.get('name')!.value);
             this.submitMainAction();
         }

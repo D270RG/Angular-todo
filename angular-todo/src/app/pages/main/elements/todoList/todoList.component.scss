@@ -1,19 +1,46 @@
 @import 'src/app/mixins.scss';
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
 
-.tag-container{
-	@include tag-container();
+$table-space: 4px;
+.tag-cell{
+	display: table-cell; 
+	vertical-align: middle;
+	>.tag-container{
+		@include tag-container();
+		min-width:100px;
+		flex-wrap: nowrap;
+		>.tag{
+			max-width:100px;
+			min-width:50px;
+			@media screen and (max-width:map-get($grid-breakpoints, md)){
+				max-width:40px;
+			}
+			max-height:50px;
+			overflow:hidden;
+			white-space:nowrap; 
+			text-overflow: ellipsis;
+			text-align:center;
+		}
+		>.tag-extra{
+			max-height:50px;
+			min-width:25px;
+			white-space:nowrap; 
+			word-break:keep-all;
+			text-align:center;
+		}
+	}
 }
 .clickbox{
 	@include clickbox;
 }
-
 .table-container{
 	height:100%;
 	display:flex;
 	align-content:center;
 	align-items:center;
 }
-
 th[sortable] {
 	cursor: pointer;
 	user-select: none;
@@ -30,14 +57,20 @@ th[sortable].asc:before {
 	width: 22px;
 	height: 22px;
 	float: left;
-	margin-left:-10px;
 }
 
 th[sortable].desc:before {
 	transform: rotate(180deg);
 	-ms-transform: rotate(180deg);
 }
+
 td{
 	padding:4px;
+	padding-left:$table-space;
+	padding-right:$table-space;
 	height:50px;	
+}
+th{
+	padding-left:$table-space;
+	padding-right:$table-space;
 }

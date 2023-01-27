@@ -35,12 +35,17 @@ export class editFormComponent extends addFormComponent {
     }
     override emitClickboxEvent(event?:KeyboardEvent|MouseEvent|TouchEvent): void {
         if(event instanceof KeyboardEvent){
-            if(event.key==='esc') this.onClickboxClicked.emit();
+            if(event.key==='esc') {
+                this.onClickboxClicked.emit();
+                this.errors.clearErrors();
+                this.mainGroup = this.formCreator(this.initialValue);
+            }
         } else {
-            this.onClickboxClicked.emit();
+            if(event instanceof MouseEvent || event instanceof TouchEvent)
+                this.onClickboxClicked.emit();
+                this.errors.clearErrors();
+                this.mainGroup = this.formCreator(this.initialValue);
         }
-        this.errors.clearErrors();
-        this.mainGroup = this.formCreator(this.initialValue);
     }
     override submitMainAction(){
         console.log('sending update',this.id, {

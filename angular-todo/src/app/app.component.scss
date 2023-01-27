@@ -1,5 +1,4 @@
 @import './mixins.scss';
-
 .block-center{
     @include alignedContainer(center);
 }

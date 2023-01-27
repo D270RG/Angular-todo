@@ -2,11 +2,13 @@
                       (mouseup)="this.emitClickboxEvent($event)" 
                       (keyup)="this.emitClickboxEvent($event)"
                       (touchend)="this.emitClickboxEvent($event)">
-    <form class="clickbox-form form-group bg-light p-3 rounded needs-validation" 
+    <form class="clickbox-form form-group p-3 bg-light rounded needs-validation" 
           [formGroup]="mainGroup" 
           (ngSubmit)="submitMain()" 
           (mouseup)="formClick($event)"
           (touchend)="formClick($event)">
+        <div class="form-placeholder"></div>
+
         <div class="mb-4"><h4>{{initialValue.name}}</h4></div>
 
         <div>

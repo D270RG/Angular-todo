@@ -1,0 +1,11 @@
+.tag{
+    text-align:center;
+    display:flex;
+    flex-direction:row;
+    .tag-button{
+        background-color:transparent;
+        color:white;
+        border:none;
+        outline:none;
+    }
+}

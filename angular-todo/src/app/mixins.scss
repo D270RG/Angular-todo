@@ -12,34 +12,6 @@
     top:50%;
     transform: translate(-50%, -50%);
 }
-@mixin imgContainer($elementWidth,$elementHeight){
-    flex: 0 0 100%;
-    max-width:$elementWidth;
-    max-height:$elementHeight;
-    min-width:$elementWidth;
-    min-height:$elementHeight;
-    background-color: black;
-    position:relative;
-    margin:0px;
-    padding:0px;
-    >img{
-        max-width: 100%;
-        max-height: 100%;   
-        object-fit: cover;
-        position: absolute;
-        margin:auto;
-        top:0;
-        bottom:0;
-        left:0;
-        right:0;
-    }
-}
-@mixin flex-center{
-	align-content:center;
-	align-items:center;
-	justify-content: center;
-	justify-items: center;
-}
 @mixin sticky($direction){
     position:fixed;
     @if $direction==top{
@@ -57,21 +29,18 @@
 }
 @mixin tag-container(){
     display:flex;
+    align-items:center;
 	flex-direction:row;
     flex-wrap: wrap;
 	height:100%;
-	>.tag{
-		@include flex-center();
-		display:flex;
-        flex-wrap: wrap;
+    overflow:hidden;
+	>.tag,>.tag-extra{
         word-break: break-word;
-		border-radius:5px;
+		border-radius:0px;
 		background-color:rgb(42, 42, 42);
 		color:white;
-		min-width:25px;
-        max-width:350px;
 		height:100%;
-		padding:3px;
+		padding:10px;
 	}
 }
 @mixin clickbox{
