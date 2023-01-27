@@ -40,7 +40,10 @@ export class TapValidationErrors{
 @Component({
     selector: 'addForm',
     templateUrl: 'addForm.component.html',
-    styleUrls: ['addForm.component.scss']
+    styleUrls: ['addForm.component.scss'],
+    host: {
+        '(document:keyup)': 'emitClickboxEvent($event)'
+    }
 })
 export class addFormComponent implements OnInit {
     mainGroup!: FormGroup<any>;
@@ -51,6 +54,7 @@ export class addFormComponent implements OnInit {
 
     emitClickboxEvent(event?:KeyboardEvent|MouseEvent|TouchEvent): void {
         if(event instanceof KeyboardEvent){
+            console.log('keyboard',event.key);
             if(event.key==='esc'){
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();

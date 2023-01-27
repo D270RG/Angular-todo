@@ -9,7 +9,7 @@ import {TapValidationErrors,toString,addFormComponent} from '../addForm.componen
 @Component({
     selector: 'editForm',
     templateUrl: 'editForm.component.html',
-    styleUrls: ['../addForm.component.scss']
+    styleUrls: ['../addForm.component.scss','./editForm.component.scss']
 })
 export class editFormComponent extends addFormComponent {
     @Input() id!:string;
@@ -34,8 +34,10 @@ export class editFormComponent extends addFormComponent {
         })
     }
     override emitClickboxEvent(event?:KeyboardEvent|MouseEvent|TouchEvent): void {
+        console.log('event');
         if(event instanceof KeyboardEvent){
-            if(event.key==='esc') {
+            console.log('keyboard',event.key);
+            if(event.keyCode===27) {
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();
                 this.mainGroup = this.formCreator(this.initialValue);
@@ -64,7 +66,7 @@ export class editFormComponent extends addFormComponent {
                             name:toString(this.mainGroup.get('name')!.value),
                             link:toString(this.mainGroup.get('link')!.value),
                             createdDate:this.initialValue.createdDate,
-                            updatedDate:this.initialValue.updatedDate,
+                            updatedDate:new Date().toISOString(),
                             comment:toString(this.mainGroup.get('comment')!.value),
                             tags:this.mainGroup.get('tags')!.value
                         }

@@ -1,15 +1,14 @@
-<div class="clickbox" *ngIf="this.visible" 
-                      (mouseup)="this.emitClickboxEvent($event)" 
-                      (keyup)="this.emitClickboxEvent($event)"
+<div class="clickbox" tabindex="0"
+                      *ngIf="this.visible" 
                       (touchend)="this.emitClickboxEvent($event)">
     <form class="clickbox-form form-group p-3 bg-light rounded needs-validation" 
           [formGroup]="mainGroup" 
           (ngSubmit)="submitMain()" 
-          (mouseup)="formClick($event)"
-          (touchend)="formClick($event)">
+          (touchend)="formClick($event)"
+          (mouseup)="formClick($event)">
         <div class="form-placeholder"></div>
 
-        <div class="mb-4"><h4>{{initialValue.name}}</h4></div>
+        <div class="mb-4 name-title-container"><h4>{{initialValue.name}}</h4></div>
 
         <div>
             <label>Name</label>

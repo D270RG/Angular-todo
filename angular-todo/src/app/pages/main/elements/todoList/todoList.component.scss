@@ -41,6 +41,21 @@ $table-space: 4px;
 	align-content:center;
 	align-items:center;
 }
+.name-container{
+	max-width:300px;
+	@media screen and (min-width:map-get($grid-breakpoints, md)) and (max-width:map-get($grid-breakpoints, lg)){
+		max-width:150px;
+	}
+	@media screen and (max-width:map-get($grid-breakpoints, md)){
+		max-width:80px;
+	}
+	>.table-container{
+		width:100%;
+		white-space: nowrap !important; 
+		text-overflow: ellipsis !important;
+		overflow: hidden !important;	
+	}
+}
 th[sortable] {
 	cursor: pointer;
 	user-select: none;

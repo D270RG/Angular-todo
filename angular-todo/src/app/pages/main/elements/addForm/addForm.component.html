@@ -1,6 +1,5 @@
-<div class="clickbox" *ngIf="this.visible" 
-                      (mouseup)="this.emitClickboxEvent($event)" 
-                      (keyup)="this.emitClickboxEvent($event)"
+<div class="clickbox" tabindex="0"
+                      *ngIf="this.visible" 
                       (touchend)="this.emitClickboxEvent($event)">
     <form class="clickbox-form form-group bg-light p-3 rounded needs-validation" 
           [formGroup]="mainGroup" 
