@@ -30,6 +30,7 @@ export class editFormComponent extends addFormComponent {
               tagForm: new FormControl(null,[Validators.required,
                                             Validators.minLength(1),
                                             Validators.maxLength(64)]),
+              tagColor: new FormControl('#343a40')
             }),
         })
     }

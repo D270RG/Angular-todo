@@ -90,6 +90,7 @@ export class addFormComponent implements OnInit {
               tagForm: new FormControl(null,[Validators.required,
                                             Validators.minLength(1),
                                             Validators.maxLength(64)]),
+              tagColor: new FormControl('#343a40')
             }),
         })
     }
@@ -125,7 +126,7 @@ export class addFormComponent implements OnInit {
     }
 
     submitTagAction(){
-        this.mainGroup.controls['tags'].setValue([...this.mainGroup.get('tags')!.value,this.mainGroup.get('tagsGroup.tagForm')!.value]);
+        this.mainGroup.controls['tags'].setValue([...this.mainGroup.get('tags')!.value,this.mainGroup.get('tagsGroup.tagForm')!.value+'&'+this.mainGroup.get('tagsGroup.tagColor')!.value]);
     }
     submitTag(){
         if(this.mainGroup){
