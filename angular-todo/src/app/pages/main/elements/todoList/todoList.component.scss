@@ -1,8 +1,4 @@
 @import 'src/app/mixins.scss';
-@import 'node_modules/bootstrap/scss/functions';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
-
 $table-space: 4px;
 //elements
 .clickbox{
@@ -10,39 +6,19 @@ $table-space: 4px;
 }
 .todo-entry{
 	cursor:pointer;
-	&:hover{
-		filter: brightness(95%);
-	}
-	transition: all 0.5s ease-out;
 }
 
 //containers
 .tag-cell{
 	display: table-cell; 
 	vertical-align: middle;
-	>.tag-container{
-		@include tag-container();
+	>.tags{
+		display:flex;
+		align-items:center;
+		flex-direction:row;
 		flex-wrap: wrap;
-		>.tag{
-			margin-bottom:3px;
-			max-width:100px;
-			min-width:50px;
-			@media screen and (max-width:map-get($grid-breakpoints, md)){
-				max-width:40px;
-			}
-			max-height:50px;
-			overflow:hidden;
-			white-space:nowrap; 
-			text-overflow: ellipsis;
-			text-align:center;
-		}
-		>.tag-extra{
-			max-height:50px;
-			min-width:25px;
-			white-space:nowrap; 
-			word-break:keep-all;
-			text-align:center;
-		}
+		height:100%;
+		overflow:hidden;
 	}
 }
 .button-cell{

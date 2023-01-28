@@ -19,6 +19,7 @@ import { addFormComponent } from './elements/addForm/addForm.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { editFormComponent } from './elements/addForm/editForm/editForm.component';
 import { TagsComponent } from './elements/addForm/tags/tags.component';
+import {TagContainer} from './elements/todoList/tagContainer/tagContainer.component'
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { TagsComponent } from './elements/addForm/tags/tags.component';
       TodoListComponent,
       addFormComponent,
       editFormComponent,
-      TagsComponent
+      TagsComponent,
+      TagContainer
     ],
     imports: [
       BrowserModule,

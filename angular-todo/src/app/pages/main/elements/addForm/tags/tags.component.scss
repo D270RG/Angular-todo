@@ -3,6 +3,7 @@
     @include form-tag-container;
 }
 .tag{
+    @include form-tag;
     text-align:center;
     display:flex;
     flex-direction:row;

@@ -33,29 +33,14 @@
 			</td>
 			<td class="tag-cell">
 				{{''//TODO: REWRITE THIS}}
-				<span class="tag-container">
+				<span class="tags">
 					<div class="text-muted" *ngIf="todo.tags.length===0">
 						No tags
 					</div>
-					<span [ngStyle]="{background:tag.split('&').at(-1)}" *ngFor="let tag of todo.tags | slice:0:6" class="tag d-none d-lg-block">
-						{{tag.split('&').at(0)}}
-					</span>	
-					<span *ngIf="todo.tags.length > 6" class="tag-extra d-none d-lg-block">..{{todo.tags.length-6}} more</span>
-
-					<span [ngStyle]="{background:tag.split('&').at(-1)}" *ngFor="let tag of todo.tags | slice:0:5" class="tag d-none d-md-block d-lg-none">
-						{{tag.split('&').at(0)}}
-					</span>
-					<span *ngIf="todo.tags.length > 5" class="tag-extra d-none d-md-block d-lg-none">..{{todo.tags.length-5}} more</span>
-
-					<span [ngStyle]="{background:tag.split('&').at(-1)}" *ngFor="let tag of todo.tags | slice:0:4" class="tag d-none d-sm-block d-md-none">
-						{{tag.split('&').at(0)}}
-					</span>
-					<span *ngIf="todo.tags.length > 4" class="tag-extra d-none d-sm-block d-md-none">..{{todo.tags.length-4}} more</span>
-
-					<span [ngStyle]="{background:tag.split('&').at(-1)}" *ngFor="let tag of todo.tags | slice:0:3" class="tag d-block d-sm-none">
-						{{tag.split('&').at(0)}}
-					</span>
-					<span *ngIf="todo.tags.length > 3" class="tag-extra d-block d-sm-none">..{{todo.tags.length-3}} more</span>
+					<tagContainer [tags]="todo.tags" [maxLength]="6" class="tag-container d-none d-lg-block"></tagContainer>	
+					<tagContainer [tags]="todo.tags" [maxLength]="5" class="tag-container d-none d-md-block d-lg-none"></tagContainer>	
+					<tagContainer [tags]="todo.tags" [maxLength]="4" class="tag-container d-none d-sm-block d-md-none"></tagContainer>	
+					<tagContainer [tags]="todo.tags" [maxLength]="3" class="tag-container d-block d-sm-none"></tagContainer>	
 				</span>
 			</td>	
 			<td class="button-cell" (click)="$event.stopPropagation()">

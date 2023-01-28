@@ -1,3 +1,7 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
 @mixin alignedContainer($justifyItems){
     display:flex;
     justify-content: $justifyItems;
@@ -34,23 +38,24 @@
     flex-wrap: wrap;
 	height:100%;
     overflow:hidden;
-	>.tag,>.tag-extra{
-        word-break: break-word;
-		border-radius:15px;
-		background-color:rgb(42, 42, 42);
-		color:white;
-        margin-right:3px;
-		padding:4px;
-	}
+}
+@mixin tag{
+    word-break: break-word;
+    border-radius:15px;
+    background-color:rgb(42, 42, 42);
+    color:white;
+    margin-right:3px; 
+    padding:5px;
 }
 @mixin form-tag-container{
     margin-top:10px;
-    >.tag{
-        margin-right:3px;
-        margin-bottom:10px;
-        padding-left:10px;
-    }
-}   
+} 
+@mixin form-tag{
+    @include tag;
+    margin-right:3px;
+    margin-bottom:10px;
+    padding-left:10px;
+}  
 @mixin button-container{
     display:flex;
     justify-content:flex-end;
