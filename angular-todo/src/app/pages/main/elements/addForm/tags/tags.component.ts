@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
     selector: 'tags',
     template: `<div class="form-tag-container">
-                    <div class="tag" *ngFor="let tag of this.tags;let i = index">
-                        {{tag}}
+                    <div [ngStyle]="{background:tag.split('&').at(-1)}" class="tag" *ngFor="let tag of this.tags;let i = index">
+                        {{tag.split('&').at(0)}}
                         <button type="button" class="tag-button" (click)="this.emitDeleteTagEvent(i)"><i class="bi bi-x-lg"></i></button>
                     </div>
                 </div>`,

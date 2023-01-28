@@ -5,7 +5,9 @@
 
 .btn-transparent{
     padding:0px;
-    &:focus{
+    outline:none;
+    border:none;
+    &:active{
        color: rgb(156, 156, 156);
     }
     &:hover{

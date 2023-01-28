@@ -21,6 +21,12 @@
 	max-height:200px !important;
 	overflow:auto;
 }
+.button-container{
+	@include button-container()
+}
+.form-control{
+	margin:0px;
+}
 .inputError{
 	border-color:red;
 }

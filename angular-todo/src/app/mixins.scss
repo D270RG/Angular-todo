@@ -51,7 +51,14 @@
         padding-left:10px;
     }
 }   
-
+@mixin button-container{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    >button{
+        margin-left:5px;
+    }
+}
 @mixin clickbox{
     z-index:69999;
     position:absolute;

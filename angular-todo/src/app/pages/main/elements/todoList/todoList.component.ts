@@ -23,6 +23,9 @@ export class TodoListComponent implements OnInit {
     setFormVisible(value:string){
       this.formVisible=value;
     }
+    deleteForm(id:string){
+      this.store.dispatch(Actions.deleteEntry({payload:{id:id}}));
+    }
     preventFalltrough(event:MouseEvent){
       event.stopPropagation();
       console.log('stop propagation');

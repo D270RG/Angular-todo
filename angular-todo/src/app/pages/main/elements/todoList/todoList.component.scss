@@ -4,6 +4,15 @@
 @import 'node_modules/bootstrap/scss/mixins';
 
 $table-space: 4px;
+//elements
+.clickbox{
+	@include clickbox;
+}
+.todo-entry{
+	cursor:pointer;
+}
+
+//containers
 .tag-cell{
 	display: table-cell; 
 	vertical-align: middle;
@@ -32,8 +41,10 @@ $table-space: 4px;
 		}
 	}
 }
-.clickbox{
-	@include clickbox;
+.button-cell{
+	display: table-cell; 
+	vertical-align: middle;
+	text-align: center;
 }
 .table-container{
 	height:100%;
@@ -41,6 +52,9 @@ $table-space: 4px;
 	align-content:center;
 	align-items:center;
 	flex-wrap:wrap;
+}
+.button-container{
+	@include button-container()
 }
 .name-container{
 	max-width:300px;
@@ -57,17 +71,16 @@ $table-space: 4px;
 		overflow: hidden !important;	
 	}
 }
-.table{
-	z-index:-1;
-}
 .date-container{
 	padding:3px;
-	margin-left: 4px;
+	margin-right: 4px;
 	border-radius:15px;
 	margin-bottom:3px;
 	word-break:keep-all;
 	border:1px solid;
 }
+
+//table elements
 th[sortable] {
 	cursor: pointer;
 	user-select: none;
@@ -89,9 +102,6 @@ th[sortable].asc:before {
 th[sortable].desc:before {
 	transform: rotate(180deg);
 	-ms-transform: rotate(180deg);
-}
-.todo-entry{
-	cursor:pointer;
 }
 td{
 	padding:4px;

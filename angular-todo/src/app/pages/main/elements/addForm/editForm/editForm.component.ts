@@ -39,13 +39,13 @@ export class editFormComponent extends addFormComponent {
             if(event.keyCode===27) {
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();
-                // this.mainGroup = this.formCreator(this.initialValue);
+                this.mainGroup = this.formCreator(this.initialValue);
             }
         } else {
             if(event instanceof MouseEvent || event instanceof TouchEvent || event instanceof PointerEvent)
                 this.onClickboxClicked.emit();
                 this.errors.clearErrors();
-                // this.mainGroup = this.formCreator(this.initialValue);
+                this.mainGroup = this.formCreator(this.initialValue);
         }
     }
     override submitMainAction(){

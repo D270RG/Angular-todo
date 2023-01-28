@@ -6,7 +6,16 @@ import { switchMap,map, mergeMap, catchError } from 'rxjs/operators';
 import { HttpService } from 'src/app/http.service';
 import { todoListContent, todoCreateForm,todoUpdateForm} from '../types';
 
-const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
+const compare = (v1: string, v2: string) => {
+  let DCheck1 = Date.parse(v1);
+  let DCheck2 = Date.parse(v2);
+  console.log('Dcheck',DCheck1,v1);
+  if(DCheck1 && DCheck2){
+    return((DCheck1 < DCheck2 ? -1 : DCheck1 > DCheck2 ? 1 : 0));
+  } else {
+    return((v1 < v2 ? -1 : v1 > v2 ? 1 : 0));
+  }
+};
 @Injectable()
 export class TodoListEffects {
   serverUrl: string;
@@ -76,6 +85,7 @@ export class TodoListEffects {
             payload: {
               requireLoad: false,
               data: [...action.payload.data].sort((a, b) => {
+                console.log('sorting',action.payload.data,action.payload.sortColumn);
                 const res = compare(
                   a[action.payload.sortColumn],
                   b[action.payload.sortColumn]
@@ -131,9 +141,8 @@ export class TodoListEffects {
       ofType('[Todo Component] DeleteEntry'),
       switchMap((action) =>
         this.httpService
-          .postData(
-            `${this.serverUrl}/${this.urls.createUrl}/${action.id}`,
-            undefined
+          .getData(
+            `${this.serverUrl}/${this.urls.removeUrl}/${action.payload.id}`
           )
           .pipe(
             map(() => ({
