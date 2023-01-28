@@ -34,22 +34,17 @@
         </div>
 
         <form class="form-group" formGroupName="tagsGroup" (ngSubmit)="submitTag()">
-            <div>
-             
-            </div>
+            <label>Add tag</label>
+            <span class="button-container">
+                <input [class.inputError]="this.errors.checkErrors('tags')" type="text" formControlName="tagForm" class="form-control"/>
+                <input type="color" formControlName="tagColor" class="form-control color-input"/>
+                <button class="btn btn-secondary tag-add-button" type="submit"><i class="bi bi-plus-square"></i></button>
+            </span> 
             <div class="text-danger" *ngIf="this.errors.checkError('tags','required')">
                 Tagname required
             </div>
             <div class="text-danger" *ngIf="this.errors.checkError('tags','maxlength')">
                 Exceeded 64 symbol limit for a tag
-            </div>
-            <label>Add tag</label>
-            <span class="button-container">
-                <input [class.inputError]="this.errors.checkErrors('tags')" type="text" formControlName="tagForm" class="form-control"/>
-                <button class="btn btn-secondary tag-add-button" type="submit"><i class="bi bi-plus-square"></i></button>
-            </span> 
-            <div *ngIf="">
-
             </div>
         </form>
 
