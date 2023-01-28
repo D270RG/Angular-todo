@@ -32,16 +32,13 @@
 				</span>
 			</td>
 			<td class="tag-cell">
-				{{''//TODO: REWRITE THIS}}
-				<span class="tags">
-					<div class="text-muted" *ngIf="todo.tags.length===0">
-						No tags
-					</div>
-					<tagContainer [tags]="todo.tags" [maxLength]="6" class="tag-container d-none d-lg-block"></tagContainer>	
-					<tagContainer [tags]="todo.tags" [maxLength]="5" class="tag-container d-none d-md-block d-lg-none"></tagContainer>	
-					<tagContainer [tags]="todo.tags" [maxLength]="4" class="tag-container d-none d-sm-block d-md-none"></tagContainer>	
-					<tagContainer [tags]="todo.tags" [maxLength]="3" class="tag-container d-block d-sm-none"></tagContainer>	
-				</span>
+				<div class="text-muted" *ngIf="todo.tags.length===0">
+					No tags
+				</div>
+				<tagContainer [tags]="todo.tags" [maxLength]="6" class="tag-container d-none d-lg-block"></tagContainer>	
+				<tagContainer [tags]="todo.tags" [maxLength]="5" class="tag-container d-none d-md-block d-lg-none"></tagContainer>	
+				<tagContainer [tags]="todo.tags" [maxLength]="4" class="tag-container d-none d-sm-block d-md-none"></tagContainer>	
+				<tagContainer [tags]="todo.tags" [maxLength]="3" class="tag-container d-block d-sm-none"></tagContainer>	
 			</td>	
 			<td class="button-cell" (click)="$event.stopPropagation()">
 				<button type="button" class="btn btn-transparent text-danger" (click)="this.deleteForm(todo.id)">

@@ -12,14 +12,6 @@ $table-space: 4px;
 .tag-cell{
 	display: table-cell; 
 	vertical-align: middle;
-	>.tags{
-		display:flex;
-		align-items:center;
-		flex-direction:row;
-		flex-wrap: wrap;
-		height:100%;
-		overflow:hidden;
-	}
 }
 .button-cell{
 	display: table-cell; 

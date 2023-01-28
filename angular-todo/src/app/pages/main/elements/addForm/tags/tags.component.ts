@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+//tag container for in-form view
 @Component({
     selector: 'tags',
     template: `<div class="form-tag-container">
