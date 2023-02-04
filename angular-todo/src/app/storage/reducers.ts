@@ -22,6 +22,12 @@ export const TodoListInitialState: TodoListInitialState = {
 };
 export const todoListReducer = createReducer(
 	TodoListInitialState,
+	on(actions.getDataSuccess, (state, action) => {
+		return {
+			...state,
+			todoList: todoListAdapter.setAll(action.data, state.todoList),
+		};
+	}),
 	on(
 		actions.addEntryError,
 		actions.updateEntryError,

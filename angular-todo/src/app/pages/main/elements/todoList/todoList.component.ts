@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import * as Actions from 'src/app/storage/actions';
 import * as Selectors from 'src/app/storage/selectors';
 import { RootState } from 'src/app/storage/reducers';
+import { tap } from 'rxjs';
 
 @Component({
 	selector: 'todoList',
@@ -11,7 +12,10 @@ import { RootState } from 'src/app/storage/reducers';
 	styleUrls: ['todoList.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-	todoListDataObservable$ = this.store.pipe(select(Selectors.selectTodoValues));
+	todoListDataObservable$ = this.store.pipe(
+		tap(console.log),
+		select(Selectors.selectTodoValues)
+	);
 	todoListData = <ITodoElement[]>[];
 	formVisible: string;
 
@@ -31,8 +35,9 @@ export class TodoListComponent implements OnInit {
 		this.todoListDataObservable$.subscribe((todoListData: ITodoElement[]) => {
 			this.todoListData = todoListData;
 		});
-		this.store.dispatch(Actions.getData());
 	}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.store.dispatch(Actions.getData());
+	}
 }

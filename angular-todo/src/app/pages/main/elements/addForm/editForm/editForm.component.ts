@@ -8,11 +8,7 @@ import {
 	ValidationErrors,
 	Validators,
 } from '@angular/forms';
-import {
-	TapValidationErrors,
-	toString,
-	addFormComponent,
-} from '../addForm.component';
+import { toString, addFormComponent } from '../addForm.component';
 import { IModelTodoUpdateForm } from 'src/app/types';
 
 @Component({
@@ -25,7 +21,6 @@ export class editFormComponent extends addFormComponent {
 	@Input() override initialValue!: IModelTodoUpdateForm;
 	constructor(public override store: Store<typeof TodoListInitialState>) {
 		super(store);
-		this.errors = new TapValidationErrors();
 	}
 	override formCreator(initialValue: IModelTodoUpdateForm) {
 		return new FormGroup({
@@ -49,7 +44,6 @@ export class editFormComponent extends addFormComponent {
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
 				this.onClickboxClicked.emit();
-				this.errors.clearErrors();
 				this.mainGroup = this.formCreator(this.initialValue);
 			}
 		} else {
@@ -59,7 +53,6 @@ export class editFormComponent extends addFormComponent {
 				event instanceof PointerEvent
 			)
 				this.onClickboxClicked.emit();
-			this.errors.clearErrors();
 			this.mainGroup = this.formCreator(this.initialValue);
 		}
 	}

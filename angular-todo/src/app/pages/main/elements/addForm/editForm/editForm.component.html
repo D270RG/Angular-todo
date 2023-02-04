@@ -14,8 +14,8 @@
 
         <div>
             <label>Name</label>
-            <input [class.inputError]="this.errors.checkErrors('name')" type="text" formControlName="name" class="form-control"/>
-            <div class="text-danger" *ngIf="this.errors.checkError('name','minlength')">
+            <input [class.inputError]="this.mainGroup.get('name')!.errors" type="text" formControlName="name" class="form-control"/>
+            <div class="text-danger" *ngIf="this.mainGroup.get('name')!.errors?.['minlength']">
                 Name must be at least 3 characters long
             </div>
         </div>
@@ -33,14 +33,14 @@
         <form class="form-group" formGroupName="tagsGroup" (ngSubmit)="submitTag()">
             <label>Add tags</label>
             <span class="button-container">
-                <input [class.inputError]="this.errors.checkErrors('tags')" type="text" formControlName="tagForm" class="form-control"/>
+                <input [class.inputError]="this.mainGroup.get('tags')!.errors" type="text" formControlName="tagForm" class="form-control"/>
                 <input type="color" formControlName="tagColor" class="form-control color-input"/>
                 <button class="btn btn-secondary tag-add-button" type="submit"><i class="bi bi-plus-square"></i></button>
             </span>
-            <div class="text-danger" *ngIf="this.errors.checkError('tags','required')">
+            <div class="text-danger" *ngIf="this.mainGroup.get('tags')!.errors?.['required']">
                 Tagname required
             </div>
-            <div class="text-danger" *ngIf="this.errors.checkError('tags','maxlength')">
+            <div class="text-danger" *ngIf="this.mainGroup.get('tags')!.errors?.['maxlength']">
                 Exceeded 64 symbol limit for a tag
             </div>
         </form>

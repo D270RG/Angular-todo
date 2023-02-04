@@ -12,7 +12,7 @@ import {
 export const getData = createAction('GetData');
 export const getDataSuccess = createAction(
 	'GetDataSuccess',
-	props<{ data: IModelTodoGet }>()
+	props<{ data: IModelTodoGet[] }>()
 );
 export const getDataError = createAction(
 	'GetDataError',

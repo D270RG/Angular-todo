@@ -11,6 +11,7 @@ export class TodoListEffects {
 	getData$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(actions.getData.type),
+			tap(console.log),
 			switchMap(() =>
 				this.httpModule.getTodos().pipe(
 					map((loadedData) => actions.getDataSuccess({ data: loadedData })),

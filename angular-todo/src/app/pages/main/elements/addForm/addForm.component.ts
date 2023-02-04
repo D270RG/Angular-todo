@@ -16,35 +16,6 @@ export function toString(value: any): string {
 	}
 	return String(value);
 }
-export class TapValidationErrors {
-	errors: { [key: string]: ValidationErrors | null };
-	constructor() {
-		this.errors = {};
-	}
-	setErrors(name: string, errors: ValidationErrors | null) {
-		console.log('set errors', errors, name);
-		this.errors[name] = { ...errors };
-	}
-	checkErrors(name: string) {
-		console.log('check errors', this.errors[name], name);
-		return this.errors[name] !== null && this.errors[name] !== undefined;
-	}
-	checkError(name: string, error: 'required' | 'minlength' | 'maxlength') {
-		return (
-			this.errors[name] &&
-			this.errors[name] !== null &&
-			this.errors[name]!.hasOwnProperty(error)
-		);
-	}
-	clearErrors(name?: string) {
-		console.log('clean errors');
-		if (name) {
-			delete this.errors[name];
-		} else {
-			this.errors = {};
-		}
-	}
-}
 
 @Component({
 	selector: 'addForm',
@@ -56,16 +27,21 @@ export class TapValidationErrors {
 })
 export class addFormComponent implements OnInit {
 	mainGroup!: FormGroup<any>;
-	errors: TapValidationErrors;
 	@Input() initialValue!: IModelTodoCreateForm;
 	@Input() visible!: boolean;
 	@Output() onClickboxClicked: EventEmitter<any> = new EventEmitter();
-
+	resetForm() {
+		this.mainGroup = this.formCreator({
+			name: '',
+			comment: '',
+			link: '',
+			tags: [],
+		});
+	}
 	closeForm(event?: any): void {
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
 				this.onClickboxClicked.emit();
-				this.errors.clearErrors();
 			}
 		} else {
 			if (
@@ -74,7 +50,6 @@ export class addFormComponent implements OnInit {
 				event instanceof PointerEvent
 			) {
 				this.onClickboxClicked.emit();
-				this.errors.clearErrors();
 			}
 		}
 	}
@@ -85,11 +60,8 @@ export class addFormComponent implements OnInit {
 	}
 	formClick(event: MouseEvent | TouchEvent) {
 		event.stopPropagation();
-		console.log('form clicked');
 	}
-	constructor(public store: Store<typeof TodoListInitialState>) {
-		this.errors = new TapValidationErrors();
-	}
+	constructor(public store: Store<typeof TodoListInitialState>) {}
 	formCreator(initialValue: IModelTodoCreateForm) {
 		return new FormGroup({
 			name: new FormControl(initialValue.name, [
@@ -127,12 +99,11 @@ export class addFormComponent implements OnInit {
 			let nameErrors = this.mainGroup.get('name')!.errors;
 			if (nameErrors !== null) {
 				console.log(nameErrors);
-				this.errors.setErrors('name', nameErrors);
 				return;
 			}
 			this.onClickboxClicked.emit();
-			console.log('sending', this.mainGroup.get('name')!.value);
 			this.submitMainAction();
+			this.resetForm();
 		}
 	}
 
@@ -149,20 +120,13 @@ export class addFormComponent implements OnInit {
 			let errors = this.mainGroup.get('tagsGroup.tagForm')!.errors;
 			if (errors !== null) {
 				console.log(errors);
-				this.errors.setErrors('tags', errors);
 				return;
 			}
-			this.errors.clearErrors('tags');
 			this.submitTagAction();
 		}
 	}
 
 	ngOnInit() {
-		this.mainGroup = this.formCreator({
-			name: '',
-			comment: '',
-			link: '',
-			tags: [],
-		});
+		this.resetForm();
 	}
 }

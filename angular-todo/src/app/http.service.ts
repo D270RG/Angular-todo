@@ -41,8 +41,8 @@ export class HttpModule {
 		createUrl: 'create-garbage',
 	};
 	constructor(private httpService: HttpService) {}
-	getTodos(): Observable<IModelTodoGet> {
-		return this.httpService.getData<IModelTodoGet>(
+	getTodos(): Observable<IModelTodoGet[]> {
+		return this.httpService.getData<IModelTodoGet[]>(
 			`${this.serverUrl}/${this.urls.getUrl}`
 		);
 	}
