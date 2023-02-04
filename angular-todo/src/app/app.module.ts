@@ -6,36 +6,49 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MainpageModule } from './pages/main/mainpage.module';
 import { EffectsModule } from '@ngrx/effects';
 import { TodoListEffects } from './storage/effects';
 import { StoreModule } from '@ngrx/store';
-import { HttpService } from './http.service';
+import { HttpModule, HttpService } from './http.service';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { sortReducer, todoListReducer } from './storage/reducers';
+import { todoListReducer } from './storage/reducers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MainpageComponent } from './pages/main/mainpage.component';
+import { NotFoundComponent } from './pages/notFound/notFound.component';
+import { TodoListComponent } from './pages/main/elements/todoList/todoList.component';
+import { TagContainer } from './pages/main/elements/todoList/tagContainer/tagContainer.component';
+import { addFormComponent } from './pages/main/elements/addForm/addForm.component';
+import { editFormComponent } from './pages/main/elements/addForm/editForm/editForm.component';
+import { TagsComponent } from './pages/main/elements/addForm/tags/tags.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    MainpageModule,
+	declarations: [
+		AppComponent,
 
-    BrowserModule,
-    AppRoutingModule,
-    NgbModule,
+		MainpageComponent,
+		NotFoundComponent,
 
-    HttpClientModule,
-    EffectsModule.forRoot([]),
-    StoreModule.forRoot({todoListReducer: todoListReducer,sortReducer: sortReducer}),
-    StoreDevtoolsModule.instrument({}),
+		TodoListComponent,
+		TagContainer,
+		TagsComponent,
+		addFormComponent,
+		editFormComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		NgbModule,
 
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [HttpService],
-  bootstrap: [AppComponent]
+		HttpClientModule,
+		EffectsModule.forRoot([TodoListEffects]),
+		StoreModule.forRoot({ todoListState: todoListReducer }),
+		StoreDevtoolsModule.instrument({}),
+
+		FormsModule,
+		ReactiveFormsModule,
+	],
+	providers: [HttpModule, HttpService],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}

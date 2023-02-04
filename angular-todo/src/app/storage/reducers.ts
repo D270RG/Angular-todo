@@ -1,38 +1,65 @@
 // //TODO: Action groups
-import { createFeatureSelector, createSelector, createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as actions from 'src/app/storage/actions';
-import { todoListContent } from '../types';
+import { ISortData, ITodoElement } from '../types';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 
-export type TodoListState = {todoList:todoListContent|undefined,message:string};
-export const TodoListInitialState = {todoList:undefined,message:''} as TodoListState;
+export interface RootState {
+	todoListState: TodoListInitialState;
+} //state derived from module
+export interface TodoListInitialState {
+	todoList: EntityState<ITodoElement>;
+	sortParams: ISortData;
+}
+const todoListAdapter = createEntityAdapter<ITodoElement>();
 
-
+export const TodoListInitialState: TodoListInitialState = {
+	todoList: todoListAdapter.getInitialState(),
+	sortParams: {
+		field: 'createdDate',
+		direction: 'asc',
+	},
+};
 export const todoListReducer = createReducer(
-  TodoListInitialState,
-  on(actions.getData,((state,action)=>{
-      return(state);
-  })),
+	TodoListInitialState,
+	on(
+		actions.addEntryError,
+		actions.updateEntryError,
+		actions.deleteEntryError,
+		(state, action) => {
+			console.log(action.error);
+			return state;
+		}
+	),
+	on(actions.addEntrySuccess, (state, action) => {
+		return {
+			...state,
+			todoList: todoListAdapter.addOne(action.data, state.todoList),
+		};
+	}),
+	on(actions.deleteEntrySuccess, (state, action) => {
+		return {
+			...state,
+			todoList: todoListAdapter.removeOne(action.data, state.todoList),
+		};
+	}),
+	on(actions.updateEntrySuccess, (state, action) => {
+		let update = {
+			id: action.data.id,
+			changes: action.data,
+		};
+		return {
+			...state,
+			todoList: todoListAdapter.updateOne(update, state.todoList),
+		};
+	}),
 
-  on(actions.addEntry,((state,action)=>{console.log('add entry',action.payload);return(state)})),
-
-  // on(actions.deleteEntry,((state,action)=>state)),
-
-  // on(actions.updateEntry,((state,action)=>state)),
-
-  // on(actions.operationSuccess,((state)=>state)),
-  on(actions.operationError,((state,action)=>{console.log(action.payload.error);return(state)})),
-
-  on(actions.writeData,((state,action)=>{
-                      console.log('write data',action.payload.data,'state',state,'fired by',action.type);
-                      return({...state,todoList:action.payload.data});
-                    })),
-  // on(actions.writeSortedData,((state,action)=>state))
+	on(actions.setSortData, (state, action) => {
+		return {
+			...state,
+			sortParams: { ...action.sortData },
+		};
+	})
 );
 
-export type SortState = {sortColumn:string,sortDirection:'asc'|'desc'|''}
-export const SortInitialState = {sortColumn:'',sortDirection:''}
-export const sortReducer = createReducer(
-  SortInitialState,
-  on(actions.setSortColumn,((state,action)=>({...state,sortColumn:action.payload.sortColumn}))),
-  on(actions.setSortDirection,((state,action)=>({...state,sortDirection:action.payload.sortDirection})))
-);
+export const entitySelectors = todoListAdapter.getSelectors();

@@ -1,17 +1,7 @@
 <table class="table table-light">
-	<thead>
-		<tr>
-			<th scope="col" sortable="name" direction='' (sort)="onSort($event)">Name</th>
-			<th scope="col" sortable="createdDate" direction='' (sort)="onSort($event)">Created</th>
-			<th scope="col" sortable="updatedDate" direction='' (sort)="onSort($event)">Updated</th>
-			<th scope="col">Tags</th>
-			<th class="button-cell">
-				<button type="button" class="btn btn-transparent text-secondary" (click)="this.setFormVisible('add')">
-					<i class="bi bi-plus-square-fill"></i>
-				</button>
-			</th>
-		</tr>
-	</thead>
+	<button type="button" class="btn btn-transparent text-secondary" (click)="this.setFormVisible('add')">
+		<i class="bi bi-plus-square-fill"></i>
+	</button>
 	<tbody>
 		<tr class="todo-entry" *ngFor="let todo of todoListData" (click)="this.setFormVisible(todo.id)">
 			<td scope="row" class="name-container">

@@ -1,211 +1,60 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { of,filter,withLatestFrom } from 'rxjs';
-import { switchMap,map, mergeMap, catchError } from 'rxjs/operators';
-import { HttpService } from 'src/app/http.service';
-import { todoListContent, todoCreateForm,todoUpdateForm} from '../types';
+import * as actions from 'src/app/storage/actions';
+import { of } from 'rxjs';
+import { switchMap, map, catchError, tap } from 'rxjs/operators';
+import { HttpModule } from 'src/app/http.service';
 
-const compare = (v1: string, v2: string) => {
-  let DCheck1 = Date.parse(v1);
-  let DCheck2 = Date.parse(v2);
-  console.log('Dcheck',DCheck1,v1);
-  if(DCheck1 && DCheck2){
-    return((DCheck1 < DCheck2 ? -1 : DCheck1 > DCheck2 ? 1 : 0));
-  } else {
-    return((v1 < v2 ? -1 : v1 > v2 ? 1 : 0));
-  }
-};
 @Injectable()
 export class TodoListEffects {
-  serverUrl: string;
-  urls: {
-    getUrl: string;
-    removeUrl: string;
-    updateUrl: string;
-    createUrl: string;
-  };
+	constructor(private httpModule: HttpModule, private actions$: Actions<any>) {}
+	getData$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(actions.getData.type),
+			switchMap(() =>
+				this.httpModule.getTodos().pipe(
+					map((loadedData) => actions.getDataSuccess({ data: loadedData })),
+					catchError((err) => of(actions.getDataError(err)))
+				)
+			)
+		)
+	);
 
-  constructor(
-    private httpService: HttpService,
-    private actions$: Actions<any>,
-    private store$: Store<any>
-  ) {
-    this.serverUrl = 'http://localhost:3000/api';
-    this.urls = {
-      getUrl: 'get-garbages',
-      removeUrl: 'remove-garbage',
-      updateUrl: 'update-garbage',
-      createUrl: 'create-garbage',
-    };
-  }
-  getData$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType('[Todo Component] GetData'),
-      withLatestFrom(this.store$.select(sortParametersSelector)),
-      switchMap(([action, sortParams]) =>
-        this.httpService
-          .getData<todoListContent>(`${this.serverUrl}/${this.urls.getUrl}`)
-          .pipe(
-            map((loadedData) => {
-              console.log('loaded', loadedData);
-              return {
-                type: '[Todo Component] WriteSortedData',
-                payload: {
-                  data: loadedData,
-                  sortDirection: sortParams.sortDirection,
-                  sortColumn: sortParams.sortColumn,
-                },
-              };
-            }),
-            catchError((err) =>
-              of({
-                type: '[Todo Component] OperationError',
-                payload: { requireLoad: false, error: err },
-              })
-            )
-          )
-      )
-    )
-  );
+	addEntry$ = createEffect(() =>
+		this.actions$.pipe(
+			tap(console.log),
+			ofType(actions.addEntry.type),
+			switchMap((action) => {
+				console.log('addEntry', action);
+				return this.httpModule.createTodo(action.data).pipe(
+					map((loadedData) => actions.addEntrySuccess({ data: loadedData })),
+					catchError((err) => of(actions.addEntryError({ error: err })))
+				);
+			})
+		)
+	);
 
-  writeSortedData$ = createEffect(() =>
-    this.actions$.pipe(
-      //error: forwarding action payload instead of result
-      ofType('[Todo Component] WriteSortedData'),
-      map((action) => {
-        //sort logic
-        console.log('sorting data', action.payload.data);
-        if (
-          (action.payload.sortColumn || action.payload.sortDirection) &&
-          action.payload.data
-        ) {
-          return {
-            type: '[Todo Component] OperationSuccess',
-            payload: {
-              requireLoad: false,
-              data: [...action.payload.data].sort((a, b) => {
-                console.log('sorting',action.payload.data,action.payload.sortColumn);
-                const res = compare(
-                  a[action.payload.sortColumn],
-                  b[action.payload.sortColumn]
-                );
-                switch(action.payload.sortDirection){
-                  case 'asc':{
-                    return res;
-                  }
-                  case 'desc':{
-                    return -res;
-                  }
-                  default:{
-                    return res;
-                  }
-                }
-              }),
-            },
-          };
-        } else {
-          console.log('No sort column provided', action.payload);
-          return {
-            type: '[Todo Component] OperationSuccess',
-            payload: { requireLoad: false, data: action.payload.data},
-          };
-        }
-      })
-    )
-  );
+	updateEntry$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(actions.updateEntry.type),
+			switchMap((action) =>
+				this.httpModule.updateTodo(action.id, action.data).pipe(
+					map((loadedData) => actions.updateEntrySuccess({ data: loadedData })),
+					catchError((err) => of(actions.updateEntryError({ error: err })))
+				)
+			)
+		)
+	);
 
-  addEntry$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType('[Todo Component] AddEntry'),
-      switchMap((action) =>
-        this.httpService
-          .postData(`${this.serverUrl}/${this.urls.createUrl}`, action.payload.data)
-          .pipe(
-            map(() => ({
-              type: '[Todo Component] OperationSuccess',
-              payload: { requireLoad: true },
-            })),
-            catchError((err) =>
-              of({
-                type: '[Todo Component] OperationError',
-                payload: { requireLoad: true, error: err },
-              })
-            )
-          )
-      )
-    )
-  );
-  deleteEntry$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType('[Todo Component] DeleteEntry'),
-      switchMap((action) =>
-        this.httpService
-          .getData(
-            `${this.serverUrl}/${this.urls.removeUrl}/${action.payload.id}`
-          )
-          .pipe(
-            map(() => ({
-              type: '[Todo Component] OperationSuccess',
-              payload: { requireLoad: true },
-            })),
-            catchError((err) =>
-              of({
-                type: '[Todo Component] OperationError',
-                payload: { requireLoad: true, error: err },
-              })
-            )
-          )
-      )
-    )
-  );
-  updateEntry$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType('[Todo Component] UpdateEntry'),
-      switchMap((action) =>
-        this.httpService
-          .postData(
-            `${this.serverUrl}/${this.urls.updateUrl}/${action.payload.id}`,
-            action.payload.data
-          )
-          .pipe(
-            map(() => ({
-              type: '[Todo Component] OperationSuccess',
-              payload: { requireLoad: true },
-            })),
-            catchError((err) =>
-              of({
-                type: '[Todo Component] OperationError',
-                payload: { requireLoad: true, error: err },
-              })
-            )
-          )
-      )
-    )
-  );
-
-  operationSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType('[Todo Component] OperationSuccess'),
-      map((action) => {
-        if (!action.payload.requireLoad) {
-          console.log('writingData from success op', action.payload.data);
-          return {
-            type: '[Todo Component] WriteData',
-            payload: { data: action.payload.data },
-          };
-        } else {
-          return { type: '[Todo Component] GetData' };
-        }
-      })
-    )
-  );
-}
-
-function sortParametersSelector(storeData: any) {
-  console.log('store sort selector', storeData);
-  return {
-    sortDirection: storeData.sortReducer.sortDirection,
-    sortColumn: storeData.sortReducer.sortDirection,
-  }
+	deleteEntry$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(actions.deleteEntry.type),
+			switchMap((action) =>
+				this.httpModule.deleteTodo(action.data.id).pipe(
+					map((loadedData) => actions.deleteEntrySuccess({ data: loadedData })),
+					catchError((err) => of(actions.deleteEntryError({ error: err })))
+				)
+			)
+		)
+	);
 }

@@ -1,63 +1,38 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Observable } from 'rxjs';
-import { todoListContent,todoListError } from 'src/app/types';
-import { createSelector, select, Store } from '@ngrx/store';
-import * as Actions from  'src/app/storage/actions';
-import { TodoListInitialState } from 'src/app/storage/reducers';
-
-import { NgbdSortableHeader, SortEvent } from './sortable.directive';
+import { Component, OnInit } from '@angular/core';
+import { ITodoElement } from 'src/app/types';
+import { select, Store } from '@ngrx/store';
+import * as Actions from 'src/app/storage/actions';
+import * as Selectors from 'src/app/storage/selectors';
+import { RootState } from 'src/app/storage/reducers';
 
 @Component({
-    selector: 'todoList',
-    templateUrl: 'todoList.component.html',
-    styleUrls: ['todoList.component.scss']
+	selector: 'todoList',
+	templateUrl: 'todoList.component.html',
+	styleUrls: ['todoList.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  
-    selectData = (state:any) => {console.log('selectData',state.todoListReducer.todoList);return(state.todoListReducer.todoList)}; //todo:move to selectors
-    
-    todoListDataObservable$ = this.store.pipe(select(this.selectData));
-    todoListData = undefined as todoListContent|undefined;
+	todoListDataObservable$ = this.store.pipe(select(Selectors.selectTodoValues));
+	todoListData = <ITodoElement[]>[];
+	formVisible: string;
 
-    formVisible:string;
-    setFormVisible(value:string){
-      this.formVisible=value;
-    }
-    deleteForm(id:string){
-      this.store.dispatch(Actions.deleteEntry({payload:{id:id}}));
-    }
-    preventFalltrough(event:MouseEvent){
-      event.stopPropagation();
-      console.log('stop propagation');
-    }
+	setFormVisible(value: string) {
+		this.formVisible = value;
+	}
+	deleteForm(id: string) {
+		this.store.dispatch(Actions.deleteEntry({ data: { id: id } }));
+	}
+	preventFalltrough(event: MouseEvent) {
+		event.stopPropagation();
+		console.log('stop propagation');
+	}
 
-    constructor(private store: Store<typeof TodoListInitialState>) {
-      this.formVisible = 'none';
-      this.todoListDataObservable$.subscribe((todoListData:todoListContent|undefined)=>{
-        if(todoListData){
-          console.log('binding',todoListData);
-          this.todoListData = todoListData;
-        }
-      });
-      console.log('CONSTRUCTOR');
-      this.store.dispatch(Actions.getData());
-    }
-    
-    @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;
-    onSort({ sortColumn, sortDirection }: SortEvent) {
-      // resetting other headers
-      this.headers.forEach((header) => {
-        if (header.sortable !== sortColumn) {
-          header.direction = '';
-        }
-      });
-  
-      // execute sort 
-      console.log('executing sort',{data:this.todoListData,sortColumn:sortColumn,sortDirection:sortDirection});
-      this.store.dispatch(Actions.writeSortedData({payload:{data:this.todoListData,sortColumn:sortColumn,sortDirection:sortDirection}}));
-    }
+	constructor(private store: Store<RootState>) {
+		this.formVisible = 'none';
+		this.todoListDataObservable$.subscribe((todoListData: ITodoElement[]) => {
+			this.todoListData = todoListData;
+		});
+		this.store.dispatch(Actions.getData());
+	}
 
-    ngOnInit(){ 
-    
-    }
+	ngOnInit() {}
 }
