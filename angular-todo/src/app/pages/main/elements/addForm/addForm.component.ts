@@ -61,6 +61,31 @@ export class addFormComponent implements OnInit {
 		event.stopPropagation();
 	}
 	public constructor(public store: Store<typeof TodoListInitialState>) {}
+	public submitMain(): void {
+		if (this.mainGroup) {
+			const nameErrors = this.mainGroup.get('name')?.errors;
+			if (nameErrors !== null) {
+				console.log(nameErrors);
+				return;
+			}
+			this.onClickboxClicked.emit();
+			this.submitMainAction();
+			this.resetForm();
+		}
+	}
+	public submitTag(): void {
+		if (this.mainGroup) {
+			const errors = this.mainGroup.get('tagsGroup.tagForm')?.errors;
+			if (errors !== null) {
+				console.log(errors);
+				return;
+			}
+			this.submitTagAction();
+		}
+	}
+	public ngOnInit(): void {
+		this.resetForm();
+	}
 	protected formCreator(initialValue: IModelTodoCreateForm): FormGroup {
 		return new FormGroup({
 			name: new FormControl(initialValue.name, [
@@ -93,19 +118,6 @@ export class addFormComponent implements OnInit {
 			})
 		);
 	}
-	public submitMain(): void {
-		if (this.mainGroup) {
-			const nameErrors = this.mainGroup.get('name')?.errors;
-			if (nameErrors !== null) {
-				console.log(nameErrors);
-				return;
-			}
-			this.onClickboxClicked.emit();
-			this.submitMainAction();
-			this.resetForm();
-		}
-	}
-
 	private submitTagAction(): void {
 		const currentTags = this.mainGroup.get('tags')?.value;
 		if (currentTags !== null) {
@@ -116,19 +128,5 @@ export class addFormComponent implements OnInit {
 					this.mainGroup.get('tagsGroup.tagColor')?.value,
 			]);
 		}
-	}
-	public submitTag(): void {
-		if (this.mainGroup) {
-			const errors = this.mainGroup.get('tagsGroup.tagForm')?.errors;
-			if (errors !== null) {
-				console.log(errors);
-				return;
-			}
-			this.submitTagAction();
-		}
-	}
-
-	public ngOnInit(): void {
-		this.resetForm();
 	}
 }

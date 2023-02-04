@@ -19,6 +19,26 @@ export class editFormComponent extends addFormComponent {
 	) {
 		super(store);
 	}
+	public override closeForm(event: Event): void {
+		console.log('close Form', event);
+		if (event instanceof KeyboardEvent) {
+			if (event.keyCode === 27) {
+				this.onClickboxClicked.emit();
+				this.mainGroup = this.formCreator(this.initialValue);
+			}
+		} else {
+			if (
+				event instanceof MouseEvent ||
+				event instanceof TouchEvent ||
+				event instanceof PointerEvent
+			)
+				this.onClickboxClicked.emit();
+			this.mainGroup = this.formCreator(this.initialValue);
+		}
+	}
+	public override ngOnInit(): void {
+		this.mainGroup = this.formCreator(this.initialValue);
+	}
 	protected override formCreator(
 		initialValue: IModelTodoUpdateForm
 	): FormGroup {
@@ -38,23 +58,6 @@ export class editFormComponent extends addFormComponent {
 			}),
 		});
 	}
-	public override closeForm(event: Event): void {
-		console.log('close Form', event);
-		if (event instanceof KeyboardEvent) {
-			if (event.keyCode === 27) {
-				this.onClickboxClicked.emit();
-				this.mainGroup = this.formCreator(this.initialValue);
-			}
-		} else {
-			if (
-				event instanceof MouseEvent ||
-				event instanceof TouchEvent ||
-				event instanceof PointerEvent
-			)
-				this.onClickboxClicked.emit();
-			this.mainGroup = this.formCreator(this.initialValue);
-		}
-	}
 	protected override submitMainAction(): void {
 		this.store.dispatch(
 			Actions.updateEntry({
@@ -69,8 +72,5 @@ export class editFormComponent extends addFormComponent {
 				},
 			})
 		);
-	}
-	public override ngOnInit(): void {
-		this.mainGroup = this.formCreator(this.initialValue);
 	}
 }
