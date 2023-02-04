@@ -50,7 +50,7 @@ export const todoListReducer = createReducer(
 		};
 	}),
 	on(actions.updateEntrySuccess, (state, action) => {
-		let update = {
+		const update = {
 			id: action.data.id,
 			changes: action.data,
 		};

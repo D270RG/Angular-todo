@@ -1,6 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 //tag container for in-form view
+export interface ETagDelete {
+	index: number;
+}
 @Component({
 	selector: 'tags',
 	template: `<div class="form-tag-container">
@@ -19,13 +22,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 	</div>`,
 	styleUrls: ['../addForm.component.scss', './tags.component.scss'],
 })
-export class TagsComponent implements OnInit {
-	@Input() tags!: string[];
-	@Output() deleteTagEvent: EventEmitter<any> = new EventEmitter();
-	emitDeleteTagEvent(index: number) {
-		console.log('delete tag emit', index);
+export class TagsComponent {
+	@Input() public tags!: string[];
+	@Output() public deleteTagEvent: EventEmitter<ETagDelete> =
+		new EventEmitter();
+	public emitDeleteTagEvent(index: number): void {
 		this.deleteTagEvent.emit({ index: index });
 	}
-	constructor() {}
-	ngOnInit() {}
 }

@@ -2,12 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TodoListInitialState } from 'src/app/storage/reducers';
 import * as Actions from 'src/app/storage/actions';
-import {
-	FormControl,
-	FormGroup,
-	ValidationErrors,
-	Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { toString, addFormComponent } from '../addForm.component';
 import { IModelTodoUpdateForm } from 'src/app/types';
 
@@ -17,12 +12,16 @@ import { IModelTodoUpdateForm } from 'src/app/types';
 	styleUrls: ['../addForm.component.scss', './editForm.component.scss'],
 })
 export class editFormComponent extends addFormComponent {
-	@Input() id!: string;
-	@Input() override initialValue!: IModelTodoUpdateForm;
-	constructor(public override store: Store<typeof TodoListInitialState>) {
+	@Input() public id!: string;
+	@Input() public override initialValue!: IModelTodoUpdateForm;
+	public constructor(
+		public override store: Store<typeof TodoListInitialState>
+	) {
 		super(store);
 	}
-	override formCreator(initialValue: IModelTodoUpdateForm) {
+	protected override formCreator(
+		initialValue: IModelTodoUpdateForm
+	): FormGroup {
 		return new FormGroup({
 			name: new FormControl(initialValue.name, [Validators.minLength(3)]),
 			comment: new FormControl(initialValue.comment),
@@ -39,7 +38,7 @@ export class editFormComponent extends addFormComponent {
 			}),
 		});
 	}
-	override closeForm(event?: any): void {
+	public override closeForm(event: Event): void {
 		console.log('close Form', event);
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
@@ -56,28 +55,22 @@ export class editFormComponent extends addFormComponent {
 			this.mainGroup = this.formCreator(this.initialValue);
 		}
 	}
-	override submitMainAction() {
-		console.log('sending update', this.id, {
-			name: toString(this.mainGroup.get('name')!.value),
-			link: toString(this.mainGroup.get('link')!.value),
-			comment: toString(this.mainGroup.get('comment')!.value),
-			tags: this.mainGroup.get('tags')!.value,
-		});
+	protected override submitMainAction(): void {
 		this.store.dispatch(
 			Actions.updateEntry({
 				id: this.id,
 				data: {
-					name: toString(this.mainGroup.get('name')!.value),
-					link: toString(this.mainGroup.get('link')!.value),
+					name: toString(this.mainGroup.get('name')?.value),
+					link: toString(this.mainGroup.get('link')?.value),
 					createdDate: this.initialValue.createdDate,
 					updatedDate: new Date().toISOString(),
-					comment: toString(this.mainGroup.get('comment')!.value),
-					tags: this.mainGroup.get('tags')!.value,
+					comment: toString(this.mainGroup.get('comment')?.value),
+					tags: this.mainGroup.get('tags')?.value,
 				},
 			})
 		);
 	}
-	override ngOnInit(): void {
+	public override ngOnInit(): void {
 		this.mainGroup = this.formCreator(this.initialValue);
 	}
 }

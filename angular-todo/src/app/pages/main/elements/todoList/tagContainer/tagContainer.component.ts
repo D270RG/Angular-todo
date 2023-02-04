@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 //tag container for TODO list view
 @Component({
@@ -6,9 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
 	templateUrl: 'tagContainer.component.html',
 	styleUrls: ['./tagContainer.component.scss'],
 })
-export class TagContainer implements OnInit {
-	@Input() maxLength!: number;
-	@Input() tags!: string[];
-	constructor() {}
-	ngOnInit() {}
+export class TagContainer {
+	@Input() public maxLength!: number;
+	@Input() public tags!: string[];
 }

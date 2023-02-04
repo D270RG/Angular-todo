@@ -2,15 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TodoListInitialState } from 'src/app/storage/reducers';
 import * as Actions from 'src/app/storage/actions';
-import {
-	FormControl,
-	FormGroup,
-	ValidationErrors,
-	Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IModelTodoCreateForm } from 'src/app/types';
+import { ETagDelete } from './tags/tags.component';
 
-export function toString(value: any): string {
+export function toString(value: number | string | Date): string {
 	if (value === null || value === undefined) {
 		return '';
 	}
@@ -26,11 +22,11 @@ export function toString(value: any): string {
 	},
 })
 export class addFormComponent implements OnInit {
-	mainGroup!: FormGroup<any>;
-	@Input() initialValue!: IModelTodoCreateForm;
-	@Input() visible!: boolean;
-	@Output() onClickboxClicked: EventEmitter<any> = new EventEmitter();
-	resetForm() {
+	public mainGroup!: FormGroup;
+	@Input() public initialValue!: IModelTodoCreateForm;
+	@Input() public visible!: boolean;
+	@Output() public onClickboxClicked: EventEmitter<Event> = new EventEmitter();
+	public resetForm(): void {
 		this.mainGroup = this.formCreator({
 			name: '',
 			comment: '',
@@ -38,7 +34,7 @@ export class addFormComponent implements OnInit {
 			tags: [],
 		});
 	}
-	closeForm(event?: any): void {
+	public closeForm(event: Event): void {
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
 				this.onClickboxClicked.emit();
@@ -53,16 +49,19 @@ export class addFormComponent implements OnInit {
 			}
 		}
 	}
-	deleteTag(event: any) {
-		let newTags = [...this.mainGroup.get('tags')!.value];
-		newTags.splice(event.index, 1);
-		this.mainGroup.controls['tags'].setValue(newTags);
+	public deleteTag(event: ETagDelete): void {
+		const tags = this.mainGroup.get('tags')?.value;
+		if (tags) {
+			const newTags = [...tags];
+			newTags.splice(event.index, 1);
+			this.mainGroup.controls['tags'].setValue(newTags);
+		}
 	}
-	formClick(event: MouseEvent | TouchEvent) {
+	public formClick(event: MouseEvent | TouchEvent): void {
 		event.stopPropagation();
 	}
-	constructor(public store: Store<typeof TodoListInitialState>) {}
-	formCreator(initialValue: IModelTodoCreateForm) {
+	public constructor(public store: Store<typeof TodoListInitialState>) {}
+	protected formCreator(initialValue: IModelTodoCreateForm): FormGroup {
 		return new FormGroup({
 			name: new FormControl(initialValue.name, [
 				Validators.required,
@@ -82,21 +81,21 @@ export class addFormComponent implements OnInit {
 			}),
 		});
 	}
-	submitMainAction() {
+	protected submitMainAction(): void {
 		this.store.dispatch(
 			Actions.addEntry({
 				data: {
-					name: toString(this.mainGroup.get('name')!.value),
-					link: toString(this.mainGroup.get('link')!.value),
-					comment: toString(this.mainGroup.get('comment')!.value),
-					tags: this.mainGroup.get('tags')!.value,
+					name: toString(this.mainGroup.get('name')?.value),
+					link: toString(this.mainGroup.get('link')?.value),
+					comment: toString(this.mainGroup.get('comment')?.value),
+					tags: this.mainGroup.get('tags')?.value,
 				},
 			})
 		);
 	}
-	submitMain() {
+	public submitMain(): void {
 		if (this.mainGroup) {
-			let nameErrors = this.mainGroup.get('name')!.errors;
+			const nameErrors = this.mainGroup.get('name')?.errors;
 			if (nameErrors !== null) {
 				console.log(nameErrors);
 				return;
@@ -107,17 +106,20 @@ export class addFormComponent implements OnInit {
 		}
 	}
 
-	submitTagAction() {
-		this.mainGroup.controls['tags'].setValue([
-			...this.mainGroup.get('tags')!.value,
-			this.mainGroup.get('tagsGroup.tagForm')!.value +
-				'&' +
-				this.mainGroup.get('tagsGroup.tagColor')!.value,
-		]);
+	private submitTagAction(): void {
+		const currentTags = this.mainGroup.get('tags')?.value;
+		if (currentTags !== null) {
+			this.mainGroup.controls['tags'].setValue([
+				...currentTags,
+				this.mainGroup.get('tagsGroup.tagForm')?.value +
+					'&' +
+					this.mainGroup.get('tagsGroup.tagColor')?.value,
+			]);
+		}
 	}
-	submitTag() {
+	public submitTag(): void {
 		if (this.mainGroup) {
-			let errors = this.mainGroup.get('tagsGroup.tagForm')!.errors;
+			const errors = this.mainGroup.get('tagsGroup.tagForm')?.errors;
 			if (errors !== null) {
 				console.log(errors);
 				return;
@@ -126,7 +128,7 @@ export class addFormComponent implements OnInit {
 		}
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.resetForm();
 	}
 }

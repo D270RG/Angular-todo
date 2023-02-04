@@ -12,32 +12,29 @@ import { tap } from 'rxjs';
 	styleUrls: ['todoList.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-	todoListDataObservable$ = this.store.pipe(
+	public todoListData = <ITodoElement[]>[];
+	public formVisible: string;
+	private todoListDataObservable$ = this.store.pipe(
 		tap(console.log),
 		select(Selectors.selectTodoValues)
 	);
-	todoListData = <ITodoElement[]>[];
-	formVisible: string;
 
-	setFormVisible(value: string) {
-		this.formVisible = value;
-	}
-	deleteForm(id: string) {
-		this.store.dispatch(Actions.deleteEntry({ data: { id: id } }));
-	}
-	preventFalltrough(event: MouseEvent) {
-		event.stopPropagation();
-		console.log('stop propagation');
-	}
-
-	constructor(private store: Store<RootState>) {
+	public constructor(private store: Store<RootState>) {
 		this.formVisible = 'none';
 		this.todoListDataObservable$.subscribe((todoListData: ITodoElement[]) => {
 			this.todoListData = todoListData;
 		});
 	}
-
-	ngOnInit() {
+	public setFormVisible(value: string): void {
+		this.formVisible = value;
+	}
+	public deleteForm(id: string): void {
+		this.store.dispatch(Actions.deleteEntry({ data: { id: id } }));
+	}
+	public preventFalltrough(event: MouseEvent): void {
+		event.stopPropagation();
+	}
+	public ngOnInit(): void {
 		this.store.dispatch(Actions.getData());
 	}
 }

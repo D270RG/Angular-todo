@@ -7,8 +7,12 @@ import { HttpModule } from 'src/app/http.service';
 
 @Injectable()
 export class TodoListEffects {
-	constructor(private httpModule: HttpModule, private actions$: Actions<any>) {}
-	getData$ = createEffect(() =>
+	public constructor(
+		private httpModule: HttpModule,
+		// eslint-disable-next-line
+		private actions$: Actions<any> //Any aviable Action
+	) {}
+	public getData$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(actions.getData.type),
 			tap(console.log),
@@ -21,7 +25,7 @@ export class TodoListEffects {
 		)
 	);
 
-	addEntry$ = createEffect(() =>
+	public addEntry$ = createEffect(() =>
 		this.actions$.pipe(
 			tap(console.log),
 			ofType(actions.addEntry.type),
@@ -35,7 +39,7 @@ export class TodoListEffects {
 		)
 	);
 
-	updateEntry$ = createEffect(() =>
+	public updateEntry$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(actions.updateEntry.type),
 			switchMap((action) =>
@@ -47,7 +51,7 @@ export class TodoListEffects {
 		)
 	);
 
-	deleteEntry$ = createEffect(() =>
+	public deleteEntry$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(actions.deleteEntry.type),
 			switchMap((action) =>

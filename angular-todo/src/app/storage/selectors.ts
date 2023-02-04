@@ -1,6 +1,7 @@
-import { createSelector } from '@ngrx/store';
+import { Dictionary } from '@ngrx/entity';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { ITodoElement } from '../types';
-import { RootState } from './reducers';
+import { RootState, TodoListInitialState } from './reducers';
 import { createSortComparer } from './utils';
 
 //----------------------------------------------------------------------------------------------------------------
@@ -22,7 +23,8 @@ import { createSortComparer } from './utils';
 //----------------------------------------------------------------------------------------------------------------
 
 //--Primary selector (1)--
-const selectState = (state: RootState) => state.todoListState;
+const selectState = (state: RootState): TodoListInitialState =>
+	state.todoListState;
 
 //--Secondary selectors (2)--
 export const selectTodoEntities = createSelector(selectState, (state) => {
@@ -38,15 +40,20 @@ export const selectSortParameters = createSelector(
 export const selectTodoValues = createSelector(
 	selectTodoEntities,
 	(todoEntities) => {
-		let values = Object.values(todoEntities);
+		const values = Object.values(todoEntities);
 		if (!values) {
 			return [];
 		}
 		return <ITodoElement[]>values;
 	}
 );
-export const selectTodoById = (id: string) =>
-	createSelector(selectTodoEntities, (todoEntities) => todoEntities[id]);
+export const selectTodoById = (
+	id: string
+): MemoizedSelector<
+	RootState,
+	ITodoElement | undefined,
+	(s1: Dictionary<ITodoElement>) => ITodoElement | undefined
+> => createSelector(selectTodoEntities, (todoEntities) => todoEntities[id]);
 
 export const selectSortedTodoList = createSelector(
 	selectTodoValues,
