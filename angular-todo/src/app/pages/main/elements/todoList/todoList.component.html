@@ -31,9 +31,11 @@
 				<tagContainer [tags]="todo.tags" [maxLength]="3" class="tag-container d-block d-sm-none"></tagContainer>	
 			</td>	
 			<td class="button-cell" (click)="$event.stopPropagation()">
-				<button type="button" class="btn btn-transparent text-danger" (click)="this.deleteForm(todo.id)">
-					<i class="bi bi-trash"></i>
-				</button>
+				<div class="button-cell-container">
+					<button type="button" class="btn btn-transparent text-danger" (click)="this.deleteForm(todo.id)">
+						<i class="bi bi-trash"></i>
+					</button>
+				</div>
 				<editForm [id]="todo.id" [initialValue]="todo" [visible]="this.formVisible===todo.id" (onClickboxClicked)="this.setFormVisible('none')"/>
 			</td>
 		</tr>

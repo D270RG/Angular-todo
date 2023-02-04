@@ -16,7 +16,9 @@ $table-space: 4px;
 .button-cell{
 	display: table-cell; 
 	vertical-align: middle;
-	text-align: center;
+	>.button-cell-container{
+		text-align: center;
+	}
 }
 .table-container{
 	height:100%;
