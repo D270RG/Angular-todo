@@ -1,6 +1,9 @@
 @import 'src/app/mixins.scss';
 $table-space: 4px;
 //elements
+table{
+	table-layout: auto;
+}
 .clickbox{
 	@include clickbox;
 }
@@ -20,12 +23,28 @@ $table-space: 4px;
 		text-align: center;
 	}
 }
+.date-cell{
+	display: table-cell; 
+	vertical-align: middle;
+	text-align:center !important;
+	>.cell-flex-container{
+		display: inline-block;
+	}
+}
 .table-container{
 	height:100%;
 	display:flex;
-	align-content:center;
 	align-items:center;
 	flex-wrap:wrap;
+}
+.table-row-container{
+	height:100%;
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:space-around;
+	flex-wrap:wrap;
+
 }
 .button-container{
 	@include button-container()
@@ -46,12 +65,35 @@ $table-space: 4px;
 	}
 }
 .date-container{
-	padding:3px;
-	margin-right: 4px;
+	display:flex;
+	align-items: center;
+	flex-direction:row;
+	width:180px;
 	border-radius:15px;
-	margin-bottom:3px;
 	word-break:keep-all;
-	border:1px solid;
+	outline:1px solid;
+	overflow:hidden;
+	margin:5px;
+	margin-top:2px;
+	margin-bottom:2px;
+	>.date-label{
+		display:flex;
+		padding:4px;
+		align-items: center;
+		justify-content:center;
+		color:white;
+		background-color:#343a40;
+		height:200%;
+		width:40%;
+	};
+	>.date-info{
+		display:flex;
+		align-items: center;
+		justify-content:center;
+		word-break:keep-all;
+		width:60%;
+		height:100%;	
+	};
 }
 
 //table elements

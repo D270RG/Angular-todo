@@ -1,6 +1,11 @@
 <div class='navbar navbar-dark bg-dark'>
-	<sortForm class="mx-1"></sortForm>
-    <button type="button" class="me-1 btn btn-light text-secondary" (click)="this.onComponentAdditionRequested.emit()">
-		Add TODO <i class="bi bi-plus-lg"></i>
-	</button>
+	<div class='container-left'>
+		<h5 class="mx-3 text-container">&lt;TODO List&gt;</h5>
+	</div>
+	<div class='container-right'>
+		<sortForm class="mx-1"></sortForm>
+		<button type="button" class="me-1 btn btn-light text-secondary" (click)="this.onComponentAdditionRequested.emit()">
+			Add TODO <i class="bi bi-plus-lg"></i>
+		</button>
+	</div>
 </div>

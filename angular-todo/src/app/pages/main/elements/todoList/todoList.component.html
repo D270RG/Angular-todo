@@ -6,17 +6,27 @@
 					{{ todo.name }}
 				</span>
 			</td>
-			<td>
-				<span class="table-container">
-					<span class="date-container">{{ todo.createdDate | date: 'dd MMM'}}</span>
-					<span class="date-container">{{ todo.createdDate | date: 'HH:mm'}}</span>
-				</span>
-			</td>
-			<td>
-				<span class="table-container">
-					<span class="date-container">{{ todo.updatedDate | date: 'dd MMM'}}</span>
-					<span class="date-container">{{ todo.updatedDate | date: 'HH:mm'}}</span>
-				</span>
+			<td class="date-cell">
+				<div class="cell-flex-container">
+					<div class="table-row-container">
+						<div class="date-container">
+							<div class="date-label">
+								<span>Created</span>
+							</div>
+							<div class="date-info">
+								<span>{{ todo.createdDate | date: 'dd MMM HH:mm'}}</span>
+							</div>
+						</div>
+						<div class="date-container">
+							<div class="date-label">
+								<span>Updated</span>
+							</div>
+						<div class="date-info">
+							<span>{{ todo.updatedDate | date: 'dd MMM HH:mm'}}</span>
+						</div>
+					</div>
+				</div>
+				</div>
 			</td>
 			<td class="tag-cell">
 				<collapsibleTagContainer [tags]="todo.tags" [initialLength]="6"></collapsibleTagContainer>

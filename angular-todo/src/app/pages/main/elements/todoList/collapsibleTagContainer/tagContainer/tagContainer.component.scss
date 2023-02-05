@@ -6,7 +6,6 @@
     @media screen and (max-width:map-get($grid-breakpoints, md)){
         max-width:40px;
     }
-    margin-bottom:4px;
     max-height:50px;
     overflow:hidden;
     white-space:nowrap; 
@@ -15,7 +14,6 @@
 }
 .tag-extra{
     @include tag;
-    margin-bottom:4px;
     max-height:50px;
     min-width:25px;
     white-space:nowrap; 
@@ -25,6 +23,7 @@
 .tag-container{
 	display:flex;
 	align-items:center;
+    justify-content: center;
 	flex-direction:row;
 	flex-wrap: wrap;
 	height:100%;

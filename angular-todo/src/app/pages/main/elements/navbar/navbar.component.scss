@@ -1,5 +1,23 @@
 .navbar{
     position:sticky;
-    justify-content: flex-end;
     top:0px;
+    display:flex;
+    flex-wrap:nowrap;
+    >.container-left{
+        width:50%;
+        height:100%;
+        display:flex;
+        justify-content: flex-start;
+        align-items:center;
+        >.text-container{
+            color:white;
+            margin:0px;
+        }
+    }
+    >.container-right{
+        width:50%;
+        height:100%;
+        display:flex;
+        justify-content: flex-end;
+    }
 }
