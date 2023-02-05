@@ -1,9 +1,14 @@
 <span class="tag-container">
     <span
-        *ngFor="let tag of this.tags | slice : 0 : this.maxLength"
-        [ngStyle]="{ background: tag.split('&').at(-1) }"
-        class="tag">
-        {{ tag.split("&").at(0) }}
+        *ngFor="let tag of this.renderedTags"
+        [ngStyle]="{ background: tag.color }"
+        class="tag" 
+        [ngbTooltip]="tag.text"
+        tooltipClass="custom-tooltip"
+        placement="bottom"
+        [animation]="true"
+        [openDelay]="200">
+        {{ tag.text }}
     </span>
-    <span *ngIf="this.tags.length > this.maxLength" class="tag-extra">..{{ this.tags.length - this.maxLength}} more</span>
+    <span *ngIf="this.tags.length > this.maxLength" class="tag-extra">{{ this.tags.length - this.maxLength}} more</span>
 </span>

@@ -1,4 +1,6 @@
 <div [class]="'mainpage'">
     <navbar (onComponentAdditionRequested)="emitEventToChild()"/>
-    <todoList [externalFormOpen]="eventsSubject.asObservable()"/>
+    <div [class]="'app-container'">
+        <todoList [externalFormOpen]="eventsSubject.asObservable()"/>
+    </div>
 </div>

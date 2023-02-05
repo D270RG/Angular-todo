@@ -1,0 +1,7 @@
+.mainpage{
+    overflow:hidden;
+    >.app-container{
+        overflow-y:auto;
+        height: calc(100vh - 50px)
+    }
+}
