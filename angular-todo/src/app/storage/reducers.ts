@@ -61,6 +61,7 @@ export const todoListReducer = createReducer(
 	}),
 
 	on(actions.setSortData, (state, action) => {
+		console.log('action: setting sort data', { ...action.sortData });
 		return {
 			...state,
 			sortParams: { ...action.sortData },

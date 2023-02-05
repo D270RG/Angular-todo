@@ -32,5 +32,8 @@ export interface IOperationError {
 //--Sort models
 export interface ISortData {
 	field: keyof ITodoElement;
-	direction: 'asc' | 'desc' | '';
+	direction: 'asc' | 'desc';
+}
+export interface IActiveSortData extends ISortData {
+	field: keyof Omit<ITodoElement, 'id' | 'comment' | 'link'>;
 }

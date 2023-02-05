@@ -20,7 +20,6 @@ export class editFormComponent extends addFormComponent {
 		super(store);
 	}
 	public override closeForm(event: Event): void {
-		console.log('close Form', event);
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
 				this.onClickboxClicked.emit();

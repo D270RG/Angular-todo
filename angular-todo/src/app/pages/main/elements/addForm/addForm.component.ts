@@ -34,6 +34,7 @@ export class addFormComponent implements OnInit {
 			tags: [],
 		});
 	}
+
 	public closeForm(event: Event): void {
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
@@ -86,6 +87,7 @@ export class addFormComponent implements OnInit {
 	public ngOnInit(): void {
 		this.resetForm();
 	}
+
 	protected formCreator(initialValue: IModelTodoCreateForm): FormGroup {
 		return new FormGroup({
 			name: new FormControl(initialValue.name, [

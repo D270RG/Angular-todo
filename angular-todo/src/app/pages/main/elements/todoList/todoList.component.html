@@ -1,7 +1,20 @@
-<table class="table table-light">
-	<button type="button" class="btn btn-transparent text-secondary" (click)="this.setFormVisible('add')">
+<div className='button-cell'>
+	<button type="button" class="btn btn-light text-secondary" (click)="this.setFormVisible('add')">
 		<i class="bi bi-plus-square-fill"></i>
 	</button>
+	<form [formGroup]="sortGroup">
+		<div class="form-group">
+			<select  (change)="submitSortAction()" class="form-control" formControlName="field">
+				<option *ngFor="let sortRecord of sortGroupOptions?.field | keyvalue" [value]="sortRecord.key">{{ sortRecord.value }}</option>
+			</select>
+			<select  (change)="submitSortAction()" class="form-control" formControlName="direction">
+				<option *ngFor="let sortRecord of sortGroupOptions?.direction | keyvalue" [value]="sortRecord.key">{{ sortRecord.value }}</option>
+			</select>
+		</div>
+	</form>
+</div>
+
+<table class="table table-light">
 	<tbody>
 		<tr class="todo-entry" *ngFor="let todo of todoListData" (click)="this.setFormVisible(todo.id)">
 			<td scope="row" class="name-container">

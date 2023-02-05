@@ -23,7 +23,6 @@ module.exports = {
 		'@typescript-eslint/explicit-function-return-type': 'error',
 		indent: ['off'],
 		'no-mixed-spaces-and-tabs': 0,
-		'linebreak-style': ['error', 'windows'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'always'],
 	},
