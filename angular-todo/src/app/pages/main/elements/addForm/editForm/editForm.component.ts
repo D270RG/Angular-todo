@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { TodoListInitialState } from 'src/app/storage/reducers';
 import * as Actions from 'src/app/storage/actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { toString, addFormComponent } from '../addForm.component';
+import { toString, AddFormComponent } from '../addForm.component';
 import { IModelTodoUpdateForm } from 'src/app/types';
 
 @Component({
@@ -11,7 +11,7 @@ import { IModelTodoUpdateForm } from 'src/app/types';
 	templateUrl: 'editForm.component.html',
 	styleUrls: ['../addForm.component.scss', './editForm.component.scss'],
 })
-export class editFormComponent extends addFormComponent {
+export class EditFormComponent extends AddFormComponent {
 	@Input() public id!: string;
 	@Input() public override initialValue!: IModelTodoUpdateForm;
 	public constructor(

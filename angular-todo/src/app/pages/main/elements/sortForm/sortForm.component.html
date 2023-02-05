@@ -1,0 +1,10 @@
+<form [formGroup]="sortGroup">
+    <div class="form-group" class="sort-input-container">
+        <select  (change)="submitSortAction()" class="form-control form-select" formControlName="field">
+            <option *ngFor="let sortRecord of sortGroupOptions?.field | keyvalue" [value]="sortRecord.key">{{ sortRecord.value }}</option>
+        </select>
+        <select  (change)="submitSortAction()" class="form-control form-select" formControlName="direction">
+            <option *ngFor="let sortRecord of sortGroupOptions?.direction | keyvalue" [value]="sortRecord.key">{{ sortRecord.value }}</option>
+        </select>
+    </div>
+</form>

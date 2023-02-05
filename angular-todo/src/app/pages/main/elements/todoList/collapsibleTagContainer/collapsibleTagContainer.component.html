@@ -1,0 +1,7 @@
+<div class="text-muted" *ngIf="tags.length===0">
+    No tags
+</div>
+<tagContainer [tags]="tags" [maxLength]="initialLength" class="tag-container d-none d-lg-block"></tagContainer>	
+<tagContainer [tags]="tags" [maxLength]="initialLength-1" class="tag-container d-none d-md-block d-lg-none"></tagContainer>	
+<tagContainer [tags]="tags" [maxLength]="initialLength-2" class="tag-container d-none d-sm-block d-md-none"></tagContainer>	
+<tagContainer [tags]="tags" [maxLength]="initialLength-3" class="tag-container d-block d-sm-none"></tagContainer>	

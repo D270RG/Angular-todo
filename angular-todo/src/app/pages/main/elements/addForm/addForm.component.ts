@@ -21,7 +21,7 @@ export function toString(value: number | string | Date): string {
 		'(document:keyup)': 'closeForm($event)',
 	},
 })
-export class addFormComponent implements OnInit {
+export class AddFormComponent implements OnInit {
 	public mainGroup!: FormGroup;
 	@Input() public initialValue!: IModelTodoCreateForm;
 	@Input() public visible!: boolean;

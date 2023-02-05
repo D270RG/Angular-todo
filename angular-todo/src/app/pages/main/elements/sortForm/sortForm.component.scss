@@ -1,0 +1,12 @@
+@import 'src/app/mixins.scss';
+.sort-input-container{
+    display:flex;
+    flex-direction: column;
+    @media screen and (min-width:map-get($grid-breakpoints, sm)){
+        flex-direction:row;
+	}
+    >select{
+        cursor:pointer;
+        margin-right:2px;
+    }
+}

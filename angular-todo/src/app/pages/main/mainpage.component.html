@@ -1,3 +1,4 @@
 <div [class]="'mainpage'">
-    <todoList/>
+    <navbar (onComponentAdditionRequested)="emitEventToChild()"/>
+    <todoList [externalFormOpen]="eventsSubject.asObservable()"/>
 </div>

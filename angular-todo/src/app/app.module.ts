@@ -17,10 +17,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainpageComponent } from './pages/main/mainpage.component';
 import { NotFoundComponent } from './pages/notFound/notFound.component';
 import { TodoListComponent } from './pages/main/elements/todoList/todoList.component';
-import { TagContainer } from './pages/main/elements/todoList/tagContainer/tagContainer.component';
-import { addFormComponent } from './pages/main/elements/addForm/addForm.component';
-import { editFormComponent } from './pages/main/elements/addForm/editForm/editForm.component';
+import { AddFormComponent } from './pages/main/elements/addForm/addForm.component';
+import { EditFormComponent } from './pages/main/elements/addForm/editForm/editForm.component';
 import { TagsComponent } from './pages/main/elements/addForm/tags/tags.component';
+import { SortFormComponent } from './pages/main/elements/sortForm/sortForm.component';
+import { NavbarComponent } from './pages/main/elements/navbar/navbar.component';
+import { TagContainer } from './pages/main/elements/todoList/collapsibleTagContainer/tagContainer/tagContainer.component';
+import { CollapsibleTagContainer } from './pages/main/elements/todoList/collapsibleTagContainer/collapsibleTagContainer.component';
 
 @NgModule({
 	declarations: [
@@ -29,11 +32,15 @@ import { TagsComponent } from './pages/main/elements/addForm/tags/tags.component
 		MainpageComponent,
 		NotFoundComponent,
 
+		NavbarComponent,
 		TodoListComponent,
 		TagContainer,
+		CollapsibleTagContainer,
 		TagsComponent,
-		addFormComponent,
-		editFormComponent,
+
+		AddFormComponent,
+		EditFormComponent,
+		SortFormComponent,
 	],
 	imports: [
 		BrowserModule,
