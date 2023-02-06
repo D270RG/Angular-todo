@@ -56,7 +56,7 @@ export class TodoListEffects {
 			ofType(actions.deleteEntry.type),
 			switchMap((action) =>
 				this.httpModule.deleteTodo(action.data.id).pipe(
-					map((loadedData) => actions.deleteEntrySuccess({ data: loadedData })),
+					map(() => actions.deleteEntrySuccess({ data: action.data.id })),
 					catchError((err) => of(actions.deleteEntryError({ error: err })))
 				)
 			)

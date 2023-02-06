@@ -1,8 +1,13 @@
+@import 'src/app/mixins.scss';
 .navbar{
     position:sticky;
     top:0px;
     display:flex;
-    flex-wrap:nowrap;
+    flex-wrap:wrap;
+    @media screen and (max-width:map-get($grid-breakpoints, sm)){
+        height:90px;
+    }
+    height:55px;
     >.container-left{
         width:50%;
         height:100%;
@@ -19,5 +24,13 @@
         height:100%;
         display:flex;
         justify-content: flex-end;
+    }
+}
+.nav-button{
+    height:100%;
+    >.nav-button-text{
+        white-space: nowrap;
+        display:flex;
+        flex-direction: row;
     }
 }

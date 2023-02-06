@@ -22,17 +22,20 @@ export class EditFormComponent extends AddFormComponent {
 	public override closeForm(event: Event): void {
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
-				this.onClickboxClicked.emit();
 				this.mainGroup = this.formCreator(this.initialValue);
+				this.onClickboxClicked.emit();
 			}
 		} else {
+			console.log(event);
 			if (
 				event instanceof MouseEvent ||
 				event instanceof TouchEvent ||
 				event instanceof PointerEvent
-			)
+			) {
+				event.stopPropagation();
+				this.mainGroup = this.formCreator(this.initialValue);
 				this.onClickboxClicked.emit();
-			this.mainGroup = this.formCreator(this.initialValue);
+			}
 		}
 	}
 	public override ngOnInit(): void {

@@ -44,3 +44,21 @@
 	top:1rem;
 	right:1rem;
 }
+.link-input{
+	display:flex;
+	flex-direction:row;
+	>.link-nav{
+		display:flex;
+		align-items: center;
+		justify-content: center;
+		border-top-right-radius: 0px !important;
+		border-bottom-right-radius: 0px !important;
+		border-radius:5px;
+		background-color:rgb(231, 231, 231);
+		padding:8px;
+	}
+	>input{
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+	}
+}

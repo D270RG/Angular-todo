@@ -31,9 +31,21 @@
 			<td class="tag-cell">
 				<collapsibleTagContainer [tags]="todo.tags" [initialLength]="6"></collapsibleTagContainer>
 			</td>	
-			<td class="button-cell" (click)="$event.stopPropagation()">
+			<td class="button-cell">
 				<div class="button-cell-container">
-					<button type="button" class="btn btn-light text-danger" (click)="this.deleteForm(todo.id)">
+					<a [attr.href]="'https://'+todo.link" target="_blank" *ngIf="todo.link !== ''" (click)="$event.stopPropagation()">
+						<button type="button" class="btn btn-light text-primary">
+							<i class="bi bi-link-45deg"></i>
+						</button>
+					</a>
+					<button *ngIf="todo.comment !== ''" 
+							type="button" 
+							class="btn btn-light text-secondary" 
+							(click)="this.setFormVisible(todo.id); 
+									 $event.stopPropagation()">
+						<i class="bi bi-chat-right-text"></i>
+					</button>
+					<button type="button" class="btn btn-light text-danger" (click)="this.deleteForm(todo.id); $event.stopPropagation()">
 						<i class="bi bi-trash"></i>
 					</button>
 				</div>

@@ -8,9 +8,9 @@
           (mouseup)="formClick($event)">
 
         <div class="form-placeholder"></div>
-        <button (click)="this.closeForm($event)" class="form-close btn btn-transparent"><i class="bi bi-x-lg"></i></button>
+        <button type="button" (click)="this.closeForm($event)" class="form-close btn btn-transparent"><i class="bi bi-x-lg"></i></button>
         
-        <div class="mb-4"><h4>Edit TODO</h4></div>
+        <div class="mb-4"><h4>TODO</h4></div>
 
         <div>
             <label>Name</label>
@@ -27,7 +27,10 @@
 
         <div>
             <label>Link</label>
-            <input type="text" formControlName="link" class="form-control"/>
+            <div class="link-input">
+                <span class="link-nav">https:// </span>
+                <input type="text" formControlName="link" class="form-control"/>
+            </div>
         </div>
 
         <form class="form-group" formGroupName="tagsGroup" (ngSubmit)="submitTag()">

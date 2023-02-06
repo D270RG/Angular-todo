@@ -27,7 +27,6 @@ export class TodoListComponent implements OnInit {
 			select(Selectors.selectSortedTodoList)
 		);
 	}
-
 	public setFormVisible(value: string): void {
 		this.formVisible = value;
 	}

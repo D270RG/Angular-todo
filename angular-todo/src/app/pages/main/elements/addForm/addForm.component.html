@@ -30,7 +30,10 @@
 
         <div>
             <label>Add link</label>
-            <input type="text" formControlName="link" class="form-control"/>
+            <div class="link-input">
+                <span class="link-nav">https:// </span>
+                <input type="text" formControlName="link" class="form-control"/>
+            </div>
         </div>
 
         <form class="form-group" formGroupName="tagsGroup" (ngSubmit)="submitTag()">

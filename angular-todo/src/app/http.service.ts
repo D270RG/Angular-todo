@@ -10,8 +10,8 @@ import { catchError, throwError, retry, Observable } from 'rxjs';
 type HttpResponse = Observable<any>;
 @Injectable()
 export class HttpService {
-	constructor(private http: HttpClient) {}
-	private handleError(error: HttpErrorResponse) {
+	public constructor(private http: HttpClient) {}
+	private handleError(error: HttpErrorResponse): Observable<Error> {
 		if (error.status === 0) {
 			console.error('An error occurred:', error.error);
 		} else {
@@ -24,36 +24,39 @@ export class HttpService {
 			() => new Error('Something bad happened; please try again later.')
 		);
 	}
-	getData<T>(url: string): HttpResponse {
-		return this.http.get<T>(url);
+	public getData<T>(url: string): HttpResponse {
+		return this.http.get<T>(url).pipe(catchError(this.handleError));
 	}
-	postData(url: string, data: string | Object | JSON): HttpResponse {
+	public postData(url: string, data: string | object | JSON): HttpResponse {
 		return this.http.post(url, data).pipe(catchError(this.handleError));
 	}
 }
 @Injectable()
 export class HttpModule {
-	serverUrl = 'http://localhost:3000/api';
-	urls = {
+	private serverUrl = 'http://localhost:3000/api';
+	private urls = {
 		getUrl: 'get-garbages',
 		removeUrl: 'remove-garbage',
 		updateUrl: 'update-garbage',
 		createUrl: 'create-garbage',
 	};
-	constructor(private httpService: HttpService) {}
-	getTodos(): Observable<IModelTodoGet[]> {
+
+	public constructor(private httpService: HttpService) {}
+	public getTodos(): Observable<IModelTodoGet[]> {
 		return this.httpService.getData<IModelTodoGet[]>(
 			`${this.serverUrl}/${this.urls.getUrl}`
 		);
 	}
-	createTodo(todoContent: IModelTodoCreateForm): Observable<IModelTodoGet> {
+	public createTodo(
+		todoContent: IModelTodoCreateForm
+	): Observable<IModelTodoGet> {
 		console.log('posting', todoContent);
 		return this.httpService.postData(
 			`${this.serverUrl}/${this.urls.createUrl}`,
 			todoContent
 		);
 	}
-	updateTodo(
+	public updateTodo(
 		id: string,
 		todoContent: IModelTodoUpdateForm
 	): Observable<IModelTodoGet> {
@@ -62,7 +65,7 @@ export class HttpModule {
 			todoContent
 		);
 	}
-	deleteTodo(id: string): Observable<string> {
+	public deleteTodo(id: string): Observable<string> {
 		return this.httpService.getData(
 			`${this.serverUrl}/${this.urls.removeUrl}/${id}`
 		);

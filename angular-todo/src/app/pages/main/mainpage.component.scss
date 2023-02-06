@@ -1,7 +1,12 @@
+@import 'src/app/mixins.scss';
+
 .mainpage{
     overflow:hidden;
     >.app-container{
-        overflow-y:auto;
-        height: calc(100vh - 50px)
+        @media screen and (max-width:map-get($grid-breakpoints, sm)){
+            height:calc(100vh - 90px);
+        }
+        height:calc(100vh - 55px);
+        overflow:auto;
     }
 }
