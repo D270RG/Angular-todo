@@ -1,3 +1,8 @@
+@import '../editForm/editForm.component.scss';
 .comment-field{
     min-height:200px;
+}
+.button-container{
+	@include button-container();
+	margin-top:1rem;
 }

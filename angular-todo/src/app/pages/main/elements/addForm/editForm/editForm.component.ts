@@ -11,7 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
 	selector: 'editForm',
 	templateUrl: 'editForm.component.html',
-	styleUrls: ['../addForm.component.scss', './editForm.component.scss'],
+	styleUrls: ['../addForm.component.scss'],
 })
 export class EditFormComponent extends AddFormComponent {
 	private initialValueObservable$: Observable<ITodoElement | undefined>;

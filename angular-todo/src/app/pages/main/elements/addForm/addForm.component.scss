@@ -22,8 +22,7 @@
 	overflow:auto;
 }
 .button-container{
-	@include button-container();
-	margin-top:1rem;
+	@include button-container()
 }
 .form-control{
 	margin:0px;
