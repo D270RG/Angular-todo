@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/storage/reducers';
 import * as Actions from 'src/app/storage/actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IModelTodoCreateForm } from 'src/app/types';
+import { formVisibility, IModelTodoCreateForm } from 'src/app/types';
 import { ETagDelete } from './tags/tags.component';
 
 export function toString(value: number | string | Date): string {
@@ -23,7 +23,7 @@ export function toString(value: number | string | Date): string {
 })
 export class AddFormComponent implements OnInit {
 	private mainGroup!: FormGroup;
-	@Input() public activeId: string | undefined;
+	@Input() public activeId: formVisibility;
 	@Output() public onClickboxClicked: EventEmitter<Event> = new EventEmitter();
 
 	public constructor(public store: Store<RootState>) {}

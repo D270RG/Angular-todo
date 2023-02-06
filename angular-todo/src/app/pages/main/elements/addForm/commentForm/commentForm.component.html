@@ -1,0 +1,24 @@
+<div class="clickbox" tabindex="0"
+                      *ngIf="this.activeId?.type==='comment'" 
+                      (touchend)="this.closeForm($event)">
+    <form class="clickbox-form form-group bg-light rounded needs-validation" 
+          [formGroup]="this.getMainGroup()" 
+          (ngSubmit)="submitMain()" 
+          (touchend)="formClick($event)"
+          (mouseup)="formClick($event)">
+
+        <div class="form-placeholder"></div>
+        <button type="button" (click)="this.closeForm($event)" class="form-close btn btn-transparent"><i class="bi bi-x-lg"></i></button>
+        
+        <div class="mb-4"><h4>Comment</h4></div>
+
+        <div>
+            <textarea type="text" formControlName="comment" class="form-control comment-field"></textarea>
+        </div>
+
+        <span class="button-container">
+            <button class="btn btn-primary primary-submit" type="submit">Submit</button>
+            <button class="btn btn-secondary main-submit" (click)="this.closeForm($event)" type="button">Cancel</button>
+        </span>
+    </form>
+</div>

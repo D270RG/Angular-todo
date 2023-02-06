@@ -37,3 +37,11 @@ export interface ISortData {
 export interface IActiveSortData extends ISortData {
 	field: keyof Omit<ITodoElement, 'id' | 'comment' | 'link'>;
 }
+
+//--Types
+export type formVisibility =
+	| {
+			id: undefined | string;
+			type: 'comment' | 'add' | 'edit';
+	  }
+	| undefined;

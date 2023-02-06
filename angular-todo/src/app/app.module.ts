@@ -24,6 +24,7 @@ import { SortFormComponent } from './pages/main/elements/sortForm/sortForm.compo
 import { NavbarComponent } from './pages/main/elements/navbar/navbar.component';
 import { TagContainer } from './pages/main/elements/todoList/collapsibleTagContainer/tagContainer/tagContainer.component';
 import { CollapsibleTagContainer } from './pages/main/elements/todoList/collapsibleTagContainer/collapsibleTagContainer.component';
+import { CommentFormComponent } from './pages/main/elements/addForm/commentForm/commentForm.component';
 
 @NgModule({
 	declarations: [
@@ -41,6 +42,7 @@ import { CollapsibleTagContainer } from './pages/main/elements/todoList/collapsi
 		AddFormComponent,
 		EditFormComponent,
 		SortFormComponent,
+		CommentFormComponent,
 	],
 	imports: [
 		BrowserModule,

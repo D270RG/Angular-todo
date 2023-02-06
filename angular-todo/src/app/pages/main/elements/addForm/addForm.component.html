@@ -1,5 +1,5 @@
 <div class="clickbox" tabindex="0"
-                      *ngIf="this.activeId==='add'"
+                      *ngIf="this.activeId?.type==='add'"
                       (touchend)="this.closeForm($event)">
     <form class="clickbox-form form-group bg-light rounded needs-validation" 
           [formGroup]="this.getMainGroup()" 

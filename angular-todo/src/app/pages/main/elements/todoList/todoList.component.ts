@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ITodoElement } from 'src/app/types';
+import { formVisibility, ITodoElement } from 'src/app/types';
 import { select, Store } from '@ngrx/store';
 import * as Actions from 'src/app/storage/actions';
 import * as Selectors from 'src/app/storage/selectors';
 import { RootState } from 'src/app/storage/reducers';
 import { Observable, Subscription } from 'rxjs';
 
-type formVisibility = undefined | string;
 @Component({
 	selector: 'todoList',
 	templateUrl: 'todoList.component.html',
@@ -34,10 +33,11 @@ export class TodoListComponent implements OnInit {
 	public getFormVisibility(): formVisibility {
 		return this.activeForm;
 	}
-	public setFormVisible(value: string | undefined): void {
+	public setFormVisible(value: formVisibility): void {
+		console.log('setting form visibility', value);
 		this.activeForm = value;
 	}
-	public getActiveForm(): string | undefined {
+	public getActiveForm(): formVisibility {
 		return this.activeForm;
 	}
 
@@ -54,7 +54,9 @@ export class TodoListComponent implements OnInit {
 			})
 		);
 		this.subscriptions.push(
-			this.externalFormOpen.subscribe(() => this.setFormVisible('add'))
+			this.externalFormOpen.subscribe(() =>
+				this.setFormVisible({ id: undefined, type: 'add' })
+			)
 		);
 
 		this.store.dispatch(Actions.getData());

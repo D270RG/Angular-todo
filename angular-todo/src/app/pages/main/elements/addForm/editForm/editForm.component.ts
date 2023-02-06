@@ -28,21 +28,24 @@ export class EditFormComponent extends AddFormComponent {
 			}
 		);
 	}
-	public resubscribe(id: string): void {
+	public resubscribe(id: string | undefined): void {
 		console.log('resubscribe to', id);
-		this.initialValueSubscription.unsubscribe();
-		this.initialValueObservable$ = this.store.pipe(
-			select(Selectors.selectTodoById(id))
-		);
-		this.initialValueSubscription = this.initialValueObservable$.subscribe(
-			(initialValue: ITodoElement | undefined) => {
-				this.initialValue = initialValue;
-			}
-		);
+		console.log('active id', this.activeId);
+		if (id) {
+			this.initialValueSubscription.unsubscribe();
+			this.initialValueObservable$ = this.store.pipe(
+				select(Selectors.selectTodoById(id))
+			);
+			this.initialValueSubscription = this.initialValueObservable$.subscribe(
+				(initialValue: ITodoElement | undefined) => {
+					this.initialValue = initialValue;
+				}
+			);
+		}
 	}
 	public ngOnChanges(): void {
 		if (this.activeId !== undefined) {
-			this.resubscribe(this.activeId);
+			this.resubscribe(this.activeId?.id);
 			this.setMainGroup(this.editFormCreator());
 		}
 	}
@@ -53,7 +56,6 @@ export class EditFormComponent extends AddFormComponent {
 				this.onClickboxClicked.emit();
 			}
 		} else {
-			console.log(event);
 			if (
 				event instanceof MouseEvent ||
 				event instanceof TouchEvent ||
@@ -70,7 +72,6 @@ export class EditFormComponent extends AddFormComponent {
 	}
 	protected editFormCreator(): FormGroup {
 		if (this.initialValue) {
-			console.log('creating form', this.initialValue);
 			return this.formCreator(this.initialValue);
 		} else {
 			return this.formCreator({
@@ -82,10 +83,10 @@ export class EditFormComponent extends AddFormComponent {
 		}
 	}
 	protected override submitMainAction(): void {
-		if (this.initialValue && this.activeId)
+		if (this.initialValue && this.activeId?.id)
 			this.store.dispatch(
 				Actions.updateEntry({
-					id: this.activeId,
+					id: this.activeId.id,
 					data: {
 						name: toString(this.getMainGroup().get('name')?.value),
 						link: toString(this.getMainGroup().get('link')?.value),

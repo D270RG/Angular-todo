@@ -28,7 +28,6 @@ const selectState = (state: RootState): TodoListInitialState =>
 
 //--Secondary selectors (2)--
 export const selectTodoEntities = createSelector(selectState, (state) => {
-	console.log(state);
 	return state.todoList.entities;
 });
 export const selectSortParameters = createSelector(
@@ -60,3 +59,11 @@ export const selectSortedTodoList = createSelector(
 	selectSortParameters,
 	(todoValues, sortParams) => todoValues.sort(createSortComparer(sortParams))
 );
+//--Special selectors(4)--
+export const selectTodoCommentById = (
+	id: string
+): MemoizedSelector<
+	RootState,
+	string | undefined,
+	(s1: ITodoElement | undefined) => string | undefined
+> => createSelector(selectTodoById(id), (todoEntry) => todoEntry?.comment);
