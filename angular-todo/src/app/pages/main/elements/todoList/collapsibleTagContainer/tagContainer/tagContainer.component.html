@@ -1,7 +1,7 @@
 <span class="tag-container">
     <span
         *ngFor="let tag of this.renderedTags"
-        [ngStyle]="{ background: tag.color }"
+        [ngStyle]="{ 'background-color': tag.color }"
         class="tag" 
         [ngbTooltip]="tag.text"
         tooltipClass="custom-tooltip"

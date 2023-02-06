@@ -39,19 +39,16 @@
         <form class="form-group" formGroupName="tagsGroup" (ngSubmit)="submitTag()">
             <label>Add tag</label>
             <span class="button-container">
-                <input [class.inputError]="this.getMainGroup().get('tags')!.errors" type="text" formControlName="tagForm" class="form-control"/>
+                <input [class.inputError]="this.getMainGroup().get('tagsGroup.tagForm')!.errors && !this.getMainGroup().get('tagsGroup.tagForm')!.errors?.['required']" type="text" formControlName="tagForm" class="form-control"/>
                 <input type="color" formControlName="tagColor" class="form-control color-input"/>
                 <button class="btn btn-secondary tag-add-button" type="submit"><i class="bi bi-plus-square"></i></button>
             </span> 
-            <div class="text-danger" *ngIf="this.getMainGroup().get('tags')!.errors?.['required']">
-                Tagname required
-            </div>
-            <div class="text-danger" *ngIf="this.getMainGroup().get('tags')!.errors?.['maxlength']">
+            <div class="text-danger" *ngIf="this.getMainGroup().get('tagsGroup.tagForm')!.errors?.['maxlength']">
                 Exceeded 64 symbol limit for a tag
             </div>
         </form>
 
-        <tags (deleteTagEvent)="this.deleteTag($event)" [tags]=" this.getMainGroup().get('tags')!.value"/>
+        <tags (deleteTagEvent)="this.deleteTag($event)" [tags]="this.getMainGroup().get('tags')!.value"/>
 
         <span class="button-container">
             <button class="btn btn-primary main-submit" type="submit">Submit</button>
