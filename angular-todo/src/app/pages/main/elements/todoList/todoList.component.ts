@@ -4,32 +4,43 @@ import { select, Store } from '@ngrx/store';
 import * as Actions from 'src/app/storage/actions';
 import * as Selectors from 'src/app/storage/selectors';
 import { RootState } from 'src/app/storage/reducers';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
+type formVisibility = undefined | string;
 @Component({
 	selector: 'todoList',
 	templateUrl: 'todoList.component.html',
 	styleUrls: ['todoList.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-	public todoListData = <ITodoElement[]>[];
-	public formVisible: string;
+	private todoListData = <ITodoElement[]>[];
+	private activeForm: formVisibility;
+
 	@Input() public externalFormOpen!: Observable<void>;
 	public todoListDataObservable$;
 
 	private subscriptions: Subscription[];
 
 	public constructor(private store: Store<RootState>) {
-		this.formVisible = 'none';
+		this.activeForm = undefined;
 		this.subscriptions = [];
 		this.todoListDataObservable$ = this.store.pipe(
-			tap(console.log),
 			select(Selectors.selectSortedTodoList)
 		);
 	}
-	public setFormVisible(value: string): void {
-		this.formVisible = value;
+	public getTodoListData(): ITodoElement[] {
+		return this.todoListData;
 	}
+	public getFormVisibility(): formVisibility {
+		return this.activeForm;
+	}
+	public setFormVisible(value: string | undefined): void {
+		this.activeForm = value;
+	}
+	public getActiveForm(): string | undefined {
+		return this.activeForm;
+	}
+
 	public deleteForm(id: string): void {
 		this.store.dispatch(Actions.deleteEntry({ data: { id: id } }));
 	}

@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { TodoListInitialState } from 'src/app/storage/reducers';
+import { Component } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { RootState } from 'src/app/storage/reducers';
 import * as Actions from 'src/app/storage/actions';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { toString, AddFormComponent } from '../addForm.component';
-import { IModelTodoUpdateForm } from 'src/app/types';
+import { ITodoElement } from 'src/app/types';
+import * as Selectors from 'src/app/storage/selectors';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
 	selector: 'editForm',
@@ -12,17 +14,42 @@ import { IModelTodoUpdateForm } from 'src/app/types';
 	styleUrls: ['../addForm.component.scss', './editForm.component.scss'],
 })
 export class EditFormComponent extends AddFormComponent {
-	@Input() public id!: string;
-	@Input() public override initialValue!: IModelTodoUpdateForm;
-	public constructor(
-		public override store: Store<typeof TodoListInitialState>
-	) {
+	private initialValueObservable$: Observable<ITodoElement | undefined>;
+	private initialValueSubscription: Subscription;
+	private initialValue: ITodoElement | undefined;
+	public constructor(public override store: Store<RootState>) {
 		super(store);
+		this.initialValueObservable$ = this.store.pipe(
+			select(Selectors.selectTodoById('0'))
+		);
+		this.initialValueSubscription = this.initialValueObservable$.subscribe(
+			(initialValue: ITodoElement | undefined) => {
+				this.initialValue = initialValue;
+			}
+		);
+	}
+	public resubscribe(id: string): void {
+		console.log('resubscribe to', id);
+		this.initialValueSubscription.unsubscribe();
+		this.initialValueObservable$ = this.store.pipe(
+			select(Selectors.selectTodoById(id))
+		);
+		this.initialValueSubscription = this.initialValueObservable$.subscribe(
+			(initialValue: ITodoElement | undefined) => {
+				this.initialValue = initialValue;
+			}
+		);
+	}
+	public ngOnChanges(): void {
+		if (this.activeId !== undefined) {
+			this.resubscribe(this.activeId);
+			this.setMainGroup(this.editFormCreator());
+		}
 	}
 	public override closeForm(event: Event): void {
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
-				this.mainGroup = this.formCreator(this.initialValue);
+				this.setMainGroup(this.editFormCreator());
 				this.onClickboxClicked.emit();
 			}
 		} else {
@@ -33,46 +60,41 @@ export class EditFormComponent extends AddFormComponent {
 				event instanceof PointerEvent
 			) {
 				event.stopPropagation();
-				this.mainGroup = this.formCreator(this.initialValue);
+				this.setMainGroup(this.editFormCreator());
 				this.onClickboxClicked.emit();
 			}
 		}
 	}
 	public override ngOnInit(): void {
-		this.mainGroup = this.formCreator(this.initialValue);
+		this.setMainGroup(this.editFormCreator());
 	}
-	protected override formCreator(
-		initialValue: IModelTodoUpdateForm
-	): FormGroup {
-		return new FormGroup({
-			name: new FormControl(initialValue.name, [Validators.minLength(3)]),
-			comment: new FormControl(initialValue.comment),
-			link: new FormControl(initialValue.link),
-			tags: new FormControl(initialValue.tags),
-
-			tagsGroup: new FormGroup({
-				tagForm: new FormControl(null, [
-					Validators.required,
-					Validators.minLength(1),
-					Validators.maxLength(64),
-				]),
-				tagColor: new FormControl('#343a40'),
-			}),
-		});
+	protected editFormCreator(): FormGroup {
+		if (this.initialValue) {
+			console.log('creating form', this.initialValue);
+			return this.formCreator(this.initialValue);
+		} else {
+			return this.formCreator({
+				name: '',
+				comment: '',
+				link: '',
+				tags: [],
+			});
+		}
 	}
 	protected override submitMainAction(): void {
-		this.store.dispatch(
-			Actions.updateEntry({
-				id: this.id,
-				data: {
-					name: toString(this.mainGroup.get('name')?.value),
-					link: toString(this.mainGroup.get('link')?.value),
-					createdDate: this.initialValue.createdDate,
-					updatedDate: new Date().toISOString(),
-					comment: toString(this.mainGroup.get('comment')?.value),
-					tags: this.mainGroup.get('tags')?.value,
-				},
-			})
-		);
+		if (this.initialValue && this.activeId)
+			this.store.dispatch(
+				Actions.updateEntry({
+					id: this.activeId,
+					data: {
+						name: toString(this.getMainGroup().get('name')?.value),
+						link: toString(this.getMainGroup().get('link')?.value),
+						createdDate: this.initialValue.createdDate,
+						updatedDate: new Date().toISOString(),
+						comment: toString(this.getMainGroup().get('comment')?.value),
+						tags: this.getMainGroup().get('tags')?.value,
+					},
+				})
+			);
 	}
 }

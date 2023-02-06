@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TodoListInitialState } from 'src/app/storage/reducers';
+import { RootState } from 'src/app/storage/reducers';
 import * as Actions from 'src/app/storage/actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IModelTodoCreateForm } from 'src/app/types';
@@ -22,10 +22,20 @@ export function toString(value: number | string | Date): string {
 	},
 })
 export class AddFormComponent implements OnInit {
-	public mainGroup!: FormGroup;
-	@Input() public initialValue!: IModelTodoCreateForm;
-	@Input() public visible!: boolean;
+	private mainGroup!: FormGroup;
+	@Input() public activeId: string | undefined;
 	@Output() public onClickboxClicked: EventEmitter<Event> = new EventEmitter();
+
+	public constructor(public store: Store<RootState>) {}
+	public ngOnInit(): void {
+		this.resetForm();
+	}
+	public getMainGroup(): FormGroup {
+		return this.mainGroup;
+	}
+	public setMainGroup(formGroup: FormGroup): void {
+		this.mainGroup = formGroup;
+	}
 	public resetForm(): void {
 		this.mainGroup = this.formCreator({
 			name: '',
@@ -34,7 +44,6 @@ export class AddFormComponent implements OnInit {
 			tags: [],
 		});
 	}
-
 	public closeForm(event: Event): void {
 		if (event instanceof KeyboardEvent) {
 			if (event.keyCode === 27) {
@@ -61,7 +70,6 @@ export class AddFormComponent implements OnInit {
 	public formClick(event: MouseEvent | TouchEvent): void {
 		event.stopPropagation();
 	}
-	public constructor(public store: Store<typeof TodoListInitialState>) {}
 	public submitMain(): void {
 		if (this.mainGroup) {
 			const nameErrors = this.mainGroup.get('name')?.errors;
@@ -84,11 +92,8 @@ export class AddFormComponent implements OnInit {
 			this.submitTagAction();
 		}
 	}
-	public ngOnInit(): void {
-		this.resetForm();
-	}
-
 	protected formCreator(initialValue: IModelTodoCreateForm): FormGroup {
+		console.log('creating form', initialValue);
 		return new FormGroup({
 			name: new FormControl(initialValue.name, [
 				Validators.required,

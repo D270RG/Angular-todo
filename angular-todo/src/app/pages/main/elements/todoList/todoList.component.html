@@ -1,6 +1,6 @@
 <table class="table table-light">
 	<tbody>
-		<tr class="todo-entry" *ngFor="let todo of todoListData" (click)="this.setFormVisible(todo.id)">
+		<tr class="todo-entry" *ngFor="let todo of getTodoListData()" (click)="this.setFormVisible(todo.id)">
 			<td scope="row" class="name-container">
 				<span class="table-container">
 					{{ todo.name }}
@@ -49,9 +49,11 @@
 						<i class="bi bi-trash"></i>
 					</button>
 				</div>
-				<editForm [id]="todo.id" [initialValue]="todo" [visible]="this.formVisible===todo.id" (onClickboxClicked)="this.setFormVisible('none')"/>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<addForm [visible]="this.formVisible==='add'" (onClickboxClicked)="this.setFormVisible('none')"/>
+<editForm [activeId]="this.getActiveForm()" 
+		  (onClickboxClicked)="this.setFormVisible(undefined)"/>
+<addForm [activeId]="this.getActiveForm()" 
+		 (onClickboxClicked)="this.setFormVisible(undefined)"/>
