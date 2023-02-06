@@ -1,14 +1,18 @@
 <span class="tag-container">
-    <span
-        *ngFor="let tag of this.renderedTags"
-        [ngStyle]="{ 'background-color': tag.color }"
-        class="tag" 
-        [ngbTooltip]="tag.text"
-        tooltipClass="custom-tooltip"
-        placement="bottom"
-        [animation]="true"
-        [openDelay]="200">
-        {{ tag.text }}
-    </span>
-    <span *ngIf="this.tags.length > this.maxLength" class="tag-extra">{{ this.tags.length - this.maxLength}} more</span>
+	<span
+		*ngFor="let tag of this.renderedTags"
+		[ngStyle]="{ 'background-color': tag.color }"
+		class="tag"
+		[ngbTooltip]="tag.text"
+		tooltipClass="custom-tooltip"
+		placement="bottom"
+		[animation]="true"
+		[openDelay]="200">
+		{{ tag.text }}
+	</span>
+	<span
+		*ngIf="this.tags.length > this.maxLength"
+		class="tag-extra"
+		>{{ this.tags.length - this.maxLength }} more</span
+	>
 </span>

@@ -1,7 +1,12 @@
 <table class="table table-light">
 	<tbody>
-		<tr class="todo-entry" *ngFor="let todo of getTodoListData()" (click)="this.setFormVisible({id:todo.id,type:'edit'})">
-			<td scope="row" class="name-container">
+		<tr
+			class="todo-entry"
+			*ngFor="let todo of getTodoListData()"
+			(click)="this.setFormVisible({ id: todo.id, type: 'edit' })">
+			<td
+				scope="row"
+				class="name-container">
 				<span class="table-container">
 					{{ todo.name }}
 				</span>
@@ -14,38 +19,52 @@
 								<span>Created</span>
 							</div>
 							<div class="date-info">
-								<span>{{ todo.createdDate | date: 'dd MMM HH:mm'}}</span>
+								<span>{{ todo.createdDate | date : 'dd MMM HH:mm' }}</span>
 							</div>
 						</div>
 						<div class="date-container">
 							<div class="date-label">
 								<span>Updated</span>
 							</div>
-						<div class="date-info">
-							<span>{{ todo.updatedDate | date: 'dd MMM HH:mm'}}</span>
+							<div class="date-info">
+								<span>{{ todo.updatedDate | date : 'dd MMM HH:mm' }}</span>
+							</div>
 						</div>
 					</div>
 				</div>
-				</div>
 			</td>
 			<td class="tag-cell">
-				<collapsibleTagContainer [tags]="todo.tags" [initialLength]="6"></collapsibleTagContainer>
-			</td>	
+				<collapsibleTagContainer
+					[tags]="todo.tags"
+					[initialLength]="6"></collapsibleTagContainer>
+			</td>
 			<td class="button-cell">
 				<div class="button-cell-container">
-					<a [attr.href]="'https://'+todo.link" target="_blank" *ngIf="todo.link !== ''" (click)="$event.stopPropagation()">
-						<button type="button" class="btn btn-light text-primary">
+					<a
+						[attr.href]="'https://' + todo.link"
+						target="_blank"
+						*ngIf="todo.link !== ''"
+						(click)="$event.stopPropagation()">
+						<button
+							type="button"
+							class="btn btn-light text-primary">
 							<i class="bi bi-link-45deg"></i>
 						</button>
 					</a>
-					<button *ngIf="todo.comment !== ''" 
-							type="button" 
-							class="btn btn-light text-secondary" 
-							(click)="this.setFormVisible({id:todo.id,type:'comment'}); 
-									 $event.stopPropagation()">
+					<button
+						*ngIf="todo.comment !== ''"
+						type="button"
+						class="btn btn-light text-secondary"
+						(click)="
+							this.setFormVisible({ id: todo.id, type: 'comment' });
+							$event.stopPropagation()
+						">
 						<i class="bi bi-chat-right-text"></i>
 					</button>
-					<button type="button" class="btn btn-light text-danger" (click)="this.deleteForm(todo.id); $event.stopPropagation()">
+					<button
+						type="button"
+						class="btn btn-light text-danger"
+						(click)="this.deleteForm(todo.id); $event.stopPropagation()">
 						<i class="bi bi-trash"></i>
 					</button>
 				</div>
@@ -53,9 +72,12 @@
 		</tr>
 	</tbody>
 </table>
-<editForm [activeId]="this.getActiveForm()" 
-		  (onClickboxClicked)="this.setFormVisible(undefined)"/>
-<addForm [activeId]="this.getActiveForm()" 
-		 (onClickboxClicked)="this.setFormVisible(undefined)"/>
-<commentForm [activeId]="this.getActiveForm()" 
-		 (onClickboxClicked)="this.setFormVisible(undefined)"/>
+<editForm
+	[activeId]="this.getActiveForm()"
+	(onClickboxClicked)="this.setFormVisible(undefined)"></editForm>
+<addForm
+	[activeId]="this.getActiveForm()"
+	(onClickboxClicked)="this.setFormVisible(undefined)"></addForm>
+<commentForm
+	[activeId]="this.getActiveForm()"
+	(onClickboxClicked)="this.setFormVisible(undefined)"></commentForm>

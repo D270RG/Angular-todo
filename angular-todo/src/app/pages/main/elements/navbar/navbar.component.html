@@ -1,11 +1,14 @@
-<div class='navbar navbar-dark bg-dark'>
-	<div class='container-left'>
+<div class="navbar navbar-dark bg-dark">
+	<div class="container-left">
 		<h5 class="mx-3 text-container">&lt;TODO List&gt;</h5>
 	</div>
-	<div class='container-right'>
+	<div class="container-right">
 		<sortForm class="mx-1"></sortForm>
-		<button type="button" class="me-1 btn btn-light text-secondary nav-button" (click)="this.onComponentAdditionRequested.emit()">
-			<span class="nav-button-text">Add TODO</span> 
+		<button
+			type="button"
+			class="me-1 btn btn-light text-secondary nav-button"
+			(click)="this.onComponentAdditionRequested.emit()">
+			<span class="nav-button-text">Add TODO</span>
 		</button>
 	</div>
 </div>
