@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/storage/reducers.root';
 import * as modalActions from 'src/app/storage/actions.modal';
@@ -20,8 +20,15 @@ export class ModalComponent {
 		type: FormType;
 		id: string;
 	};
-	@Output() public onClickboxClicked: EventEmitter<Event> = new EventEmitter();
-	public constructor(public store: Store<RootState>) {}
+	public locAlias: Map<FormType, string>;
+
+	public constructor(public store: Store<RootState>) {
+		this.locAlias = new Map([
+			['add', 'Add TODO'],
+			['edit', 'Edit TODO'],
+			['comment', 'Comment'],
+		]);
+	}
 	public formClick(event: MouseEvent | TouchEvent): void {
 		event.stopPropagation();
 	}
