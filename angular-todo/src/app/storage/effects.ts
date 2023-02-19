@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as actions from 'src/app/storage/actions';
+import * as todoListActions from './actions.todoList';
 import { of } from 'rxjs';
 import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { HttpModule } from 'src/app/http.service';
@@ -14,12 +14,14 @@ export class TodoListEffects {
 	) {}
 	public getData$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(actions.getData.type),
+			ofType(todoListActions.getData.type),
 			tap(console.log),
 			switchMap(() =>
 				this.httpModule.getTodos().pipe(
-					map((loadedData) => actions.getDataSuccess({ data: loadedData })),
-					catchError((err) => of(actions.getDataError(err)))
+					map((loadedData) =>
+						todoListActions.getDataSuccess({ data: loadedData })
+					),
+					catchError((err) => of(todoListActions.getDataError(err)))
 				)
 			)
 		)
@@ -27,13 +29,14 @@ export class TodoListEffects {
 
 	public addEntry$ = createEffect(() =>
 		this.actions$.pipe(
-			tap(console.log),
-			ofType(actions.addEntry.type),
+			ofType(todoListActions.addEntry.type),
 			switchMap((action) => {
 				console.log('addEntry', action);
 				return this.httpModule.createTodo(action.data).pipe(
-					map((loadedData) => actions.addEntrySuccess({ data: loadedData })),
-					catchError((err) => of(actions.addEntryError({ error: err })))
+					map((loadedData) =>
+						todoListActions.addEntrySuccess({ data: loadedData })
+					),
+					catchError((err) => of(todoListActions.addEntryError({ error: err })))
 				);
 			})
 		)
@@ -41,11 +44,15 @@ export class TodoListEffects {
 
 	public updateEntry$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(actions.updateEntry.type),
+			ofType(todoListActions.updateEntry.type),
 			switchMap((action) =>
 				this.httpModule.updateTodo(action.id, action.data).pipe(
-					map((loadedData) => actions.updateEntrySuccess({ data: loadedData })),
-					catchError((err) => of(actions.updateEntryError({ error: err })))
+					map((loadedData) =>
+						todoListActions.updateEntrySuccess({ data: loadedData })
+					),
+					catchError((err) =>
+						of(todoListActions.updateEntryError({ error: err }))
+					)
 				)
 			)
 		)
@@ -53,11 +60,15 @@ export class TodoListEffects {
 
 	public deleteEntry$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(actions.deleteEntry.type),
+			ofType(todoListActions.deleteEntry.type),
 			switchMap((action) =>
 				this.httpModule.deleteTodo(action.data.id).pipe(
-					map(() => actions.deleteEntrySuccess({ data: action.data.id })),
-					catchError((err) => of(actions.deleteEntryError({ error: err })))
+					map(() =>
+						todoListActions.deleteEntrySuccess({ data: action.data.id })
+					),
+					catchError((err) =>
+						of(todoListActions.deleteEntryError({ error: err }))
+					)
 				)
 			)
 		)

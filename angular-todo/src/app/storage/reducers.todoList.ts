@@ -1,12 +1,9 @@
-// //TODO: Action groups
-import { createReducer, on } from '@ngrx/store';
-import * as actions from 'src/app/storage/actions';
-import { ISortData, ITodoElement } from '../types';
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { createReducer } from '@ngrx/store';
+import { ITodoElement, ISortData } from '../types';
+import { on } from '@ngrx/store';
+import * as actions from './actions.todoList';
 
-export interface RootState {
-	todoListState: TodoListInitialState;
-} //state derived from module
 export interface TodoListInitialState {
 	todoList: EntityState<ITodoElement>;
 	sortParams: ISortData;
@@ -68,5 +65,4 @@ export const todoListReducer = createReducer(
 		};
 	})
 );
-
 export const entitySelectors = todoListAdapter.getSelectors();

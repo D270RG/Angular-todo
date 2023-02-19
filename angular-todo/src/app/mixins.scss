@@ -2,87 +2,87 @@
 @import 'node_modules/bootstrap/scss/variables';
 @import 'node_modules/bootstrap/scss/mixins';
 
-@mixin alignedContainer($justifyItems){
-    display:flex;
-    justify-content: $justifyItems;
-    overflow-x:auto;
-    width:100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+@mixin alignedContainer($justifyItems) {
+	display: flex;
+	justify-content: $justifyItems;
+	overflow-x: auto;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
-@mixin centeredContainer(){
-    position:relative;
-    left: 50%;
-    top:50%;
-    transform: translate(-50%, -50%);
+@mixin centeredContainer() {
+	position: relative;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 }
-@mixin sticky($direction){
-    position:fixed;
-    @if $direction==top{
-        top:0px;
-    }
-    @if $direction==bottom{
-        bottom:0px;
-    }
-    @if $direction==left{
-        left:0px;
-    }
-    @if $direction==right{
-        right:0px;
-    }
+@mixin sticky($direction) {
+	position: fixed;
+	@if $direction==top {
+		top: 0px;
+	}
+	@if $direction==bottom {
+		bottom: 0px;
+	}
+	@if $direction==left {
+		left: 0px;
+	}
+	@if $direction==right {
+		right: 0px;
+	}
 }
-@mixin tag-container(){
-    display:flex;
-    align-items:center;
-	flex-direction:row;
-    flex-wrap: wrap;
-	height:100%;
-    overflow:hidden;
+@mixin tag-container() {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	flex-wrap: wrap;
+	height: 100%;
+	overflow: hidden;
 }
-@mixin tag{
-    word-break: break-word;
-    border-radius:15px;
-    background-color:#343a40;
-    color:white;
-    margin-right:3px; 
-    margin-top:1px;
-    margin-bottom:1px;
-    padding:5px;
+@mixin tag {
+	word-break: break-word;
+	border-radius: 15px;
+	background-color: #343a40;
+	color: white;
+	margin-right: 3px;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	padding: 5px;
 }
-@mixin form-tag-container{
-    margin-top:10px;
-} 
-@mixin form-tag{
-    @include tag;
-    margin-right:3px;
-    margin-bottom:10px;
-    padding-left:10px;
-}  
-@mixin button-container{
-    display:flex;
-    justify-content:flex-end;
-    align-items:center;
-    >button{
-        margin-left:5px;
-    }
+@mixin form-tag-container {
+	margin-top: 10px;
 }
-@mixin clickbox{
-    z-index:69999;
-    position:fixed;
-    cursor:default;
-    top:0px;
-    left:0px;
-    width:100vw;
-    height:100vh;
-    background-color: rgba(2, 2, 2, 0.747);
-    >.clickbox-form{
-       @include centeredContainer;
-       padding:1rem;
-       padding-bottom:0.5rem;
-       z-index:70000; 
-       width:100%;
-       @media screen and (min-width: 600px){
-        width:350px;   
-       }
-    }
+@mixin form-tag {
+	@include tag;
+	margin-right: 3px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+}
+@mixin button-container {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	> button {
+		margin-left: 5px;
+	}
+}
+@mixin clickbox {
+	z-index: 69999;
+	position: fixed;
+	cursor: default;
+	top: 0px;
+	left: 0px;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(2, 2, 2, 0.747);
+	> .clickbox-form {
+		@include centeredContainer;
+		padding: 1rem;
+		padding-bottom: 0.5rem;
+		z-index: 70000;
+		width: 100%;
+		@media screen and (min-width: 600px) {
+			width: 350px;
+		}
+	}
 }

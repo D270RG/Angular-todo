@@ -39,9 +39,4 @@ export interface IActiveSortData extends ISortData {
 }
 
 //--Types
-export type formVisibility =
-	| {
-			id: undefined | string;
-			type: 'comment' | 'add' | 'edit';
-	  }
-	| undefined;
+export type FormType = 'comment' | 'add' | 'edit' | 'none';

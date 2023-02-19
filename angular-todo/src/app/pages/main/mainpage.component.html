@@ -1,6 +1,19 @@
 <div [class]="'mainpage'">
-	<navbar (onComponentAdditionRequested)="emitEventToChild()"></navbar>
+	<navbar></navbar>
 	<div [class]="'app-container'">
-		<todoList [externalFormOpen]="eventsSubject.asObservable()"></todoList>
+		<todoList></todoList>
 	</div>
+	<modal
+		*ngIf="this.activeForm.type !== 'none'"
+		[formData]="this.activeForm">
+		<editForm
+			*ngIf="this.activeForm.type === 'edit'"
+			[activeId]="this.activeForm.id"></editForm>
+		<addForm
+			*ngIf="this.activeForm.type === 'add'"
+			[activeId]="this.activeForm.id"></addForm>
+		<commentForm
+			*ngIf="this.activeForm.type === 'comment'"
+			[activeId]="this.activeForm.id"></commentForm>
+	</modal>
 </div>

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { RootState } from 'src/app/storage/reducers';
-import * as Actions from 'src/app/storage/actions';
+import { RootState } from 'src/app/storage/reducers.root';
 import { FormGroup } from '@angular/forms';
 import { toString, AddFormComponent } from '../addForm.component';
 import { ITodoElement } from 'src/app/types';
-import * as Selectors from 'src/app/storage/selectors';
 import { Observable, Subscription } from 'rxjs';
-
+import * as todoSelectors from 'src/app/storage/selectors.todoList';
+import * as todoActions from 'src/app/storage/actions.todoList';
+import * as modalActions from 'src/app/storage/actions.modal';
 @Component({
 	selector: 'editForm',
 	templateUrl: 'editForm.component.html',
@@ -20,7 +20,7 @@ export class EditFormComponent extends AddFormComponent {
 	public constructor(public override store: Store<RootState>) {
 		super(store);
 		this.initialValueObservable$ = this.store.pipe(
-			select(Selectors.selectTodoById('0'))
+			select(todoSelectors.selectTodoById('0'))
 		);
 		this.initialValueSubscription = this.initialValueObservable$.subscribe(
 			(initialValue: ITodoElement | undefined) => {
@@ -34,7 +34,7 @@ export class EditFormComponent extends AddFormComponent {
 		if (id) {
 			this.initialValueSubscription.unsubscribe();
 			this.initialValueObservable$ = this.store.pipe(
-				select(Selectors.selectTodoById(id))
+				select(todoSelectors.selectTodoById(id))
 			);
 			this.initialValueSubscription = this.initialValueObservable$.subscribe(
 				(initialValue: ITodoElement | undefined) => {
@@ -45,26 +45,8 @@ export class EditFormComponent extends AddFormComponent {
 	}
 	public ngOnChanges(): void {
 		if (this.activeId !== undefined) {
-			this.resubscribe(this.activeId?.id);
+			this.resubscribe(this.activeId);
 			this.setMainGroup(this.editFormCreator());
-		}
-	}
-	public override closeForm(event: Event): void {
-		if (event instanceof KeyboardEvent) {
-			if (event.keyCode === 27) {
-				this.setMainGroup(this.editFormCreator());
-				this.onClickboxClicked.emit();
-			}
-		} else {
-			if (
-				event instanceof MouseEvent ||
-				event instanceof TouchEvent ||
-				event instanceof PointerEvent
-			) {
-				event.stopPropagation();
-				this.setMainGroup(this.editFormCreator());
-				this.onClickboxClicked.emit();
-			}
 		}
 	}
 	public override ngOnInit(): void {
@@ -83,10 +65,10 @@ export class EditFormComponent extends AddFormComponent {
 		}
 	}
 	protected override submitMainAction(): void {
-		if (this.initialValue && this.activeId?.id)
+		if (this.initialValue && this.activeId)
 			this.store.dispatch(
-				Actions.updateEntry({
-					id: this.activeId.id,
+				todoActions.updateEntry({
+					id: this.activeId,
 					data: {
 						name: toString(this.getMainGroup().get('name')?.value),
 						link: toString(this.getMainGroup().get('link')?.value),
@@ -97,5 +79,6 @@ export class EditFormComponent extends AddFormComponent {
 					},
 				})
 			);
+		this.store.dispatch(modalActions.setFormType({ formType: 'none' }));
 	}
 }

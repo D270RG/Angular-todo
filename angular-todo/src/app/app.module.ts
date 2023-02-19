@@ -12,7 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { HttpModule, HttpService } from './http.service';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { todoListReducer } from './storage/reducers';
+import { combinedRootReducer } from './storage/reducers.root';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainpageComponent } from './pages/main/mainpage.component';
 import { NotFoundComponent } from './pages/notFound/notFound.component';
@@ -25,6 +25,9 @@ import { NavbarComponent } from './pages/main/elements/navbar/navbar.component';
 import { TagContainer } from './pages/main/elements/todoList/collapsibleTagContainer/tagContainer/tagContainer.component';
 import { CollapsibleTagContainer } from './pages/main/elements/todoList/collapsibleTagContainer/collapsibleTagContainer.component';
 import { CommentFormComponent } from './pages/main/elements/addForm/commentForm/commentForm.component';
+import { ModalComponent } from './pages/main/elements/modal/modal.component';
+import { todoListReducer } from './storage/reducers.todoList';
+import { modalReducer } from './storage/reducers.modal';
 
 @NgModule({
 	declarations: [
@@ -39,6 +42,7 @@ import { CommentFormComponent } from './pages/main/elements/addForm/commentForm/
 		CollapsibleTagContainer,
 		TagsComponent,
 
+		ModalComponent,
 		AddFormComponent,
 		EditFormComponent,
 		SortFormComponent,
@@ -51,7 +55,9 @@ import { CommentFormComponent } from './pages/main/elements/addForm/commentForm/
 
 		HttpClientModule,
 		EffectsModule.forRoot([TodoListEffects]),
-		StoreModule.forRoot({ todoListState: todoListReducer }),
+		StoreModule.forRoot(combinedRootReducer),
+		StoreModule.forFeature('todoList', todoListReducer),
+		StoreModule.forFeature('modal', modalReducer),
 		StoreDevtoolsModule.instrument({}),
 
 		FormsModule,

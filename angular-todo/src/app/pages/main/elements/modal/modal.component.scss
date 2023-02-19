@@ -1,0 +1,24 @@
+@import 'src/app/mixins.scss';
+.clickbox {
+	@include clickbox;
+	> .clickbox-form {
+		z-index: 1;
+		> .form-placeholder {
+			position: fixed;
+			background: transparent;
+			left: 0;
+			top: 0;
+			z-index: -1;
+			height: 100%;
+			width: 100%;
+		}
+	}
+}
+.button-container {
+	@include button-container();
+}
+.form-close {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+}

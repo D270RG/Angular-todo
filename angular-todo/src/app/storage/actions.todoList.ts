@@ -1,14 +1,13 @@
-import { props, createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import {
 	IModelTodoGet,
+	IOperationError,
 	IModelTodoCreateForm,
+	IModelTodoDeleteForm,
 	IModelTodoUpdateForm,
 	ISortData,
-	IModelTodoDeleteForm,
-	IOperationError,
 } from '../types';
 
-//todoListReducer actions
 export const getData = createAction('GetData');
 export const getDataSuccess = createAction(
 	'GetDataSuccess',

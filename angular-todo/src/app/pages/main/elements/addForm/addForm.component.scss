@@ -1,63 +1,43 @@
 @import 'src/app/mixins.scss';
-.clickbox{
-	@include clickbox;
-	>.clickbox-form{
-		z-index:1;
-		>.form-placeholder{
-			position:fixed;
-			background:transparent;
-			left:0;
-			top:0;
-			z-index:-1;
-			height:100%;
-			width:100%;
-		}
-	}
-}
-.form-tag-container{
+.form-tag-container {
 	@include form-tag-container();
 	@include tag-container();
-	max-width:100%;
-	max-height:200px !important;
-	overflow:auto;
+	max-width: 100%;
+	max-height: 200px !important;
+	overflow: auto;
 }
-.button-container{
-	@include button-container()
+.button-container {
+	@include button-container();
 }
-.form-control{
-	margin:0px;
+.form-control {
+	margin: 0px;
 }
-.color-input{
-	width:50px;
-	height:40px;
-	cursor:pointer;
-	margin-left:5px;
+.color-input {
+	width: 50px;
+	height: 40px;
+	cursor: pointer;
+	margin-left: 5px;
 }
-.inputError{
-	border-color:red;
+.inputError {
+	border-color: red;
 }
-.secondary-submit{
-	margin-top:10px;
+.secondary-submit {
+	margin-top: 10px;
 }
-.form-close{
-	position:absolute;
-	top:1rem;
-	right:1rem;
-}
-.link-input{
-	display:flex;
-	flex-direction:row;
-	>.link-nav{
-		display:flex;
+.link-input {
+	display: flex;
+	flex-direction: row;
+	> .link-nav {
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		border-top-right-radius: 0px !important;
 		border-bottom-right-radius: 0px !important;
-		border-radius:5px;
-		background-color:rgb(231, 231, 231);
-		padding:8px;
+		border-radius: 5px;
+		background-color: rgb(231, 231, 231);
+		padding: 8px;
 	}
-	>input{
+	> input {
 		border-top-left-radius: 0px;
 		border-bottom-left-radius: 0px;
 	}

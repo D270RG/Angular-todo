@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IActiveSortData, ISortData } from 'src/app/types';
 import { Store } from '@ngrx/store';
-import * as Actions from 'src/app/storage/actions';
-import { RootState } from 'src/app/storage/reducers';
+import { RootState } from 'src/app/storage/reducers.root';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as todoActions from 'src/app/storage/actions.todoList';
 @Component({
 	selector: 'sortForm',
 	templateUrl: 'sortForm.component.html',
@@ -50,7 +50,7 @@ export class SortFormComponent {
 	}
 	protected submitSortAction(): void {
 		this.store.dispatch(
-			Actions.setSortData({
+			todoActions.setSortData({
 				sortData: {
 					field: this.sortGroup.get('field')?.value,
 					direction: this.sortGroup.get('direction')?.value,

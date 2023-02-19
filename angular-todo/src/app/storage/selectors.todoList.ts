@@ -1,37 +1,22 @@
 import { Dictionary } from '@ngrx/entity';
-import { createSelector, MemoizedSelector } from '@ngrx/store';
+import {
+	createFeatureSelector,
+	createSelector,
+	MemoizedSelector,
+} from '@ngrx/store';
 import { ITodoElement } from '../types';
-import { RootState, TodoListInitialState } from './reducers';
+import { RootState } from './reducers.root';
+import { TodoListInitialState } from './reducers.todoList';
 import { createSortComparer } from './utils';
 
-//----------------------------------------------------------------------------------------------------------------
-//
-//Combined state example:
-//
-// export const mainReducer:AuthModuleState = {
-//     todoList: todoListReducer,
-//     otherReducer: otherReducer
-//     anotherReducer anotherReducer
-// };
-// export const combinedReducer = combineReducers(mainReducer)
-//
-//Selector usage:
-//
-// export const getTodoState = createFeatureSelector<combinedReducer.State>('todoList');
-// export const selectUsersList = createSelector(selectTodoState, (state)=>{} /*OR entitySelector*/);
-//
-//----------------------------------------------------------------------------------------------------------------
-
-//--Primary selector (1)--
-const selectState = (state: RootState): TodoListInitialState =>
-	state.todoListState;
-
+const selectTodoList = createFeatureSelector<TodoListInitialState>('todoList');
 //--Secondary selectors (2)--
-export const selectTodoEntities = createSelector(selectState, (state) => {
+export const selectTodoEntities = createSelector(selectTodoList, (state) => {
+	console.log('selection todo entities', state);
 	return state.todoList.entities;
 });
 export const selectSortParameters = createSelector(
-	selectState,
+	selectTodoList,
 	(state) => state.sortParams
 );
 

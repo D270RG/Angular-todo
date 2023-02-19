@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { RootState } from 'src/app/storage/reducers';
-import * as Actions from 'src/app/storage/actions';
+import { RootState } from 'src/app/storage/reducers.root';
+import * as todoActions from 'src/app/storage/actions.todoList';
+import * as modalActions from 'src/app/storage/actions.modal';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { formVisibility, IModelTodoCreateForm } from 'src/app/types';
+import { IModelTodoCreateForm } from 'src/app/types';
 import { ETagDelete } from './tags/tags.component';
 
 export function toString(value: number | string | Date): string {
@@ -17,25 +18,24 @@ export function toString(value: number | string | Date): string {
 	selector: 'addForm',
 	templateUrl: 'addForm.component.html',
 	styleUrls: ['addForm.component.scss'],
-	host: {
-		'(document:keyup)': 'closeForm($event)',
-	},
 })
 export class AddFormComponent implements OnInit {
 	private mainGroup!: FormGroup;
-	@Input() public activeId: formVisibility;
+	@Input() public activeId!: string;
 	@Output() public onClickboxClicked: EventEmitter<Event> = new EventEmitter();
 
 	public constructor(public store: Store<RootState>) {}
 	public ngOnInit(): void {
 		this.resetForm();
 	}
+
 	public getMainGroup(): FormGroup {
 		return this.mainGroup;
 	}
 	public setMainGroup(formGroup: FormGroup): void {
 		this.mainGroup = formGroup;
 	}
+
 	public resetForm(): void {
 		this.mainGroup = this.formCreator({
 			name: '',
@@ -44,21 +44,6 @@ export class AddFormComponent implements OnInit {
 			tags: [],
 		});
 	}
-	public closeForm(event: Event): void {
-		if (event instanceof KeyboardEvent) {
-			if (event.keyCode === 27) {
-				this.onClickboxClicked.emit();
-			}
-		} else {
-			if (
-				event instanceof MouseEvent ||
-				event instanceof TouchEvent ||
-				event instanceof PointerEvent
-			) {
-				this.onClickboxClicked.emit();
-			}
-		}
-	}
 	public deleteTag(event: ETagDelete): void {
 		const tags = this.mainGroup.get('tags')?.value;
 		if (tags) {
@@ -66,9 +51,6 @@ export class AddFormComponent implements OnInit {
 			newTags.splice(event.index, 1);
 			this.mainGroup.controls['tags'].setValue(newTags);
 		}
-	}
-	public formClick(event: MouseEvent | TouchEvent): void {
-		event.stopPropagation();
 	}
 	public submitMain(): void {
 		if (this.mainGroup) {
@@ -115,7 +97,7 @@ export class AddFormComponent implements OnInit {
 	}
 	protected submitMainAction(): void {
 		this.store.dispatch(
-			Actions.addEntry({
+			todoActions.addEntry({
 				data: {
 					name: toString(this.mainGroup.get('name')?.value),
 					link: toString(this.mainGroup.get('link')?.value),
@@ -124,6 +106,7 @@ export class AddFormComponent implements OnInit {
 				},
 			})
 		);
+		this.store.dispatch(modalActions.setFormType({ formType: 'none' }));
 	}
 	private submitTagAction(): void {
 		const currentTags = this.mainGroup.get('tags')?.value;

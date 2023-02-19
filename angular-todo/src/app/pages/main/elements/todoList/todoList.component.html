@@ -3,7 +3,7 @@
 		<tr
 			class="todo-entry"
 			*ngFor="let todo of getTodoListData()"
-			(click)="this.setFormVisible({ id: todo.id, type: 'edit' })">
+			(click)="this.openEditForm(todo.id)">
 			<td
 				scope="row"
 				class="name-container">
@@ -55,10 +55,7 @@
 						*ngIf="todo.comment !== ''"
 						type="button"
 						class="btn btn-light text-secondary"
-						(click)="
-							this.setFormVisible({ id: todo.id, type: 'comment' });
-							$event.stopPropagation()
-						">
+						(click)="this.openCommentForm(todo.id); $event.stopPropagation()">
 						<i class="bi bi-chat-right-text"></i>
 					</button>
 					<button
@@ -72,12 +69,3 @@
 		</tr>
 	</tbody>
 </table>
-<editForm
-	[activeId]="this.getActiveForm()"
-	(onClickboxClicked)="this.setFormVisible(undefined)"></editForm>
-<addForm
-	[activeId]="this.getActiveForm()"
-	(onClickboxClicked)="this.setFormVisible(undefined)"></addForm>
-<commentForm
-	[activeId]="this.getActiveForm()"
-	(onClickboxClicked)="this.setFormVisible(undefined)"></commentForm>

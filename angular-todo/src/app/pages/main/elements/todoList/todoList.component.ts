@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { formVisibility, ITodoElement } from 'src/app/types';
+import { Component, OnInit } from '@angular/core';
+import { ITodoElement } from 'src/app/types';
 import { select, Store } from '@ngrx/store';
-import * as Actions from 'src/app/storage/actions';
-import * as Selectors from 'src/app/storage/selectors';
-import { RootState } from 'src/app/storage/reducers';
-import { Observable, Subscription } from 'rxjs';
+import { RootState } from 'src/app/storage/reducers.root';
+import * as todoSelectors from 'src/app/storage/selectors.todoList';
+import * as todoActions from 'src/app/storage/actions.todoList';
+import * as modalActions from 'src/app/storage/actions.modal';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'todoList',
@@ -13,36 +14,32 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class TodoListComponent implements OnInit {
 	private todoListData = <ITodoElement[]>[];
-	private activeForm: formVisibility;
 
-	@Input() public externalFormOpen!: Observable<void>;
 	public todoListDataObservable$;
 
 	private subscriptions: Subscription[];
 
 	public constructor(private store: Store<RootState>) {
-		this.activeForm = undefined;
 		this.subscriptions = [];
 		this.todoListDataObservable$ = this.store.pipe(
-			select(Selectors.selectSortedTodoList)
+			select(todoSelectors.selectSortedTodoList)
+		);
+	}
+	public openEditForm(formId: string): void {
+		this.store.dispatch(
+			modalActions.setForm({ formId: formId, formType: 'edit' })
+		);
+	}
+	public openCommentForm(formId: string): void {
+		this.store.dispatch(
+			modalActions.setForm({ formId: formId, formType: 'comment' })
 		);
 	}
 	public getTodoListData(): ITodoElement[] {
 		return this.todoListData;
 	}
-	public getFormVisibility(): formVisibility {
-		return this.activeForm;
-	}
-	public setFormVisible(value: formVisibility): void {
-		console.log('setting form visibility', value);
-		this.activeForm = value;
-	}
-	public getActiveForm(): formVisibility {
-		return this.activeForm;
-	}
-
 	public deleteForm(id: string): void {
-		this.store.dispatch(Actions.deleteEntry({ data: { id: id } }));
+		this.store.dispatch(todoActions.deleteEntry({ data: { id: id } }));
 	}
 	public preventFalltrough(event: MouseEvent): void {
 		event.stopPropagation();
@@ -53,13 +50,8 @@ export class TodoListComponent implements OnInit {
 				this.todoListData = todoListData;
 			})
 		);
-		this.subscriptions.push(
-			this.externalFormOpen.subscribe(() =>
-				this.setFormVisible({ id: undefined, type: 'add' })
-			)
-		);
 
-		this.store.dispatch(Actions.getData());
+		this.store.dispatch(todoActions.getData());
 	}
 	public ngOnDestroy(): void {
 		this.subscriptions.forEach((subscription: Subscription) => {

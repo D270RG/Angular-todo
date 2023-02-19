@@ -1,106 +1,78 @@
-<div
-	class="clickbox"
-	tabindex="0"
-	*ngIf="this.activeId?.type === 'add'"
-	(touchend)="this.closeForm($event)">
-	<form
-		class="clickbox-form form-group bg-light rounded needs-validation"
-		[formGroup]="this.getMainGroup()"
-		(ngSubmit)="submitMain()"
-		(mouseup)="formClick($event)"
-		(touchend)="formClick($event)">
-		<div class="form-placeholder"></div>
-		<button
-			(click)="this.closeForm($event)"
-			class="form-close btn btn-transparent">
-			<i class="bi bi-x-lg"></i>
-		</button>
+<form
+	class="form-group rounded needs-validation"
+	[formGroup]="getMainGroup()"
+	(ngSubmit)="submitMain()"
+	id="add">
+	<div class="form-placeholder"></div>
 
-		<div class="mb-4"><h4>Add TODO</h4></div>
-
-		<div>
-			<label>Name</label>
-			<input
-				[class.inputError]="this.getMainGroup().get('name')!.errors"
-				type="text"
-				formControlName="name"
-				class="form-control"
-				required />
-			<div
-				class="text-danger"
-				*ngIf="this.getMainGroup().get('name')!.errors?.['required']">
-				Name is required
-			</div>
-			<div
-				class="text-danger"
-				*ngIf="this.getMainGroup().get('name')!.errors?.['minlength']">
-				Name must be at least 3 characters long
-			</div>
+	<div>
+		<label>Name</label>
+		<input
+			[class.inputError]="this.getMainGroup().get('name')!.errors"
+			type="text"
+			formControlName="name"
+			class="form-control"
+			required />
+		<div
+			class="text-danger"
+			*ngIf="this.getMainGroup().get('name')!.errors?.['required']">
+			Name is required
 		</div>
+		<div
+			class="text-danger"
+			*ngIf="this.getMainGroup().get('name')!.errors?.['minlength']">
+			Name must be at least 3 characters long
+		</div>
+	</div>
 
-		<div>
-			<label>Add comment</label>
+	<div>
+		<label>Add comment</label>
+		<input
+			type="text"
+			formControlName="comment"
+			class="form-control" />
+	</div>
+
+	<div>
+		<label>Add link</label>
+		<div class="link-input">
+			<span class="link-nav">https:// </span>
 			<input
 				type="text"
-				formControlName="comment"
+				formControlName="link"
 				class="form-control" />
 		</div>
+	</div>
 
-		<div>
-			<label>Add link</label>
-			<div class="link-input">
-				<span class="link-nav">https:// </span>
-				<input
-					type="text"
-					formControlName="link"
-					class="form-control" />
-			</div>
-		</div>
-
-		<form
-			class="form-group"
-			formGroupName="tagsGroup"
-			(ngSubmit)="submitTag()">
-			<label>Add tag</label>
-			<span class="button-container">
-				<input
-					[class.inputError]="this.getMainGroup().get('tagsGroup.tagForm')!.errors && !this.getMainGroup().get('tagsGroup.tagForm')!.errors?.['required']"
-					type="text"
-					formControlName="tagForm"
-					class="form-control" />
-				<input
-					type="color"
-					formControlName="tagColor"
-					class="form-control color-input" />
-				<button
-					class="btn btn-secondary tag-add-button"
-					type="submit">
-					<i class="bi bi-plus-square"></i>
-				</button>
-			</span>
-			<div
-				class="text-danger"
-				*ngIf="this.getMainGroup().get('tagsGroup.tagForm')!.errors?.['maxlength']">
-				Exceeded 64 symbol limit for a tag
-			</div>
-		</form>
-
-		<tags
-			(deleteTagEvent)="this.deleteTag($event)"
-			[tags]="this.getMainGroup().get('tags')!.value"></tags>
-
+	<form
+		class="form-group"
+		formGroupName="tagsGroup"
+		(ngSubmit)="submitTag()">
+		<label>Add tag</label>
 		<span class="button-container">
+			<input
+				[class.inputError]="this.getMainGroup().get('tagsGroup.tagForm')!.errors && !this.getMainGroup().get('tagsGroup.tagForm')!.errors?.['required']"
+				type="text"
+				formControlName="tagForm"
+				class="form-control" />
+			<input
+				type="color"
+				formControlName="tagColor"
+				class="form-control color-input" />
 			<button
-				class="btn btn-primary main-submit"
+				class="btn btn-secondary tag-add-button"
 				type="submit">
-				Submit
-			</button>
-			<button
-				class="btn btn-secondary main-submit"
-				(click)="this.closeForm($event)"
-				type="button">
-				Cancel
+				<i class="bi bi-plus-square"></i>
 			</button>
 		</span>
+		<div
+			class="text-danger"
+			*ngIf="this.getMainGroup().get('tagsGroup.tagForm')!.errors?.['maxlength']">
+			Exceeded 64 symbol limit for a tag
+		</div>
 	</form>
-</div>
+
+	<tags
+		(deleteTagEvent)="this.deleteTag($event)"
+		[tags]="this.getMainGroup().get('tags')!.value"></tags>
+</form>

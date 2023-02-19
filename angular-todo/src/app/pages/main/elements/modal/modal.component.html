@@ -1,0 +1,36 @@
+<div
+	class="clickbox"
+	tabindex="0"
+	(touchend)="this.closeForm()">
+	<div
+		class="clickbox-form bg-light"
+		(mouseup)="formClick($event)"
+		(touchend)="formClick($event)">
+		<button
+			(click)="this.closeForm()"
+			class="form-close btn btn-transparent">
+			<i class="bi bi-x-lg"></i>
+		</button>
+
+		<div class="mb-4">
+			<h4>{{ formData.type }}</h4>
+		</div>
+
+		<ng-content id="ngForm"></ng-content>
+
+		<span class="button-container">
+			<button
+				class="btn btn-primary primary-submit"
+				type="submit"
+				[attr.form]="formData.type">
+				Submit
+			</button>
+			<button
+				class="btn btn-secondary main-submit"
+				(click)="this.closeForm()"
+				type="button">
+				Cancel
+			</button>
+		</span>
+	</div>
+</div>
