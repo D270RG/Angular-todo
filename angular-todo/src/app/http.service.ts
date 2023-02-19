@@ -5,9 +5,8 @@ import {
 	IModelTodoGet,
 	IModelTodoUpdateForm,
 } from './types';
-import { catchError, throwError, retry, Observable } from 'rxjs';
+import { catchError, throwError, Observable, map } from 'rxjs';
 
-type HttpResponse = Observable<any>;
 @Injectable()
 export class HttpService {
 	public constructor(private http: HttpClient) {}
@@ -24,11 +23,14 @@ export class HttpService {
 			() => new Error('Something bad happened; please try again later.')
 		);
 	}
-	public getData<T>(url: string): HttpResponse {
+	public getData<T>(url: string): Observable<T | Error> {
 		return this.http.get<T>(url).pipe(catchError(this.handleError));
 	}
-	public postData(url: string, data: string | object | JSON): HttpResponse {
-		return this.http.post(url, data).pipe(catchError(this.handleError));
+	public postData<T>(
+		url: string,
+		data: string | IModelTodoCreateForm | IModelTodoUpdateForm
+	): Observable<T | Error> {
+		return this.http.post<T>(url, data).pipe(catchError(this.handleError));
 	}
 }
 @Injectable()
@@ -43,31 +45,82 @@ export class HttpModule {
 
 	public constructor(private httpService: HttpService) {}
 	public getTodos(): Observable<IModelTodoGet[]> {
-		return this.httpService.getData<IModelTodoGet[]>(
-			`${this.serverUrl}/${this.urls.getUrl}`
-		);
+		return this.httpService
+			.getData<IModelTodoGet[]>(`${this.serverUrl}/${this.urls.getUrl}`)
+			.pipe(
+				map((data: IModelTodoGet[] | Error) => {
+					if (data instanceof Error) {
+						return [];
+					} else {
+						return data;
+					}
+				})
+			);
 	}
 	public createTodo(
 		todoContent: IModelTodoCreateForm
 	): Observable<IModelTodoGet> {
-		console.log('posting', todoContent);
-		return this.httpService.postData(
-			`${this.serverUrl}/${this.urls.createUrl}`,
-			todoContent
-		);
+		return this.httpService
+			.postData<IModelTodoGet>(
+				`${this.serverUrl}/${this.urls.createUrl}`,
+				todoContent
+			)
+			.pipe(
+				map((data: IModelTodoGet | Error) => {
+					if (data instanceof Error) {
+						return {
+							id: '',
+							name: '',
+							createdDate: '',
+							updatedDate: '',
+							link: '',
+							comment: '',
+							tags: [],
+						};
+					} else {
+						return data;
+					}
+				})
+			);
 	}
 	public updateTodo(
 		id: string,
 		todoContent: IModelTodoUpdateForm
 	): Observable<IModelTodoGet> {
-		return this.httpService.postData(
-			`${this.serverUrl}/${this.urls.updateUrl}/${id}`,
-			todoContent
-		);
+		return this.httpService
+			.postData<IModelTodoGet>(
+				`${this.serverUrl}/${this.urls.updateUrl}/${id}`,
+				todoContent
+			)
+			.pipe(
+				map((data: IModelTodoGet | Error) => {
+					if (data instanceof Error) {
+						return {
+							id: '',
+							name: '',
+							createdDate: '',
+							updatedDate: '',
+							link: '',
+							comment: '',
+							tags: [],
+						};
+					} else {
+						return data;
+					}
+				})
+			);
 	}
 	public deleteTodo(id: string): Observable<string> {
-		return this.httpService.getData(
-			`${this.serverUrl}/${this.urls.removeUrl}/${id}`
-		);
+		return this.httpService
+			.getData<string>(`${this.serverUrl}/${this.urls.removeUrl}/${id}`)
+			.pipe(
+				map((data: string | Error) => {
+					if (data instanceof Error) {
+						return 'Error';
+					} else {
+						return data;
+					}
+				})
+			);
 	}
 }
